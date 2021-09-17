@@ -42,14 +42,14 @@
                         label="Your username *"
                         lazy-rules
                         outlined
-                        :rules="[ val => val && val.length > 0 || 'Please type something']"
+                        :rules="[ val => val && val.length > 0 || 'Lengkapi data username']"
                       >
                         <template v-slot:prepend>
                           <q-icon name="badge" class="text-blue-10" />
                         </template>
                       </q-input>
 
-                      <q-input v-model="password" label="Your password *" outlined :type="isPwd ? 'password' : 'text'" :rules="[ val => val && val.length > 0 || 'Please type something']" counter lazy-rules>
+                      <q-input v-model="password" label="Your password *" outlined :type="isPwd ? 'password' : 'text'" :rules="[ val => val && val.length > 0 || 'Lengkapi data password']" counter lazy-rules>
                         <template v-slot:append>
                           <q-icon
                             :name="isPwd ? 'visibility_off' : 'visibility'"
@@ -106,7 +106,7 @@ export default {
           if (res.data.status !== true) {
             this.$showNotif(res.data.message, 'negative')
           } else {
-            this.$showNotif('Selamat Datang Admin !', 'positive')
+            this.$showNotif('Selamat Datang !', 'positive')
             LocalStorage.set('user', res.data.result)
             this.$router.go({ name: 'dashboard' })
           }
