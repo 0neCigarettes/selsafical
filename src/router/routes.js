@@ -13,6 +13,7 @@ const routes = [
     children: [
       { path: '', name: 'dashboard', component: () => import('pages/Index.vue') },
       { path: '/product', name: 'product', component: () => import('pages/Product.vue') },
+      { path: '/add', name: 'product_add', component: () => import('pages/Product_add.vue') },
       { path: '/penjualan', name: 'penjualan', component: () => import('pages/Penjualan.vue') },
       { path: '/pembelian', name: 'pembelian', component: () => import('pages/Pembelian.vue') },
       { path: '/pengeluaran', name: 'pengeluaran', component: () => import('pages/Pengeluaran.vue') },

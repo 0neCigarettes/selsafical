@@ -46,6 +46,7 @@
                       icon="add"
                       class="q-ml-md q-pr-md"
                       color="blue-13"
+                      :to="{ name: 'product_add' }"
                       label="Tambah Produk"
                       no-caps
                     />
