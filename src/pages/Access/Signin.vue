@@ -108,7 +108,7 @@ export default {
           } else {
             this.$showNotif('Selamat Datang Admin !', 'positive')
             LocalStorage.set('user', res.data.result)
-            this.$router.push({ name: 'dashboard' })
+            this.$router.go({ name: 'dashboard' })
           }
         })
       } catch (e) {

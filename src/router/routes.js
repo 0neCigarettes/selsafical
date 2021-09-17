@@ -4,8 +4,11 @@ const routes = [
     path: '/auth',
     component: () => import('layouts/Signin.vue'),
     children: [
-      { path: '/login', name: 'signin', component: () => import('src/pages/Access/Signin.vue') }
-    ]
+      { path: '', name: 'signin', component: () => import('src/pages/Access/Signin.vue') }
+    ],
+    meta: {
+      authGuest: true
+    }
   },
   {
     path: '/',

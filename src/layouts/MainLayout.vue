@@ -250,7 +250,7 @@ export default {
   },
   methods: {
     logout () {
-      LocalStorage.remove('user', { path: '/' })
+      LocalStorage.remove('user', { path: '/auth' })
       this.$router.go({ name: 'signin' })
     }
   }
