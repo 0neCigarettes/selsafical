@@ -5,7 +5,7 @@
         <q-parallax :height="200">
           <template v-slot:media>
             <video width="720" height="440" poster="https://cdn.quasar.dev/img/polina.jpg" autoplay loop muted>
-              <source type="video/mp4" src="https://player.vimeo.com/external/264401631.hd.mp4?s=ae5d0a94ed9c6df16c2ea639113d592094a9d412&amp;profile_id=175&amp;oauth2_token_id=57447761">
+              <source type="video/mp4" src="statics/video/bg.mp4">
             </video>
           </template>
           <q-card-actions vertical>
@@ -21,7 +21,7 @@
             <div class="q-pr-md q-pt-md q-pb-md fit">
               <q-card class="my-card responsive bg-grey-1">
                 <q-parallax
-                  src="https://images.unsplash.com/photo-1536657464919-892534f60d6e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1053&q=80"
+                  src="statics/img/orange.png"
                   :height="200"
                 />
 
@@ -126,7 +126,7 @@ export default {
 
 <style>
 .bg-images{
-  background-image: url("https://pixabay.com/get/g3f2ad29324b259c147e1be6176ebafb18a9bab100a2cec768f18b82d56a9220f81f8f3bd0347df927f1fc4fffafd03e5.png");
+  background-image: url("src/statics/5298525.jpg");
   background-size: cover;
 }
 .bounce-enter-active{
