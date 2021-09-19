@@ -131,13 +131,47 @@
         <div class="row col">
           <q-card class="my-card col" flat bordered>
             <q-card-section horizontal>
-              <q-card-section class="row">
+              <q-card-section class="col q-pa-lg">
                 <div class="col">
-                  <lottie :options="defaultOptions" v-on:animCreated="handleAnimation" style="height: 250px" />
+                  <div class="col-2 q-table__title">Petunjuk penggunaan</div>
+                  <p class="text-caption">Cara pengisian form produk.</p>
                 </div>
-                <div class="col">
-                  lorem lorem
+
+                <div class="row q-gutter-sm items-center">
+                  <div class="col">
+                    <lottie :options="defaultOptions" v-on:animCreated="handleAnimation" style="height: 250px" />
+                  </div>
+                  <div class="col">
+                    <q-timeline :layout="layout" :side="side" color="secondary">
+
+                      <q-timeline-entry subtitle="Tahap I" side="left">
+                        <div>
+                          Lakukan terlebih dahulu inputan untuk data kategori produk di dalam menu tambah kategori.
+                        </div>
+                      </q-timeline-entry>
+
+                      <q-timeline-entry subtitle="Tahap 2" side="right">
+                        <div>
+                          Lakukan terlebih dahulu inputan untuk data jenis produk di dalam menu tambah jenis produk.
+                        </div>
+                      </q-timeline-entry>
+
+                      <q-timeline-entry subtitle="Tahap 3" side="right">
+                        <div>
+                          Inputkan data produk sesuai dengan produk yang akan di daftarkan.
+                        </div>
+                      </q-timeline-entry>
+
+                      <q-timeline-entry subtitle="Tahap 4" side="right">
+                        <div>
+                          Pastikan data inputan sesuai dengan data yang ingin di daftarkan.
+                        </div>
+                      </q-timeline-entry>
+
+                    </q-timeline>
+                  </div>
                 </div>
+
               </q-card-section>
             </q-card-section>
           </q-card>
