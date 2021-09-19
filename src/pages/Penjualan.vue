@@ -93,6 +93,7 @@
                       icon="add"
                       class="q-ml-md q-pr-md"
                       color="blue-13"
+                      :to="{ name: 'penjualan_add' }"
                       label="Tambah Penjualan"
                       no-caps
                     />
