@@ -106,7 +106,7 @@ export default {
           if (res.data.status !== true) {
             this.$showNotif(res.data.message, 'negative')
           } else {
-            this.$showNotif('Selamat Datang !', 'positive')
+            this.$showNotif('Berhasil Login!', 'positive')
             LocalStorage.set('user', res.data.result)
             this.$router.go({ name: 'dashboard' })
           }
