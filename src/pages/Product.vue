@@ -33,12 +33,12 @@
 
                   <q-space />
 
-                  <q-input filled debounce="300" style="width:250px" v-model="filter" label="Search" dense>
-                    <template v-slot:after>
-                      <q-icon name="search" />
-                    </template>
-
-                  </q-input>
+                  <q-btn flat round color="primary" icon="search" @click="visible = !visible" size="md" class="q-mr-sm" />
+                  <q-slide-transition>
+                    <div v-show="visible">
+                      <q-input outlined debounce="300" placeholder="Placeholder" style="width:300px" color="primary" v-model="filter" dense />
+                    </div>
+                  </q-slide-transition>
                   <q-btn
                     dense
                     icon="add"
@@ -47,6 +47,7 @@
                     :to="{ name: 'product_add' }"
                     label="Tambah Produk"
                     size="md"
+                    outline
                   />
                 </template>
 
@@ -130,6 +131,7 @@
                         :to="{ name: 'product_jenis_add' }"
                         label="Tambah Jenis"
                         size="md"
+                        outline
                       />
                     </template>
 
@@ -142,8 +144,8 @@
                             {{ props.row.name }}
                         </q-td>
                         <q-td key="aksi" :props="props">
-                          <q-btn round color="green" size="sm" icon="edit" :to="{ name:'product_jenis_edit', params:{ id: props.row._id } }"  no-caps />
-                          <q-btn round color="red" size="sm" icon="delete" @click="this.delete(props.row._id)" no-caps class="q-ml-sm" />
+                          <q-btn round outline color="green" size="sm" icon="edit" :to="{ name:'product_jenis_edit', params:{ id: props.row._id } }"  no-caps />
+                          <q-btn round outline color="red" size="sm" icon="delete" @click="this.delete(props.row._id)" no-caps class="q-ml-sm" />
                         </q-td>
                       </q-tr>
                     </template>
@@ -184,6 +186,7 @@
                         size="md"
                         :to="{ name: 'product_kategori_add' }"
                         label="Tambah Kategori"
+                        outline
                       />
                     </template>
 
@@ -196,8 +199,8 @@
                           {{ props.row.name }}
                         </q-td>
                         <q-td key="aksi" :props="props">
-                          <q-btn round color="green" size="sm" icon="edit" no-caps />
-                          <q-btn round color="red" size="sm" icon="delete" @click="this.delete(props.row._id)" no-caps class="q-ml-sm" />
+                          <q-btn round outline color="green" size="sm" icon="edit" no-caps />
+                          <q-btn round outline color="red" size="sm" icon="delete" @click="this.delete(props.row._id)" no-caps class="q-ml-sm" />
                         </q-td>
                       </q-tr>
                     </template>
@@ -223,6 +226,7 @@ export default {
   name: 'PageIndex',
   data () {
     return {
+      visible: false,
       filter: null,
       product: {
         columns: [
@@ -236,7 +240,7 @@ export default {
           { name: 'stok', required: true, label: 'Stok', align: 'left', field: 'stok', sortable: true },
           { name: 'foto', required: true, label: 'Foto Produk', align: 'left', field: 'foto', sortable: true },
           { name: 'keterangan', required: true, label: 'Keterangan', align: 'left', field: 'keterangan', sortable: true },
-          { name: 'aksi', label: 'aksi', field: 'aksi', align: 'center' }
+          { name: 'aksi', label: 'Actions', field: 'aksi', align: 'center' }
         ],
         rows: []
       },
@@ -244,7 +248,7 @@ export default {
         columns: [
           { name: 'type_id', required: true, label: 'ID', align: 'left', field: 'type_id', sortable: true },
           { name: 'name', required: true, label: 'Nama Jenis', align: 'left', field: 'name', sortable: true },
-          { name: 'aksi', label: 'aksi', field: 'aksi', align: 'center' }
+          { name: 'aksi', label: 'Actions', field: 'aksi', align: 'center' }
         ],
         rows: []
       },
@@ -252,7 +256,7 @@ export default {
         columns: [
           { name: 'type_id', required: true, label: 'ID', align: 'left', field: 'type_id', sortable: true },
           { name: 'name', required: true, label: 'Nama Kategori', align: 'left', field: 'name', sortable: true },
-          { name: 'aksi', label: 'aksi', field: 'aksi', align: 'center' }
+          { name: 'aksi', label: 'Actions', field: 'aksi', align: 'center' }
         ],
         rows: []
       }

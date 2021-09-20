@@ -1,4 +1,3 @@
-
 const routes = [
   {
     path: '/auth',
@@ -26,7 +25,8 @@ const routes = [
       { path: '/pengeluaran', name: 'pengeluaran', component: () => import('pages/Pengeluaran.vue') },
       { path: '/retur', name: 'retur', component: () => import('pages/Retur.vue') },
       { path: '/modal', name: 'modal', component: () => import('pages/Modal.vue') },
-      { path: '/laporan', name: 'laporan', component: () => import('pages/Laporan.vue') }
+      { path: '/laporan', name: 'laporan', component: () => import('pages/Laporan.vue') },
+      { path: '/profile', name: 'profile', component: () => import('pages/Profile.vue') }
     ],
     meta: {
       authAdmin: true

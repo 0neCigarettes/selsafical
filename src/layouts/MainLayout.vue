@@ -9,7 +9,7 @@
             <div class="row no-wrap q-pa-md">
               <div class="column">
                 <div class="text-h6 q-mb-md">Settings</div>
-                <q-btn outline color="primary" label="Profile" size="sm" icon="manage_accounts" left />
+                <q-btn outline color="primary" label="Profile" clickable :to="{ name: 'profile' }" size="sm" icon="manage_accounts" left />
               </div>
 
               <q-separator vertical inset class="q-mx-lg" />
@@ -202,7 +202,7 @@
                 </q-item-section>
               </q-item>
 
-              <q-item clickable :to="{ name: 'signin' }" v-ripple class="text-blue-10">
+              <q-item @click="confirm = true" clickable v-ripple class="text-blue-10">
                 <q-item-section avatar>
                   <q-icon name="sentiment_very_dissatisfied" />
                 </q-item-section>

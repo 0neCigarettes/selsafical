@@ -145,64 +145,56 @@
                             :filter="filter"
                           >
 
-                          <template v-slot:top>
-                            <div class="col">
-                              <div class="col-2 q-table__title">Master Data Produk</div>
-                              <p class="text-caption">Data produk yang terdaftar di dalam sistem salsafical.</p>
-                            </div>
-                          </template>
+                            <template v-slot:top>
+                              <div class="col">
+                                <div class="col-2 q-table__title">Master Data Produk</div>
+                                <p class="text-caption">Data produk yang terdaftar di dalam sistem salsafical.</p>
+                              </div>
 
-                              <template v-slot:top-right>
-                                <q-btn
-                                  color="primary"
-                                  icon-right="archive"
-                                  label="Export csv"
-                                  no-caps
-                                  flat
-                                  @click="exportTable"
-                                  class="q-mr-lg"
-                                />
-                                <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
-                                  <template v-slot:append>
-                                    <q-icon name="search" />
-                                  </template>
-                                </q-input>
-                              </template>
+                              <q-space />
 
-                              <template v-slot:header="props">
-                                <q-tr :props="props">
-                                  <q-th auto-width />
-                                    <q-th
-                                      v-for="col in props.cols"
-                                      :key="col.name"
-                                      :props="props"
-                                    >
-                                      {{ col.label }}
-                                    </q-th>
-                                </q-tr>
-                              </template>
+                              <q-btn flat round color="primary" icon="search" @click="visibles = !visibles" size="md" class="q-mr-sm" />
+                              <q-slide-transition>
+                                <div v-show="visibles">
+                                  <q-input outlined debounce="300" placeholder="Placeholder" style="width:300px" color="primary" v-model="filter" dense />
+                                </div>
+                              </q-slide-transition>
+                            </template>
 
-                              <template v-slot:body="props">
-                                <q-tr :props="props">
-                                  <q-td auto-width>
-                                    <q-btn size="sm" color="accent" round dense @click="props.expand = !props.expand" :icon="props.expand ? 'remove' : 'add'" />
-                                  </q-td>
-                                  <q-td
+                            <template v-slot:header="props">
+                              <q-tr :props="props">
+                                <q-th auto-width />
+                                  <q-th
                                     v-for="col in props.cols"
                                     :key="col.name"
                                     :props="props"
                                   >
-                                    {{ col.value }}
-                                  </q-td>
-                                </q-tr>
-                                <q-tr v-show="props.expand" :props="props">
-                                  <q-td colspan="100%">
-                                    <div class="text-left">This is expand slot for row above: {{ props.row.name }}.</div>
-                                  </q-td>
-                                </q-tr>
-                              </template>
+                                    {{ col.label }}
+                                  </q-th>
+                              </q-tr>
+                            </template>
 
-                            </q-table>
+                            <template v-slot:body="props">
+                              <q-tr :props="props">
+                                <q-td auto-width>
+                                  <q-btn size="sm" color="accent" round dense @click="props.expand = !props.expand" :icon="props.expand ? 'remove' : 'add'" />
+                                </q-td>
+                                <q-td
+                                  v-for="col in props.cols"
+                                  :key="col.name"
+                                  :props="props"
+                                >
+                                  {{ col.value }}
+                                </q-td>
+                              </q-tr>
+                              <q-tr v-show="props.expand" :props="props">
+                                <q-td colspan="100%">
+                                  <div class="text-left">This is expand slot for row above: {{ props.row.name }}.</div>
+                                </q-td>
+                              </q-tr>
+                            </template>
+
+                          </q-table>
                         </q-tab-panel>
 
                         <q-tab-panel name="penjualan">
@@ -215,28 +207,20 @@
                             :filter="filter"
                           >
 
-                          <template v-slot:top>
-                            <div class="col">
-                              <div class="col-2 q-table__title">Master Data Penjualan</div>
-                              <p class="text-caption">Data penjualan yang dilakukan oleh salsafical.</p>
-                            </div>
-                          </template>
+                            <template v-slot:top>
+                              <div class="col">
+                                <div class="col-2 q-table__title">Master Data Penjualan</div>
+                                <p class="text-caption">Data penjualan yang dilakukan oleh salsafical.</p>
+                              </div>
 
-                            <template v-slot:top-right>
-                              <q-btn
-                                color="primary"
-                                icon-right="archive"
-                                label="Export csv"
-                                no-caps
-                                flat
-                                @click="exportTable"
-                                class="q-mr-lg"
-                              />
-                              <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
-                                <template v-slot:append>
-                                  <q-icon name="search" />
-                                </template>
-                              </q-input>
+                              <q-space />
+
+                              <q-btn flat round color="primary" icon="search" @click="visibles = !visibles" size="md" class="q-mr-sm" />
+                              <q-slide-transition>
+                                <div v-show="visibles">
+                                  <q-input outlined debounce="300" placeholder="Placeholder" style="width:300px" color="primary" v-model="filter" dense />
+                                </div>
+                              </q-slide-transition>
                             </template>
 
                             <template v-slot:header="props">
@@ -285,28 +269,20 @@
                             :filter="filter"
                           >
 
-                          <template v-slot:top>
-                            <div class="col">
-                              <div class="col-2 q-table__title">Master Data Pembelian</div>
-                              <p class="text-caption">Data pembelian yang dilakukan oleh salsafical.</p>
-                            </div>
-                          </template>
+                            <template v-slot:top>
+                              <div class="col">
+                                <div class="col-2 q-table__title">Master Data Pembelian</div>
+                                <p class="text-caption">Data pembelian yang dilakukan oleh salsafical.</p>
+                              </div>
 
-                            <template v-slot:top-right>
-                              <q-btn
-                                color="primary"
-                                icon-right="archive"
-                                label="Export csv"
-                                no-caps
-                                flat
-                                @click="exportTable"
-                                class="q-mr-lg"
-                              />
-                              <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
-                                <template v-slot:append>
-                                  <q-icon name="search" />
-                                </template>
-                              </q-input>
+                              <q-space />
+
+                              <q-btn flat round color="primary" icon="search" @click="visibles = !visibles" size="md" class="q-mr-sm" />
+                              <q-slide-transition>
+                                <div v-show="visibles">
+                                  <q-input outlined debounce="300" placeholder="Placeholder" style="width:300px" color="primary" v-model="filter" dense />
+                                </div>
+                              </q-slide-transition>
                             </template>
 
                             <template v-slot:header="props">
@@ -355,28 +331,20 @@
                             :filter="filter"
                           >
 
-                          <template v-slot:top>
-                            <div class="col">
-                              <div class="col-2 q-table__title">Master Data Pengeluaran</div>
-                              <p class="text-caption">Data pengeluaran barang yang dilakukan oleh salsafical.</p>
-                            </div>
-                          </template>
+                            <template v-slot:top>
+                              <div class="col">
+                                <div class="col-2 q-table__title">Master Data Pengeluaran</div>
+                                <p class="text-caption">Data pengeluaran barang yang dilakukan oleh salsafical.</p>
+                              </div>
 
-                            <template v-slot:top-right>
-                              <q-btn
-                                color="primary"
-                                icon-right="archive"
-                                label="Export csv"
-                                no-caps
-                                flat
-                                @click="exportTable"
-                                class="q-mr-lg"
-                              />
-                              <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
-                                <template v-slot:append>
-                                  <q-icon name="search" />
-                                </template>
-                              </q-input>
+                              <q-space />
+
+                              <q-btn flat round color="primary" icon="search" @click="visibles = !visibles" size="md" class="q-mr-sm" />
+                              <q-slide-transition>
+                                <div v-show="visibles">
+                                  <q-input outlined debounce="300" placeholder="Placeholder" style="width:300px" color="primary" v-model="filter" dense />
+                                </div>
+                              </q-slide-transition>
                             </template>
 
                             <template v-slot:header="props">
@@ -425,28 +393,20 @@
                             :filter="filter"
                           >
 
-                          <template v-slot:top>
-                            <div class="col">
-                              <div class="col-2 q-table__title">Master Data Barang Retur</div>
-                              <p class="text-caption">Data barang retur yang ada di salsafical.</p>
-                            </div>
-                          </template>
+                            <template v-slot:top>
+                              <div class="col">
+                                <div class="col-2 q-table__title">Master Data Barang Retur</div>
+                                <p class="text-caption">Data barang retur yang ada di salsafical.</p>
+                              </div>
 
-                            <template v-slot:top-right>
-                              <q-btn
-                                color="primary"
-                                icon-right="archive"
-                                label="Export csv"
-                                no-caps
-                                flat
-                                @click="exportTable"
-                                class="q-mr-lg"
-                              />
-                              <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
-                                <template v-slot:append>
-                                  <q-icon name="search" />
-                                </template>
-                              </q-input>
+                              <q-space />
+
+                              <q-btn flat round color="primary" icon="search" @click="visibles = !visibles" size="md" class="q-mr-sm" />
+                              <q-slide-transition>
+                                <div v-show="visibles">
+                                  <q-input outlined debounce="300" placeholder="Placeholder" style="width:300px" color="primary" v-model="filter" dense />
+                                </div>
+                              </q-slide-transition>
                             </template>
 
                             <template v-slot:header="props">
@@ -495,28 +455,20 @@
                             :filter="filter"
                           >
 
-                          <template v-slot:top>
-                            <div class="col">
-                              <div class="col-2 q-table__title">Master Data Modal</div>
-                              <p class="text-caption">Data modal yang didapatkan oleh salsafical.</p>
-                            </div>
-                          </template>
+                            <template v-slot:top>
+                              <div class="col">
+                                <div class="col-2 q-table__title">Master Data Modal</div>
+                                <p class="text-caption">Data modal yang didapatkan oleh salsafical.</p>
+                              </div>
 
-                            <template v-slot:top-right>
-                              <q-btn
-                                color="primary"
-                                icon-right="archive"
-                                label="Export csv"
-                                no-caps
-                                flat
-                                @click="exportTable"
-                                class="q-mr-lg"
-                              />
-                              <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
-                                <template v-slot:append>
-                                  <q-icon name="search" />
-                                </template>
-                              </q-input>
+                              <q-space />
+
+                              <q-btn flat round color="primary" icon="search" @click="visibles = !visibles" size="md" class="q-mr-sm" />
+                              <q-slide-transition>
+                                <div v-show="visibles">
+                                  <q-input outlined debounce="300" placeholder="Placeholder" style="width:300px" color="primary" v-model="filter" dense />
+                                </div>
+                              </q-slide-transition>
                             </template>
 
                             <template v-slot:header="props">
@@ -565,28 +517,20 @@
                             :filter="filter"
                           >
 
-                          <template v-slot:top>
-                            <div class="col">
-                              <div class="col-2 q-table__title">Master Data Customer</div>
-                              <p class="text-caption">Data customer yang terdaftar salsafical.</p>
-                            </div>
-                          </template>
+                            <template v-slot:top>
+                              <div class="col">
+                                <div class="col-2 q-table__title">Master Data Customer</div>
+                                <p class="text-caption">Data customer yang terdaftar salsafical.</p>
+                              </div>
 
-                            <template v-slot:top-right>
-                              <q-btn
-                                color="primary"
-                                icon-right="archive"
-                                label="Export csv"
-                                no-caps
-                                flat
-                                @click="exportTable"
-                                class="q-mr-lg"
-                              />
-                              <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
-                                <template v-slot:append>
-                                  <q-icon name="search" />
-                                </template>
-                              </q-input>
+                              <q-space />
+
+                              <q-btn flat round color="primary" icon="search" @click="visibles = !visibles" size="md" class="q-mr-sm" />
+                              <q-slide-transition>
+                                <div v-show="visibles">
+                                  <q-input outlined debounce="300" placeholder="Placeholder" style="width:300px" color="primary" v-model="filter" dense />
+                                </div>
+                              </q-slide-transition>
                             </template>
 
                             <template v-slot:header="props">
@@ -635,28 +579,20 @@
                             :filter="filter"
                           >
 
-                          <template v-slot:top>
-                            <div class="col">
-                              <div class="col-2 q-table__title">Master Data Supplier / Vendor</div>
-                              <p class="text-caption">Data supplier / vendor yang bermitra dengan salsafical.</p>
-                            </div>
-                          </template>
+                            <template v-slot:top>
+                              <div class="col">
+                                <div class="col-2 q-table__title">Master Data Supplier / Vendor</div>
+                                <p class="text-caption">Data supplier / vendor yang bermitra dengan salsafical.</p>
+                              </div>
 
-                            <template v-slot:top-right>
-                              <q-btn
-                                color="primary"
-                                icon-right="archive"
-                                label="Export csv"
-                                no-caps
-                                flat
-                                @click="exportTable"
-                                class="q-mr-lg"
-                              />
-                              <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
-                                <template v-slot:append>
-                                  <q-icon name="search" />
-                                </template>
-                              </q-input>
+                              <q-space />
+
+                              <q-btn flat round color="primary" icon="search" @click="visibles = !visibles" size="md" class="q-mr-sm" />
+                              <q-slide-transition>
+                                <div v-show="visibles">
+                                  <q-input outlined debounce="300" placeholder="Placeholder" style="width:300px" color="primary" v-model="filter" dense />
+                                </div>
+                              </q-slide-transition>
                             </template>
 
                             <template v-slot:header="props">
@@ -694,6 +630,7 @@
 
                           </q-table>
                         </q-tab-panel>
+
                       </q-tab-panels>
                     </template>
                   </q-splitter>
@@ -710,68 +647,22 @@
 
 <script>
 import Vue3autocounter from 'vue3-autocounter'
-import { exportFile, useQuasar } from 'quasar'
 
 export default {
   name: 'PageIndex',
   components: {
     'vue3-autocounter': Vue3autocounter
   },
-  setup () {
-    const $q = useQuasar()
+  data () {
     return {
+      visibles: false,
       filter: null,
       columns,
       rows,
       tabs: 'produk',
-      splitterModel: 5,
-      exportTable () {
-        // naive encoding to csv format
-        const content = [columns.map(col => wrapCsvValue(col.label))].concat(
-          rows.map(row => columns.map(col => wrapCsvValue(
-            typeof col.field === 'function'
-              ? col.field(row)
-              : row[col.field === void 0 ? col.name : col.field],
-            col.format
-          )).join(','))
-        ).join('\r\n')
-
-        const status = exportFile(
-          'table-export.csv',
-          content,
-          'text/csv'
-        )
-
-        if (status !== true) {
-          $q.notify({
-            message: 'Browser denied file download...',
-            color: 'negative',
-            icon: 'warning'
-          })
-        }
-      }
+      splitterModel: 5
     }
   }
-}
-
-function wrapCsvValue (val, formatFn) {
-  let formatted = formatFn !== void 0
-    ? formatFn(val)
-    : val
-
-  formatted = formatted === void 0 || formatted === null
-    ? ''
-    : String(formatted)
-
-  formatted = formatted.split('"').join('""')
-  /**
-   * Excel accepts \n and \r in strings, but some other CSV parsers do not
-   * Uncomment the next two lines to escape new lines
-   */
-  // .split('\n').join('\\n')
-  // .split('\r').join('\\r')
-
-  return `"${formatted}"`
 }
 
 const columns = [

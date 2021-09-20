@@ -421,7 +421,7 @@
 
 export default {
   name: 'PageIndex',
-  setup () {
+  data () {
     return {
       tab: 'usaha',
       splitterModel: 10
