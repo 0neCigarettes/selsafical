@@ -25,7 +25,7 @@
                   :filter="filter"
                 >
 
-                <template v-slot:top="props">
+                <template v-slot:top>
                   <div class="col">
                     <div class="col-2 q-table__title">Master Data Produk</div>
                     <p class="text-caption">Data produk yang terdaftar di dalam sistem salsafical.</p>
@@ -33,12 +33,12 @@
 
                   <q-space />
 
-                  <q-btn
-                    flat round dense
-                    :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
-                    @click="props.toggleFullscreen"
-                    class="q-ml-md"
-                  />
+                  <q-input filled debounce="300" style="width:250px" v-model="filter" label="Search" dense>
+                    <template v-slot:after>
+                      <q-icon name="search" />
+                    </template>
+
+                  </q-input>
                   <q-btn
                     dense
                     icon="add"
@@ -46,7 +46,7 @@
                     color="blue-13"
                     :to="{ name: 'product_add' }"
                     label="Tambah Produk"
-                    no-caps
+                    size="md"
                   />
                 </template>
 
@@ -99,12 +99,12 @@
           </q-card>
         </div>
 
-        <div class="q-gutter-sm row">
+        <div class="row q-mt-md fit q-gutter-sm">
 
-          <div class="col q-mt-md">
-            <q-card class="my-card col" flat bordered>
+          <div class="col">
+            <q-card class="my-card" flat bordered>
                 <q-card-section horizontal>
-                  <q-card-section class="col-12 q-pa-sm">
+                  <q-card-section class="col q-pa-sm">
                     <q-table
                       title="Master Data Jenis Produk"
                       aria-label="Text"
@@ -116,26 +116,20 @@
                       :filter="filter"
                     >
 
-                    <template v-slot:top="props">
+                    <template v-slot:top>
                       <div class="col">
                         <div class="col-2 q-table__title">Master Data Jenis Produk</div>
                         <p class="text-caption">Data jenis produk yang terdaftar di dalam sistem salsafical.</p>
                       </div>
 
                       <q-btn
-                        flat round dense
-                        :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
-                        @click="props.toggleFullscreen"
-                        class="q-ml-md"
-                      />
-                      <q-btn
                         dense
                         icon="add"
                         class="q-ml-md q-pr-md"
                         color="blue-13"
                         :to="{ name: 'product_jenis_add' }"
-                        label="Tambah Jenis Produk"
-                        no-caps
+                        label="Tambah Jenis"
+                        size="md"
                       />
                     </template>
 
@@ -148,8 +142,8 @@
                             {{ props.row.name }}
                         </q-td>
                         <q-td key="aksi" :props="props">
-                          <q-btn color="primary" icon="edit" :to="{ name:'product_jenis_edit', params:{ id: props.row._id } }" label="Edit" no-caps flat/>
-                          <q-btn color="red" icon="delete" label="Hapus" @click="this.delete(props.row._id)" no-caps flat/>
+                          <q-btn round color="green" size="sm" icon="edit" :to="{ name:'product_jenis_edit', params:{ id: props.row._id } }"  no-caps />
+                          <q-btn round color="red" size="sm" icon="delete" @click="this.delete(props.row._id)" no-caps class="q-ml-sm" />
                         </q-td>
                       </q-tr>
                     </template>
@@ -160,10 +154,10 @@
             </q-card>
           </div>
 
-          <div class="col q-mt-md">
-            <q-card class="my-card col" flat bordered>
+          <div class="col">
+            <q-card class="my-card" flat bordered>
                 <q-card-section horizontal>
-                  <q-card-section class="col-12 q-pa-sm">
+                  <q-card-section class="col q-pa-sm">
                     <q-table
                       title="Master Data Kategori Produk"
                       aria-label="Text"
@@ -174,7 +168,7 @@
                       row-key="name"
                     >
 
-                    <template v-slot:top="props">
+                    <template v-slot:top>
                       <div class="col">
                         <div class="col-2 q-table__title">Master Data Kategori Produk</div>
                         <p class="text-caption">Data kategori produk yang terdaftar di dalam sistem salsafical.</p>
@@ -183,19 +177,13 @@
                       <q-space />
 
                       <q-btn
-                        flat round dense
-                        :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
-                        @click="props.toggleFullscreen"
-                        class="q-ml-md"
-                      />
-                      <q-btn
                         dense
                         icon="add"
                         class="q-ml-md q-pr-md"
                         color="blue-13"
+                        size="md"
                         :to="{ name: 'product_kategori_add' }"
-                        label="Tambah Kategori Produk"
-                        no-caps
+                        label="Tambah Kategori"
                       />
                     </template>
 
@@ -208,8 +196,8 @@
                           {{ props.row.name }}
                         </q-td>
                         <q-td key="aksi" :props="props">
-                          <q-btn color="primary" icon="edit" label="Edit" no-caps flat/>
-                          <q-btn color="red" icon="delete" label="Hapus" @click="this.delete(props.row._id)" no-caps flat/>
+                          <q-btn round color="green" size="sm" icon="edit" no-caps />
+                          <q-btn round color="red" size="sm" icon="delete" @click="this.delete(props.row._id)" no-caps class="q-ml-sm" />
                         </q-td>
                       </q-tr>
                     </template>

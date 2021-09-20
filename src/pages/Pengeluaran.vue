@@ -81,7 +81,7 @@
                       class="q-ml-md q-pr-md"
                       color="blue-13"
                       label="Tambah Pengeluaran"
-                      no-caps
+                      size="sm"
                     />
                   </template>
 

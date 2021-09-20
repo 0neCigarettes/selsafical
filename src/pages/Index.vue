@@ -15,8 +15,9 @@
           leave-active-class="animated bounceOutRight"
         >
 
-        <div class="row q-gutter-md">
-          <q-card class="my-card col-lg-2 col-md-4 col-sm-7" flat bordered>
+        <div class="row q-gutter-sm fit">
+
+          <q-card class="my-card col-md-3 col-sm col-lg-2" flat bordered>
             <q-card-section horizontal>
               <q-card-section class="q-pt-xs">
                 <div class="text-h6" style="font-size: 14px">Data Produk</div>
@@ -32,7 +33,7 @@
             </q-card-section>
           </q-card>
 
-          <q-card class="my-card col-lg-2 col-md-4 col-sm-7" flat bordered>
+          <q-card class="my-card col-md-3 col-sm col-lg-2" flat bordered>
             <q-card-section horizontal>
               <q-card-section class="q-pt-xs">
                 <div class="text-h6" style="font-size: 14px">Penjualan</div>
@@ -48,7 +49,7 @@
             </q-card-section>
           </q-card>
 
-          <q-card class="my-card col-lg-2 col-md-4 col-sm-7" flat bordered>
+          <q-card class="my-card col-md-3 col-sm col-lg-2" flat bordered>
             <q-card-section horizontal>
               <q-card-section class="q-pt-xs">
                 <div class="text-h6" style="font-size: 14px">Pembelian</div>
@@ -64,7 +65,7 @@
             </q-card-section>
           </q-card>
 
-          <q-card class="my-card col-lg-2 col-md-4 col-sm-7" flat bordered>
+          <q-card class="my-card col-md-3 col-sm col-lg-2" flat bordered>
             <q-card-section horizontal>
               <q-card-section class="q-pt-xs">
                 <div class="text-h6" style="font-size: 14px">Pengeluaran</div>
@@ -80,7 +81,7 @@
             </q-card-section>
           </q-card>
 
-          <q-card class="my-card col-lg-2 col-md-4 col-sm-7" flat bordered>
+          <q-card class="my-card col-md-3 col-sm col-lg-2" flat bordered>
             <q-card-section horizontal>
               <q-card-section class="q-pt-xs">
                 <div class="text-h6" style="font-size: 14px">Barang Retur</div>
@@ -95,6 +96,7 @@
               </q-card-section>
             </q-card-section>
           </q-card>
+
         </div>
 
         </transition>

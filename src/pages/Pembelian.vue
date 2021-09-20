@@ -95,7 +95,7 @@
                       class="q-ml-md q-pr-md"
                       color="blue-13"
                       label="Tambah Pembelian"
-                      no-caps
+                      size="sm"
                     />
                   </template>
 

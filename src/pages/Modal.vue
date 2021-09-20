@@ -79,7 +79,7 @@
                       class="q-ml-md q-pr-md"
                       color="blue-13"
                       label="Tambah Modal"
-                      no-caps
+                      size="sm"
                     />
                   </template>
 

@@ -95,7 +95,7 @@
                       color="blue-13"
                       :to="{ name: 'penjualan_add' }"
                       label="Tambah Penjualan"
-                      no-caps
+                      size="sm"
                     />
                   </template>
 
