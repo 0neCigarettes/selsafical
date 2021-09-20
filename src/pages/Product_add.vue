@@ -57,25 +57,26 @@
 
                   <div class="row q-mt-md q-gutter-sm">
                     <div class="col">
-                      <q-input
+                      <q-field
                         filled
                         v-model="hpp_product"
-                        label="HPP"
-                        lazy-rules
-                        dense
-                        prefix="Rp."
-                        :rules="[ val => val && val.length > 0 || 'Lengkapi data HPP']"
-                      />
+                        label="Price with v-money directive"
+                        hint="Mask: $ #,###.00 #"
+                      >
+                        <template v-slot:control="{ id, floatingLabel, value, emitValue }">
+                          <input :id="id" class="q-field__input text-right" :model-value="value" @change="e => emitValue(e.target.value)" v-money="moneyFormatForDirective" v-show="floatingLabel">
+                        </template>
+                      </q-field>
                     </div>
                     <div class="col">
                       <q-input
+                        v-model.lazy="hargajual"
+                        v-money="money"
                         filled
-                        v-model="harga_modal"
-                        label="Harga modal"
+                        label="Harga jual"
                         lazy-rules
                         dense
-                        prefix="Rp."
-                        :rules="[ val => val && val.length > 0 || 'Lengkapi data harga modal']"
+                        :rules="[ val => val && val.length > 0 || 'Lengkapi data harga jual']"
                       />
                     </div>
                   </div>
@@ -83,26 +84,24 @@
                   <div class="row q-gutter-sm">
                     <div class="col">
                       <q-input
+                        v-model.lazy="hargamodal"
+                        v-money="money"
                         filled
-                        v-model="harga_jual"
-                        label="Harga jual"
+                        label="Harga modal"
                         lazy-rules
                         dense
-                        prefix="Rp."
-                        :rules="[ val => val && val.length > 0 || 'Lengkapi data harga jual']"
+                        :rules="[ val => val && val.length > 0 || 'Lengkapi data harga modal']"
                       />
                     </div>
                     <div class="col">
-                      <div class="col">
                       <q-input
                         filled
                         v-model="stok_produk"
                         label="Stok produk"
                         lazy-rules
                         dense
-                        :rules="[ val => val && val.length > 0 || 'Lengkapi data harga jual']"
+                        :rules="[ val => val && val.length > 0 || 'Lengkapi data stok produk']"
                       />
-                    </div>
                     </div>
                   </div>
 
@@ -122,7 +121,8 @@
                         </template>
                       </q-file>
                     </div>
-                    <div class="col"></div>
+                    <div class="col">
+                    </div>
                   </div>
 
                   <div class="row q-py-sm q-gutter-sm">
@@ -205,21 +205,28 @@
 <script>
 import Lottie from 'components/lottie'
 import * as animationData from 'assets/lottie.json'
+import { VMoney } from 'v-money'
 
 export default {
+  name: 'PageIndex',
   components: {
     lottie: Lottie
   },
   data () {
     return {
+      hargamodal: null,
+      moneyFormatForDirective: {
+        prefix: 'IDR ',
+        masked: false /* doesn't work with directive */
+      },
+      hargajual: null,
       id_product: 'ID-981198',
       kategori_product: null,
       jenis_product: null,
       name_produk: null,
       hpp_product: null,
-      harga_jual: null,
-      harga_modal: null,
       keterangan_product: null,
+      stok_produk: null,
       options_kategori: [
         'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
       ],
@@ -228,17 +235,10 @@ export default {
       ],
       defaultOptions: { animationData: animationData.default },
       animationSpeed: 2,
-      images: null,
-      moneyFormatForDirective: {
-        decimal: '.',
-        thousands: ',',
-        prefix: '$ ',
-        suffix: ' #',
-        precision: 2,
-        masked: true /* doesn't work with directive */
-      }
+      images: null
     }
   },
+  directives: { money: VMoney },
   methods: {
     handleAnimation: function (anim) {
       this.anim = anim

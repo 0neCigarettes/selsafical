@@ -149,11 +149,10 @@
 </template>
 
 <script>
-import { ref, defineComponent } from 'vue'
 import Vue3autocounter from 'vue3-autocounter'
 import { exportFile, useQuasar } from 'quasar'
 
-export default defineComponent({
+export default {
   name: 'PageIndex',
   components: {
     'vue3-autocounter': Vue3autocounter
@@ -161,7 +160,7 @@ export default defineComponent({
   setup () {
     const $q = useQuasar()
     return {
-      filter: ref(''),
+      filter: null,
       columns,
       rows,
       exportTable () {
@@ -191,7 +190,7 @@ export default defineComponent({
       }
     }
   }
-})
+}
 
 function wrapCsvValue (val, formatFn) {
   let formatted = formatFn !== void 0

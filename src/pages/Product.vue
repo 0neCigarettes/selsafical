@@ -316,15 +316,14 @@
 </template>
 
 <script>
-import { ref, defineComponent } from 'vue'
 import { exportFile, useQuasar } from 'quasar'
 
-export default defineComponent({
+export default {
   name: 'PageIndex',
   setup () {
     const $q = useQuasar()
     return {
-      filter: ref(''),
+      filter: null,
       columns,
       rows,
       exportTable () {
@@ -354,7 +353,7 @@ export default defineComponent({
       }
     }
   }
-})
+}
 
 function wrapCsvValue (val, formatFn) {
   let formatted = formatFn !== void 0
