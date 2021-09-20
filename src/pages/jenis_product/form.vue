@@ -1,4 +1,3 @@
-/* eslint-disable */
 <template>
   <q-page class="q-pr-md q-pl-md q-pa-md">
     <div class="col col-lg-12 col-md-6 col-sm-8 col-xs-10 q-pt-md">
@@ -6,7 +5,8 @@
         <q-breadcrumbs separator="---" class="text-blue-10" active-color="secondary">
           <q-breadcrumbs-el label="Main Menu" icon="widgets" />
           <q-breadcrumbs-el label="Produk" icon="emoji_events" />
-          <q-breadcrumbs-el label="Tambah Jenis Produk" icon="add" />
+          <q-breadcrumbs-el v-if="editMode" label="Edit Jenis Produk" icon="add" />
+          <q-breadcrumbs-el v-else label="Tambah Jenis Produk" icon="add" />
         </q-breadcrumbs>
       </q-card>
 
@@ -17,8 +17,8 @@
             <q-card-section horizontal>
               <q-card-section class="col q-pa-lg">
                 <div class="col">
-                  <div class="col-2 q-table__title">Tambah Data jenis Produk</div>
-                  <p class="text-caption">Form input data jenis produk salsafical.</p>
+                  <div class="col-2 q-table__title">{{this.title}} Data jenis Produk</div>
+                  <p class="text-caption">Form {{this.title}} data jenis produk salsafical.</p>
                 </div>
                 <q-form @submit="onSubmit" @reset="onReset">
 
@@ -48,7 +48,8 @@
 
                   <div>
                     <q-btn label="Submit" outline type="submit" color="green" style="width:150px" />
-                    <q-btn label="Reset" type="reset" color="red" outline class="q-ml-sm" style="width:150px" />
+                    <q-btn label="Cancel" v-if="this.editMode" type="reset" color="red" outline class="q-ml-sm" style="width:150px" />
+                    <q-btn label="Reset" v-else type="reset" color="red" outline class="q-ml-sm" style="width:150px" />
                   </div>
                 </q-form>
               </q-card-section>
@@ -70,15 +71,15 @@
                     <lottie :options="defaultOptions" v-on:animCreated="handleAnimation" style="height: 250px" />
                   </div>
                   <div class="col">
-                    <q-timeline :layout="layout" :side="side" color="secondary">
+                    <q-timeline :side="side" color="secondary">
 
-                      <q-timeline-entry subtitle="Tahap 1" side="right">
+                      <q-timeline-entry subtitle="Tahap 1">
                         <div>
                           Inputkan data jenis produk sesuai dengan jenis produk yang akan di daftarkan.
                         </div>
                       </q-timeline-entry>
 
-                      <q-timeline-entry subtitle="Tahap 2" side="right">
+                      <q-timeline-entry subtitle="Tahap 2">
                         <div>
                           Pastikan data inputan sesuai dengan data yang ingin di daftarkan.
                         </div>
@@ -107,14 +108,34 @@ export default {
   components: {
     lottie: Lottie
   },
+  props: {
+    editMode: Boolean,
+    title: String
+  },
   data () {
     return {
       id_jenis_product: 'ID-' + Math.floor(Math.random() * 100000000),
       name_jenis_produk: null,
       defaultOptions: { animationData: animationData.default },
       animationSpeed: 2,
-      layout: null,
-      side: null
+      side: 'right'
+    }
+  },
+  created () {
+    if (this.editMode) {
+      try {
+        this.$api.get('type/gettypebyid/' + this.$route.params.id).then(res => {
+          if (res.data.status !== true) {
+            this.$showNotif(res.data.message, 'negative')
+          } else {
+            this.id_jenis_product = res.data.result.type_id
+            this.name_jenis_produk = res.data.result.name
+          }
+        })
+      } catch (e) {
+        console.error(e)
+        this.$showNotif('Terjadi kesalahan !', 'negative')
+      }
     }
   },
   methods: {
@@ -135,26 +156,33 @@ export default {
     },
     onSubmit () {
       try {
-        this.$api.post('type/addtype', {
-          type_id: this.id_jenis_product,
-          type: 'Jenis',
-          name: this.name_jenis_produk
-        }).then(res => {
-          if (res.data.status !== true) {
-            this.$showNotif('SD', 'negative')
-          } else {
-            this.$showNotif('Jenis produk berhasil diinput !', 'positive')
-            this.$router.push({ name: 'product' })
-          }
-        })
+        if (this.editMode) {
+          console.log(this.$route.params.id)
+        } else {
+          this.$api.post('type/addtype', {
+            type_id: this.id_jenis_product,
+            type: 'Jenis',
+            name: this.name_jenis_produk
+          }).then(res => {
+            if (res.data.status !== true) {
+              this.$showNotif(res.data.message, 'negative')
+            } else {
+              this.$showNotif('Jenis produk berhasil diinput !', 'positive')
+              this.$router.push({ name: 'product' })
+            }
+          })
+        }
       } catch (e) {
         console.error(e)
         this.$showNotif('Terjadi kesalahan !', 'negative')
       }
     },
     onReset () {
-      this.id_jenis_product = 'ID-' + Math.floor(Math.random() * 100000000)
-      this.name_jenis_produk = null
+      if (this.editMode) {
+        this.$router.go(-1)
+      } else {
+        this.name_jenis_produk = null
+      }
     }
   }
 }

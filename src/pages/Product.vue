@@ -1,4 +1,3 @@
-/* eslint-disable */
 <template>
   <q-page class="q-pr-md q-pl-md q-pa-md">
     <div class="col col-lg-12 col-md-6 col-sm-8 col-xs-10 q-pt-md">
@@ -123,8 +122,6 @@
                         <p class="text-caption">Data jenis produk yang terdaftar di dalam sistem salsafical.</p>
                       </div>
 
-                      <q-space />
-
                       <q-btn
                         flat round dense
                         :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
@@ -151,7 +148,7 @@
                             {{ props.row.name }}
                         </q-td>
                         <q-td key="aksi" :props="props">
-                          <q-btn color="primary" icon="edit" label="Edit" no-caps flat/>
+                          <q-btn color="primary" icon="edit" :to="{ name:'product_jenis_edit', params:{ id: props.row._id } }" label="Edit" no-caps flat/>
                           <q-btn color="red" icon="delete" label="Hapus" @click="this.delete(props.row._id)" no-caps flat/>
                         </q-td>
                       </q-tr>
@@ -232,7 +229,7 @@
 </template>
 
 <script>
-import { exportFile, useQuasar } from 'quasar'
+import { exportFile } from 'quasar'
 
 export default {
   name: 'PageIndex',
@@ -369,7 +366,6 @@ export default {
   }
 }
 </script>
-
 <style scoped>
 
 </style>

@@ -112,9 +112,7 @@ export default {
       id_kategori_product: 'ID-' + Math.floor(Math.random() * 100000000),
       name_kategori_produk: null,
       defaultOptions: { animationData: animationData.default },
-      animationSpeed: 2,
-      layout: null,
-      side: null
+      animationSpeed: 2
     }
   },
   methods: {

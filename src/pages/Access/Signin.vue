@@ -84,7 +84,6 @@
     </div>
   </q-page>
 </template>
-
 <script>
 import { LocalStorage } from 'quasar'
 export default {
