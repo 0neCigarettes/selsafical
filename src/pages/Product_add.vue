@@ -152,7 +152,7 @@
           </q-card>
         </div>
 
-        <div class="row col">
+        <div class="row col fit">
           <q-card class="my-card col" flat bordered>
             <q-card-section horizontal>
               <q-card-section class="col q-pa-lg">
