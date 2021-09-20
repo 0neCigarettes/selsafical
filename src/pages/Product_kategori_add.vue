@@ -109,10 +109,12 @@ export default {
   },
   data () {
     return {
-      id_kategori_product: 'ID-981198',
+      id_kategori_product: 'ID-' + Math.floor(Math.random() * 100000000),
       name_kategori_produk: null,
       defaultOptions: { animationData: animationData.default },
-      animationSpeed: 2
+      animationSpeed: 2,
+      layout: null,
+      side: null
     }
   },
   methods: {
@@ -132,10 +134,27 @@ export default {
       this.anim.setSpeed(this.animationSpeed)
     },
     onSubmit () {
-
+      try {
+        this.$api.post('type/addtype', {
+          type_id: this.id_kategori_product,
+          type: 'Kategori',
+          name: this.name_kategori_produk
+        }).then(res => {
+          if (res.data.status !== true) {
+            this.$showNotif(res.data.message, 'negative')
+          } else {
+            this.$showNotif('Kategori produk berhasil diinput !', 'positive')
+            this.$router.push({ name: 'product' })
+          }
+        })
+      } catch (e) {
+        console.error(e)
+        this.$showNotif('Terjadi kesalahan !', 'negative')
+      }
     },
     onReset () {
-
+      this.id_kategori_product = 'ID-' + Math.floor(Math.random() * 100000000)
+      this.name_kategori_produk = null
     }
   }
 }

@@ -30,7 +30,6 @@ export default route(function (/* { store, ssrContext } */) {
 
   Router.beforeEach((to, from, next) => {
     const user = LocalStorage.getItem('user')
-    console.log(to.name)
     if (to.matched.some(record => record.meta.authAdmin)) {
       if (user === null || user === 'undefined') {
         next({

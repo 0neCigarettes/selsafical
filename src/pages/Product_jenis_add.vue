@@ -37,7 +37,7 @@
                     <div class="col">
                       <q-input
                         filled
-                        v-model="name_kategori_produk"
+                        v-model="name_jenis_produk"
                         label="Nama jenis produk"
                         lazy-rules
                         dense
@@ -109,10 +109,12 @@ export default {
   },
   data () {
     return {
-      id_jenis_product: 'ID-981198',
+      id_jenis_product: 'ID-' + Math.floor(Math.random() * 100000000),
       name_jenis_produk: null,
       defaultOptions: { animationData: animationData.default },
-      animationSpeed: 2
+      animationSpeed: 2,
+      layout: null,
+      side: null
     }
   },
   methods: {
@@ -132,10 +134,27 @@ export default {
       this.anim.setSpeed(this.animationSpeed)
     },
     onSubmit () {
-
+      try {
+        this.$api.post('type/addtype', {
+          type_id: this.id_jenis_product,
+          type: 'Jenis',
+          name: this.name_jenis_produk
+        }).then(res => {
+          if (res.data.status !== true) {
+            this.$showNotif('SD', 'negative')
+          } else {
+            this.$showNotif('Jenis produk berhasil diinput !', 'positive')
+            this.$router.push({ name: 'product' })
+          }
+        })
+      } catch (e) {
+        console.error(e)
+        this.$showNotif('Terjadi kesalahan !', 'negative')
+      }
     },
     onReset () {
-
+      this.id_jenis_product = 'ID-' + Math.floor(Math.random() * 100000000)
+      this.name_jenis_produk = null
     }
   }
 }

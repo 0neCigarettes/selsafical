@@ -19,12 +19,11 @@
                   title="Master Data Produk"
                   aria-label="Text"
                   class="text-h5"
-                  :rows="rows"
+                  :rows="product.rows"
                   flat
-                  :columns="columns"
+                  :columns="product.columns"
                   row-key="name"
                   :filter="filter"
-                  :visible-columns="visibleColumns"
                 >
 
                 <template v-slot:top="props">
@@ -44,7 +43,7 @@
                   <q-btn
                     dense
                     icon="add"
-                    class="q-ml-md q-pr-md"
+                    class="q-ml-md q-pr-md q-mr-md"
                     color="blue-13"
                     :to="{ name: 'product_add' }"
                     label="Tambah Produk"
@@ -52,260 +51,177 @@
                   />
                 </template>
 
-                <template v-slot:top-right>
-                  <q-btn
-                    color="primary"
-                    icon-right="archive"
-                    label="Export csv"
-                    no-caps
-                    flat
-                    @click="exportTable"
-                    class="q-mr-lg"
-                  />
-
-                  <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
-                    <template v-slot:append>
-                      <q-icon name="search" />
-                    </template>
-                  </q-input>
-                </template>
-
-                <template v-slot:header="props">
-                  <q-tr :props="props">
-                    <q-th auto-width />
-                    <q-th
-                      v-for="col in props.cols"
-                      :key="col.name"
-                      :props="props"
-                    >
-                      {{ col.label }}
-                    </q-th>
-                  </q-tr>
-                </template>
-
                 <template v-slot:body="props">
                   <q-tr :props="props">
-                    <q-td auto-width>
-                      <q-btn size="sm" color="accent" round dense @click="props.expand = !props.expand" :icon="props.expand ? 'remove' : 'add'" />
+                    <q-td key="name" :props="props">
+                      {{ props.row.name }}
                     </q-td>
-                    <q-td
-                      v-for="col in props.cols"
-                      :key="col.name"
-                      :props="props"
-                    >
-                      {{ col.value }}
+                    <q-td key="calories" :props="props">
+                      <q-badge color="green">
+                        {{ props.row.calories }}
+                      </q-badge>
                     </q-td>
-                  </q-tr>
-                  <q-tr v-show="props.expand" :props="props">
-                    <q-td colspan="100%">
-                      <div class="text-left">This is expand slot for row above: {{ props.row.name }}.</div>
+                    <q-td key="fat" :props="props">
+                      <q-badge color="purple">
+                        {{ props.row.fat }}
+                      </q-badge>
+                    </q-td>
+                    <q-td key="carbs" :props="props">
+                      <q-badge color="orange">
+                        {{ props.row.carbs }}
+                      </q-badge>
+                    </q-td>
+                    <q-td key="protein" :props="props">
+                      <q-badge color="primary">
+                        {{ props.row.protein }}
+                      </q-badge>
+                    </q-td>
+                    <q-td key="sodium" :props="props">
+                      <q-badge color="teal">
+                        {{ props.row.sodium }}
+                      </q-badge>
+                    </q-td>
+                    <q-td key="calcium" :props="props">
+                      <q-badge color="accent">
+                        {{ props.row.calcium }}
+                      </q-badge>
+                    </q-td>
+                    <q-td key="iron" :props="props">
+                      <q-badge color="amber">
+                        {{ props.row.iron }}
+                      </q-badge>
                     </q-td>
                   </q-tr>
                 </template>
 
-              </q-table>
+                </q-table>
+              </q-card-section>
             </q-card-section>
-          </q-card-section>
-        </q-card>
-      </div>
+          </q-card>
+        </div>
 
         <div class="q-gutter-sm row">
 
-        <div class="col q-mt-md">
-          <q-card class="my-card col" flat bordered>
-              <q-card-section horizontal>
-                <q-card-section class="col-12 q-pa-sm">
-                  <q-table
-                    title="Master Data Jenis Produk"
-                    aria-label="Text"
-                    class="text-h5"
-                    :rows="rows"
-                    flat
-                    :columns="columns"
-                    row-key="name"
-                    :filter="filter"
-                    :visible-columns="visibleColumns"
-                  >
-
-                  <template v-slot:top="props">
-                    <div class="col">
-                      <div class="col-2 q-table__title">Master Data Jenis Produk</div>
-                      <p class="text-caption">Data jenis produk yang terdaftar di dalam sistem salsafical.</p>
-                    </div>
-
-                    <q-space />
-
-                    <q-btn
-                      flat round dense
-                      :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
-                      @click="props.toggleFullscreen"
-                      class="q-ml-md"
-                    />
-                    <q-btn
-                      dense
-                      icon="add"
-                      class="q-ml-md q-pr-md"
-                      color="blue-13"
-                      :to="{ name: 'product_jenis_add' }"
-                      label="Tambah Jenis Produk"
-                      no-caps
-                    />
-                  </template>
-
-                  <template v-slot:top-right>
-                    <q-btn
-                      color="primary"
-                      icon-right="archive"
-                      label="Export csv"
-                      no-caps
+          <div class="col q-mt-md">
+            <q-card class="my-card col" flat bordered>
+                <q-card-section horizontal>
+                  <q-card-section class="col-12 q-pa-sm">
+                    <q-table
+                      title="Master Data Jenis Produk"
+                      aria-label="Text"
+                      class="text-h5"
+                      :rows="jenis.rows"
                       flat
-                      @click="exportTable"
-                      class="q-mr-lg"
-                    />
+                      :columns="jenis.columns"
+                      row-key="name"
+                      :filter="filter"
+                    >
 
-                    <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
-                      <template v-slot:append>
-                        <q-icon name="search" />
-                      </template>
-                    </q-input>
-                  </template>
+                    <template v-slot:top="props">
+                      <div class="col">
+                        <div class="col-2 q-table__title">Master Data Jenis Produk</div>
+                        <p class="text-caption">Data jenis produk yang terdaftar di dalam sistem salsafical.</p>
+                      </div>
 
-                  <template v-slot:header="props">
-                    <q-tr :props="props">
-                      <q-th auto-width />
-                      <q-th
-                        v-for="col in props.cols"
-                        :key="col.name"
-                        :props="props"
-                      >
-                        {{ col.label }}
-                      </q-th>
-                    </q-tr>
-                  </template>
+                      <q-space />
 
-                  <template v-slot:body="props">
-                    <q-tr :props="props">
-                      <q-td auto-width>
-                        <q-btn size="sm" color="accent" round dense @click="props.expand = !props.expand" :icon="props.expand ? 'remove' : 'add'" />
-                      </q-td>
-                      <q-td
-                        v-for="col in props.cols"
-                        :key="col.name"
-                        :props="props"
-                      >
-                        {{ col.value }}
-                      </q-td>
-                    </q-tr>
-                    <q-tr v-show="props.expand" :props="props">
-                      <q-td colspan="100%">
-                        <div class="text-left">This is expand slot for row above: {{ props.row.name }}.</div>
-                      </q-td>
-                    </q-tr>
-                  </template>
+                      <q-btn
+                        flat round dense
+                        :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
+                        @click="props.toggleFullscreen"
+                        class="q-ml-md"
+                      />
+                      <q-btn
+                        dense
+                        icon="add"
+                        class="q-ml-md q-pr-md"
+                        color="blue-13"
+                        :to="{ name: 'product_jenis_add' }"
+                        label="Tambah Jenis Produk"
+                        no-caps
+                      />
+                    </template>
 
-                </q-table>
+                    <template v-slot:body="props">
+                      <q-tr :props="props">
+                        <q-td key="type_id" :props="props">
+                          {{ props.row.type_id }}
+                        </q-td>
+                        <q-td key="name" :props="props">
+                            {{ props.row.name }}
+                        </q-td>
+                        <q-td key="aksi" :props="props">
+                          <q-btn color="primary" icon="edit" label="Edit" no-caps flat/>
+                          <q-btn color="red" icon="delete" label="Hapus" @click="this.delete(props.row._id)" no-caps flat/>
+                        </q-td>
+                      </q-tr>
+                    </template>
+
+                  </q-table>
+                </q-card-section>
               </q-card-section>
-            </q-card-section>
-          </q-card>
-        </div>
+            </q-card>
+          </div>
 
-        <div class="col q-mt-md">
-          <q-card class="my-card col" flat bordered>
-              <q-card-section horizontal>
-                <q-card-section class="col-12 q-pa-sm">
-                  <q-table
-                    title="Master Data Kategori Produk"
-                    aria-label="Text"
-                    class="text-h5"
-                    :rows="rows"
-                    flat
-                    :columns="columns"
-                    row-key="name"
-                    :filter="filter"
-                    :visible-columns="visibleColumns"
-                  >
-
-                  <template v-slot:top="props">
-                    <div class="col">
-                      <div class="col-2 q-table__title">Master Data Kategori Produk</div>
-                      <p class="text-caption">Data kategori produk yang terdaftar di dalam sistem salsafical.</p>
-                    </div>
-
-                    <q-space />
-
-                    <q-btn
-                      flat round dense
-                      :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
-                      @click="props.toggleFullscreen"
-                      class="q-ml-md"
-                    />
-                    <q-btn
-                      dense
-                      icon="add"
-                      class="q-ml-md q-pr-md"
-                      color="blue-13"
-                      :to="{ name: 'product_kategori_add' }"
-                      label="Tambah Kategori Produk"
-                      no-caps
-                    />
-                  </template>
-
-                  <template v-slot:top-right>
-                    <q-btn
-                      color="primary"
-                      icon-right="archive"
-                      label="Export csv"
-                      no-caps
+          <div class="col q-mt-md">
+            <q-card class="my-card col" flat bordered>
+                <q-card-section horizontal>
+                  <q-card-section class="col-12 q-pa-sm">
+                    <q-table
+                      title="Master Data Kategori Produk"
+                      aria-label="Text"
+                      class="text-h5"
+                      :rows="kategori.rows"
                       flat
-                      @click="exportTable"
-                      class="q-mr-lg"
-                    />
+                      :columns="kategori.columns"
+                      row-key="name"
+                    >
 
-                    <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
-                      <template v-slot:append>
-                        <q-icon name="search" />
-                      </template>
-                    </q-input>
-                  </template>
+                    <template v-slot:top="props">
+                      <div class="col">
+                        <div class="col-2 q-table__title">Master Data Kategori Produk</div>
+                        <p class="text-caption">Data kategori produk yang terdaftar di dalam sistem salsafical.</p>
+                      </div>
 
-                  <template v-slot:header="props">
-                    <q-tr :props="props">
-                      <q-th auto-width />
-                      <q-th
-                        v-for="col in props.cols"
-                        :key="col.name"
-                        :props="props"
-                      >
-                        {{ col.label }}
-                      </q-th>
-                    </q-tr>
-                  </template>
+                      <q-space />
 
-                  <template v-slot:body="props">
-                    <q-tr :props="props">
-                      <q-td auto-width>
-                        <q-btn size="sm" color="accent" round dense @click="props.expand = !props.expand" :icon="props.expand ? 'remove' : 'add'" />
-                      </q-td>
-                      <q-td
-                        v-for="col in props.cols"
-                        :key="col.name"
-                        :props="props"
-                      >
-                        {{ col.value }}
-                      </q-td>
-                    </q-tr>
-                    <q-tr v-show="props.expand" :props="props">
-                      <q-td colspan="100%">
-                        <div class="text-left">This is expand slot for row above: {{ props.row.name }}.</div>
-                      </q-td>
-                    </q-tr>
-                  </template>
+                      <q-btn
+                        flat round dense
+                        :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
+                        @click="props.toggleFullscreen"
+                        class="q-ml-md"
+                      />
+                      <q-btn
+                        dense
+                        icon="add"
+                        class="q-ml-md q-pr-md"
+                        color="blue-13"
+                        :to="{ name: 'product_kategori_add' }"
+                        label="Tambah Kategori Produk"
+                        no-caps
+                      />
+                    </template>
 
-                </q-table>
+                    <template v-slot:body="props">
+                      <q-tr :props="props">
+                        <q-td key="type_id" :props="props">
+                          {{ props.row.type_id }}
+                        </q-td>
+                        <q-td key="name" :props="props">
+                          {{ props.row.name }}
+                        </q-td>
+                        <q-td key="aksi" :props="props">
+                          <q-btn color="primary" icon="edit" label="Edit" no-caps flat/>
+                          <q-btn color="red" icon="delete" label="Hapus" @click="this.delete(props.row._id)" no-caps flat/>
+                        </q-td>
+                      </q-tr>
+                    </template>
+
+                  </q-table>
+                </q-card-section>
               </q-card-section>
-            </q-card-section>
-          </q-card>
-        </div>
+            </q-card>
+          </div>
 
         </div>
 
@@ -316,99 +232,142 @@
 </template>
 
 <script>
-import { ref, defineComponent } from 'vue'
-import { exportFile, useQuasar } from 'quasar'
+import { exportFile } from 'quasar'
 
-export default defineComponent({
+export default {
   name: 'PageIndex',
-  setup () {
-    const $q = useQuasar()
+  data () {
     return {
-      filter: ref(''),
-      columns,
-      rows,
-      exportTable () {
-        // naive encoding to csv format
-        const content = [columns.map(col => wrapCsvValue(col.label))].concat(
-          rows.map(row => columns.map(col => wrapCsvValue(
-            typeof col.field === 'function'
-              ? col.field(row)
-              : row[col.field === void 0 ? col.name : col.field],
-            col.format
-          )).join(','))
-        ).join('\r\n')
-
-        const status = exportFile(
-          'table-export.csv',
-          content,
-          'text/csv'
-        )
-
-        if (status !== true) {
-          $q.notify({
-            message: 'Browser denied file download...',
-            color: 'negative',
-            icon: 'warning'
-          })
-        }
+      filter: null,
+      product: {
+        columns: [
+          { name: 'produt_id', required: true, label: 'Product_ID', align: 'left', field: 'produt_id', sortable: true },
+          { name: 'namaProduk', required: true, label: 'Nama Produk', align: 'left', field: 'namaProduk', sortable: true },
+          { name: 'kategori', required: true, label: 'Kategori', align: 'left', field: 'kategori', sortable: true },
+          { name: 'jenis', required: true, label: 'Jenis', align: 'left', field: 'jenis', sortable: true },
+          { name: 'hpp', required: true, label: 'HPP', align: 'left', field: 'hpp', sortable: true },
+          { name: 'hargaModal', required: true, label: 'Harga Modal', align: 'left', field: 'hargaModal', sortable: true },
+          { name: 'hargaJual', required: true, label: 'Harga Jual', align: 'left', field: 'hargaJual', sortable: true },
+          { name: 'stok', required: true, label: 'Stok', align: 'left', field: 'stok', sortable: true },
+          { name: 'foto', required: true, label: 'Foto Produk', align: 'left', field: 'foto', sortable: true },
+          { name: 'keterangan', required: true, label: 'Keterangan', align: 'left', field: 'keterangan', sortable: true },
+          { name: 'aksi', label: 'aksi', field: 'aksi', align: 'center' }
+        ],
+        rows: []
+      },
+      jenis: {
+        columns: [
+          { name: 'type_id', required: true, label: 'ID', align: 'left', field: 'type_id', sortable: true },
+          { name: 'name', required: true, label: 'Nama Jenis', align: 'left', field: 'name', sortable: true },
+          { name: 'aksi', label: 'aksi', field: 'aksi', align: 'center' }
+        ],
+        rows: []
+      },
+      kategori: {
+        columns: [
+          { name: 'type_id', required: true, label: 'ID', align: 'left', field: 'type_id', sortable: true },
+          { name: 'name', required: true, label: 'Nama Kategori', align: 'left', field: 'name', sortable: true },
+          { name: 'aksi', label: 'aksi', field: 'aksi', align: 'center' }
+        ],
+        rows: []
       }
     }
-  }
-})
-
-function wrapCsvValue (val, formatFn) {
-  let formatted = formatFn !== void 0
-    ? formatFn(val)
-    : val
-
-  formatted = formatted === void 0 || formatted === null
-    ? ''
-    : String(formatted)
-
-  formatted = formatted.split('"').join('""')
-  /**
-   * Excel accepts \n and \r in strings, but some other CSV parsers do not
-   * Uncomment the next two lines to escape new lines
-   */
-  // .split('\n').join('\\n')
-  // .split('\r').join('\\r')
-
-  return `"${formatted}"`
-}
-
-const columns = [
-  { name: 'name', required: true, label: 'Dessert (100g serving)', align: 'left', field: row => row.name, format: val => `${val}`, sortable: true },
-  { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-  { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
-  { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
-  { name: 'protein', label: 'Protein (g)', field: 'protein' },
-  { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-  { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-  { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
-]
-
-const rows = [
-  {
-    name: 'Frozen Yogurt',
-    calories: 159,
-    fat: 6.0,
-    carbs: 24,
-    protein: 4.0,
-    sodium: 87,
-    calcium: '14%',
-    iron: '1%'
   },
-  {
-    name: 'Ice cream sandwich',
-    calories: 237,
-    fat: 9.0,
-    carbs: 37,
-    protein: 4.3,
-    sodium: 129,
-    calcium: '8%',
-    iron: '1%'
+  created () {
+    this.getJenis()
+    this.getKategori()
+  },
+  methods: {
+    getJenis () {
+      try {
+        this.$api.get('type/gettype/' + 'Jenis').then(res => {
+          if (res.data.status !== true) {
+            this.$showNotif(res.data.message, 'negative')
+          } else {
+            this.jenis.rows = res.data.result
+          }
+        })
+      } catch (e) {
+        console.log(e)
+        this.$showNotif('Terjadi kesalahan !', 'negative')
+      }
+    },
+    getKategori () {
+      try {
+        this.$api.get('type/gettype/' + 'Kategori').then(res => {
+          if (res.data.status !== true) {
+            this.$showNotif(res.data.message, 'negative')
+          } else {
+            this.kategori.rows = res.data.result
+          }
+        })
+      } catch (e) {
+        console.log(e)
+        this.$showNotif('Terjadi kesalahan !', 'negative')
+      }
+    },
+    delete (id) {
+      try {
+        this.$api.delete('type/deletetype/' + id).then(res => {
+          if (res.data.status !== true) {
+            this.$showNotif(res.data.message, 'negative')
+          } else {
+            this.getJenis()
+            this.getKategori()
+            this.$showNotif(res.data.message, 'positive')
+          }
+        })
+      } catch (e) {
+        console.log(e)
+        this.$showNotif('Terjadi kesalahan !', 'negative')
+      }
+    },
+    exportTable () {
+      // naive encoding to csv format
+      const content = [this.columns.map(col => this.wrapCsvValue(col.label))].concat(
+        this.rows.map(row => this.columns.map(col => this.wrapCsvValue(
+          typeof col.field === 'function'
+            ? col.field(row)
+            : row[col.field === void 0 ? col.name : col.field],
+          col.format
+        )).join(','))
+      ).join('\r\n')
+
+      const status = exportFile(
+        'table-export.csv',
+        content,
+        'text/csv'
+      )
+
+      if (status !== true) {
+        this.$notify({
+          message: 'Browser denied file download...',
+          color: 'negative',
+          icon: 'warning'
+        })
+      }
+    },
+    wrapCsvValue (val, formatFn) {
+      let formatted = formatFn !== void 0
+        ? formatFn(val)
+        : val
+
+      formatted = formatted === void 0 || formatted === null
+        ? ''
+        : String(formatted)
+
+      formatted = formatted.split('"').join('""')
+      /**
+       * Excel accepts \n and \r in strings, but some other CSV parsers do not
+       * Uncomment the next two lines to escape new lines
+       */
+      // .split('\n').join('\\n')
+      // .split('\r').join('\\r')
+
+      return `"${formatted}"`
+    }
   }
-]
+}
 </script>
 
 <style scoped>
