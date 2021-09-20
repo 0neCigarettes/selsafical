@@ -226,7 +226,7 @@ export default {
       filter: null,
       product: {
         columns: [
-          { name: 'produt_id', required: true, label: 'Product_ID', align: 'left', field: 'produt_id', sortable: true },
+          { name: 'produt_id', required: true, label: 'ID_Produk', align: 'left', field: 'produt_id', sortable: true },
           { name: 'namaProduk', required: true, label: 'Nama Produk', align: 'left', field: 'namaProduk', sortable: true },
           { name: 'kategori', required: true, label: 'Kategori', align: 'left', field: 'kategori', sortable: true },
           { name: 'jenis', required: true, label: 'Jenis', align: 'left', field: 'jenis', sortable: true },
@@ -236,21 +236,21 @@ export default {
           { name: 'stok', required: true, label: 'Stok', align: 'left', field: 'stok', sortable: true },
           { name: 'foto', required: true, label: 'Foto Produk', align: 'left', field: 'foto', sortable: true },
           { name: 'keterangan', required: true, label: 'Keterangan', align: 'left', field: 'keterangan', sortable: true },
-          { name: 'aksi', label: 'aksi', field: 'aksi', align: 'center' }
+          { name: 'aksi', label: 'aksi', field: 'Aksi', align: 'center' }
         ],
         rows: []
       },
       jenis: {
         columns: [
-          { name: 'type_id', required: true, label: 'ID', align: 'left', field: 'type_id', sortable: true },
+          { name: 'type_id', required: true, label: 'ID_Jenis', align: 'left', field: 'type_id', sortable: true },
           { name: 'name', required: true, label: 'Nama Jenis', align: 'left', field: 'name', sortable: true },
-          { name: 'aksi', label: 'aksi', field: 'aksi', align: 'center' }
+          { name: 'aksi', label: 'aksi', field: 'Aksi', align: 'center' }
         ],
         rows: []
       },
       kategori: {
         columns: [
-          { name: 'type_id', required: true, label: 'ID', align: 'left', field: 'type_id', sortable: true },
+          { name: 'type_id', required: true, label: 'ID_Kategori', align: 'left', field: 'type_id', sortable: true },
           { name: 'name', required: true, label: 'Nama Kategori', align: 'left', field: 'name', sortable: true },
           { name: 'aksi', label: 'aksi', field: 'aksi', align: 'center' }
         ],
