@@ -59,39 +59,44 @@
                     <div class="col">
                       <q-field
                         filled
+                        dense
+                        lazy-rules
                         v-model="hpp_product"
-                        label="Price with v-money directive"
-                        hint="Mask: $ #,###.00 #"
+                        label="HPP"
                       >
                         <template v-slot:control="{ id, floatingLabel, value, emitValue }">
-                          <input :id="id" class="q-field__input text-right" :model-value="value" @change="e => emitValue(e.target.value)" v-money="moneyFormatForDirective" v-show="floatingLabel">
+                          <input :id="id" class="q-field__input" :model-value="value" @change="e => emitValue(e.target.value)" v-money="moneyFormatForDirective" v-show="floatingLabel">
                         </template>
                       </q-field>
                     </div>
                     <div class="col">
-                      <q-input
-                        v-model.lazy="hargajual"
-                        v-money="money"
+                      <q-field
                         filled
-                        label="Harga jual"
-                        lazy-rules
                         dense
-                        :rules="[ val => val && val.length > 0 || 'Lengkapi data harga jual']"
-                      />
+                        lazy-rules
+                        v-model="hargajual"
+                        label="Harga jual"
+                      >
+                        <template v-slot:control="{ id, floatingLabel, value, emitValue }">
+                          <input :id="id" class="q-field__input" :model-value="value" @change="e => emitValue(e.target.value)" v-money="moneyFormatForDirective" v-show="floatingLabel">
+                        </template>
+                      </q-field>
                     </div>
                   </div>
 
-                  <div class="row q-gutter-sm">
+                  <div class="row q-mt-md q-gutter-sm">
                     <div class="col">
-                      <q-input
-                        v-model.lazy="hargamodal"
-                        v-money="money"
+                      <q-field
                         filled
-                        label="Harga modal"
-                        lazy-rules
                         dense
-                        :rules="[ val => val && val.length > 0 || 'Lengkapi data harga modal']"
-                      />
+                        lazy-rules
+                        v-model="hargamodal"
+                        label="Harga modal"
+                      >
+                        <template v-slot:control="{ id, floatingLabel, value, emitValue }">
+                          <input :id="id" class="q-field__input" :model-value="value" @change="e => emitValue(e.target.value)" v-money="moneyFormatForDirective" v-show="floatingLabel">
+                        </template>
+                      </q-field>
                     </div>
                     <div class="col">
                       <q-input
@@ -216,8 +221,12 @@ export default {
     return {
       hargamodal: null,
       moneyFormatForDirective: {
+        decimal: ',',
+        thousands: '.',
         prefix: 'IDR ',
-        masked: false /* doesn't work with directive */
+        precision: 0,
+        masked: true,
+        locale: 'id-IDR'
       },
       hargajual: null,
       id_product: 'ID-981198',
