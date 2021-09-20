@@ -36,7 +36,7 @@
                   <q-btn flat round color="primary" icon="search" @click="visible = !visible" size="md" class="q-mr-sm" />
                   <q-slide-transition>
                     <div v-show="visible">
-                      <q-input outlined debounce="300" placeholder="Placeholder" style="width:300px" color="primary" v-model="filter" dense />
+                      <q-input outlined debounce="300" placeholder="Cari.." style="width:300px" color="primary" v-model="filter" dense />
                     </div>
                   </q-slide-transition>
                   <q-btn
@@ -114,7 +114,6 @@
                       flat
                       :columns="jenis.columns"
                       row-key="name"
-                      :filter="filter"
                     >
 
                     <template v-slot:top>

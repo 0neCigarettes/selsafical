@@ -1,4 +1,3 @@
-/* eslint-disable */
 <template>
   <q-page class="q-pr-md q-pl-md q-pa-md">
     <div class="col col-lg-12 col-md-6 col-sm-8 col-xs-10 q-pt-md">
