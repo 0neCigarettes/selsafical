@@ -232,7 +232,7 @@
 </template>
 
 <script>
-import { exportFile } from 'quasar'
+import { exportFile, useQuasar } from 'quasar'
 
 export default {
   name: 'PageIndex',

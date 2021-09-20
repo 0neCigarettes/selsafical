@@ -418,17 +418,16 @@
 </template>
 
 <script>
-import { ref, defineComponent } from 'vue'
 
-export default defineComponent({
+export default {
   name: 'PageIndex',
   setup () {
     return {
-      tab: ref('usaha'),
-      splitterModel: ref(10)
+      tab: 'usaha',
+      splitterModel: 10
     }
   }
-})
+}
 </script>
 
 <style scoped>

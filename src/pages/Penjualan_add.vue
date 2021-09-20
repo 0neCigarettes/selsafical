@@ -12,7 +12,7 @@
 
       <div class="row q-mt-lg q-gutter-md">
 
-        <div class="row col fit">
+        <div class="row col-7">
           <q-card class="my-card col" flat bordered>
             <q-card-section horizontal>
               <q-card-section class="col q-pa-lg">
@@ -26,7 +26,7 @@
                     <div class="col">
                       <q-input
                         filled
-                        v-model="id_product"
+                        v-model="id_penjualan"
                         label="Penjualan ID"
                         lazy-rules
                         dense
@@ -35,97 +35,109 @@
                       />
                     </div>
                     <div class="col">
-                      <q-select
-                        filled
-                        v-model="nama_product"
-                        use-input
-                        input-debounce="0"
-                        label="Nama product"
-                        :options="options"
-                        @filter="filterFn"
-                        outlined
-                        dense
-                        lazy-rules
-                        behavior="menu"
-                      >
-                        <template v-slot:no-option>
-                          <q-item>
-                            <q-item-section class="text-grey">
-                              No results
-                            </q-item-section>
-                          </q-item>
-                        </template>
-                      </q-select>
+                    </div>
+                    <div class="col">
+                    </div>
+                  </div>
+
+                  <div class="form-group" v-for="(input,k) in inputs" :key="k">
+                    <div class="row q-gutter-sm">
+                      <div class="col">
+                        <q-select
+                          filled
+                          v-model="input.nama_product"
+                          use-input
+                          input-debounce="0"
+                          label="Nama product"
+                          :options="options"
+                          @filter="filterFn"
+                          outlined
+                          dense
+                          lazy-rules
+                          behavior="menu"
+                        >
+                          <template v-slot:no-option>
+                            <q-item>
+                              <q-item-section class="text-grey">
+                                No results
+                              </q-item-section>
+                            </q-item>
+                          </template>
+                        </q-select>
+                      </div>
+                      <div class="col">
+                        <q-input
+                          filled
+                          v-model="input.kategori_product"
+                          label="Kategori product"
+                          lazy-rules
+                          dense
+                          readonly
+                          :rules="[ val => val && val.length > 0 || 'Please type something']"
+                        />
+                      </div>
+                      <div class="col">
+                        <q-input
+                          filled
+                          v-model="input.jenis_product"
+                          label="Jenis product"
+                          lazy-rules
+                          dense
+                          readonly
+                          :rules="[ val => val && val.length > 0 || 'Please type something']"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="row q-gutter-sm">
+                      <div class="col">
+                        <q-input
+                          filled
+                          v-model="input.harga_jual"
+                          label="Harga jual"
+                          lazy-rules
+                          dense
+                          readonly
+                          :rules="[ val => val && val.length > 0 || 'Lengkapi data harga jual']"
+                        />
+                      </div>
+                      <div class="col">
+                        <q-input
+                          filled
+                          v-model="input.jumlah_penjualan"
+                          label="Jumlah penjualan"
+                          lazy-rules
+                          dense
+                          :rules="[ val => val && val.length > 0 || 'Lengkapi data harga modal']"
+                        />
+                      </div>
+                      <div class="col">
+                        <q-input
+                          filled
+                          v-model="input.total_penjualan"
+                          label="Total penjualan"
+                          lazy-rules
+                          dense
+                          readonly
+                          :rules="[ val => val && val.length > 0 || 'Lengkapi data harga jual']"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="row q-gutter-sm q-mb-md">
+                      <div class="col">
+                        <q-btn size="md" label="Tambah" class="q-mr-md" icon="add" type="submit" color="green" @click="add(k)" v-show="k == inputs.length-1" />
+                        <q-btn size="md" label="Hapus" icon="delete_outline" type="submit" color="red" @click="remove(k)" v-show="k || ( !k && inputs.length > 1)" />
+                      </div>
+                      <div class="col">
+                      </div>
                     </div>
                   </div>
 
                   <div class="row q-gutter-sm">
-                    <div class="col">
-                      <q-input
-                        filled
-                        v-model="kategori_product"
-                        label="Kategori product"
-                        lazy-rules
-                        dense
-                        readonly
-                        :rules="[ val => val && val.length > 0 || 'Please type something']"
-                      />
-                    </div>
-                    <div class="col">
-                      <q-input
-                        filled
-                        v-model="jenis_product"
-                        label="Jenis product"
-                        lazy-rules
-                        dense
-                        readonly
-                        :rules="[ val => val && val.length > 0 || 'Please type something']"
-                      />
-                    </div>
-                  </div>
-
-                  <div class="row q-gutter-sm">
-                    <div class="col">
-                      <q-input
-                        filled
-                        v-model="harga_jual"
-                        label="Harga jual"
-                        lazy-rules
-                        dense
-                        readonly
-                        :rules="[ val => val && val.length > 0 || 'Lengkapi data harga jual']"
-                      />
-                    </div>
-                    <div class="col">
-                      <q-input
-                        filled
-                        v-model="jumlah_penjualan"
-                        label="Jumlah penjualan"
-                        lazy-rules
-                        dense
-                        :rules="[ val => val && val.length > 0 || 'Lengkapi data harga modal']"
-                      />
-                    </div>
-                  </div>
-
-                  <div class="row q-gutter-sm">
-                    <div class="col">
-                      <q-input
-                        filled
-                        v-model="total_penjualan"
-                        label="Total penjualan"
-                        lazy-rules
-                        dense
-                        readonly
-                        :rules="[ val => val && val.length > 0 || 'Lengkapi data harga jual']"
-                      />
-                    </div>
                     <div class="col">
                       <q-select outlined v-model="status_penjualan" dense lazy-rules filled :options="options_status" label="Status penjualan" />
                     </div>
-                  </div>
-
-                  <div class="row q-gutter-sm">
                     <div class="col">
                       <q-input
                         filled
@@ -136,6 +148,9 @@
                         :rules="[ val => val && val.length > 0 || 'Lengkapi data pelanggan']"
                       />
                     </div>
+                  </div>
+
+                  <div class="row q-gutter-sm">
                     <div class="col">
                       <q-input
                         filled
@@ -146,9 +161,6 @@
                         :rules="[ val => val && val.length > 0 || 'Lengkapi data nomor telepon']"
                       />
                     </div>
-                  </div>
-
-                  <div class="row q-gutter-sm">
                     <div class="col">
                       <q-input
                         filled
@@ -159,15 +171,25 @@
                         :rules="[ val => val && val.length > 0 || 'Lengkapi data alamat penagihan']"
                       />
                     </div>
+                  </div>
+
+                  <div class="row q-gutter-sm">
                     <div class="col">
-                      <q-input
-                        filled
-                        v-model="jatuh_tempo"
-                        label="Tanggal jatuh tempo"
-                        lazy-rules
-                        dense
-                        :rules="[ val => val && val.length > 0 || 'Lengkapi data tanggal jatuh tempo']"
-                      />
+                      <q-input filled v-model="date" mask="date" :rules="['date']" dense label="Tanggal jatuh tempo">
+                        <template v-slot:append>
+                          <q-icon name="event" class="cursor-pointer">
+                            <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                              <q-date v-model="date">
+                                <div class="row items-center justify-end">
+                                  <q-btn v-close-popup label="Close" color="primary" flat />
+                                </div>
+                              </q-date>
+                            </q-popup-proxy>
+                          </q-icon>
+                        </template>
+                      </q-input>
+                    </div>
+                    <div class="col">
                     </div>
                   </div>
 
@@ -239,7 +261,6 @@
 <script>
 import Lottie from 'components/lottie'
 import * as animationData from 'assets/lottie.json'
-import { ref } from 'vue'
 
 const stringOptionsNamaProduct = [
   'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
@@ -250,16 +271,24 @@ export default {
     lottie: Lottie
   },
   data () {
-    const options = ref(stringOptionsNamaProduct)
+    const options = stringOptionsNamaProduct
     return {
-      id_product: 'ID-981198',
-      kategori_product: null,
-      jenis_product: null,
-      nama_product: null,
+      inputs: [
+        {
+          nama_product: '',
+          kategori_product: '',
+          jenis_product: '',
+          harga_jual: '',
+          jumlah_penjualan: '',
+          total_penjualan: ''
+        }
+      ],
+      id_penjualan: 'ID-981198',
       options,
-      hpp_product: null,
-      harga_jual: null,
-      harga_modal: null,
+      date: null,
+      alamat_penagihan: null,
+      nomor_telepon: null,
+      pelanggan: null,
       keterangan_product: null,
       options_kategori: [
         'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
@@ -285,8 +314,7 @@ export default {
         })
       },
       defaultOptions: { animationData: animationData.default },
-      animationSpeed: 2,
-      images: null
+      animationSpeed: 2
     }
   },
   methods: {
@@ -310,6 +338,19 @@ export default {
     },
     onReset () {
 
+    },
+    add (index) {
+      this.inputs.push({
+        nama_product: '',
+        kategori_product: '',
+        jenis_product: '',
+        harga_jual: '',
+        jumlah_penjualan: '',
+        total_penjualan: ''
+      })
+    },
+    remove (index) {
+      this.inputs.splice(index, 1)
     }
   }
 }

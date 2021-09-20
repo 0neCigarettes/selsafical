@@ -707,11 +707,10 @@
 </template>
 
 <script>
-import { ref, defineComponent } from 'vue'
 import Vue3autocounter from 'vue3-autocounter'
 import { exportFile, useQuasar } from 'quasar'
 
-export default defineComponent({
+export default {
   name: 'PageIndex',
   components: {
     'vue3-autocounter': Vue3autocounter
@@ -719,11 +718,11 @@ export default defineComponent({
   setup () {
     const $q = useQuasar()
     return {
-      filter: ref(''),
+      filter: null,
       columns,
       rows,
-      tabs: ref('produk'),
-      splitterModel: ref(5),
+      tabs: 'produk',
+      splitterModel: 5,
       exportTable () {
         // naive encoding to csv format
         const content = [columns.map(col => wrapCsvValue(col.label))].concat(
@@ -751,7 +750,7 @@ export default defineComponent({
       }
     }
   }
-})
+}
 
 function wrapCsvValue (val, formatFn) {
   let formatted = formatFn !== void 0
