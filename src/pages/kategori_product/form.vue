@@ -5,7 +5,7 @@
         <q-breadcrumbs separator="---" class="text-blue-10" active-color="secondary">
           <q-breadcrumbs-el label="Main Menu" icon="widgets" />
           <q-breadcrumbs-el label="Produk" icon="emoji_events" />
-          <q-breadcrumbs-el v-if="this.editMode === true" label="Edit Kategori Produk" icon="edit" />
+          <q-breadcrumbs-el v-if="this.editMode" label="Edit Kategori Produk" icon="edit" />
           <q-breadcrumbs-el v-else label="Tambah Kategori Produk" icon="add" />
         </q-breadcrumbs>
       </q-card>
@@ -48,7 +48,7 @@
 
                   <div>
                     <q-btn label="Submit" outline type="submit" color="green" style="width:150px" />
-                    <q-btn label="Cancel" v-if="this.editMode === true" type="reset" color="red" outline class="q-ml-sm" style="width:150px" />
+                    <q-btn label="Cancel" v-if="this.editMode" type="reset" color="red" outline class="q-ml-sm" style="width:150px" />
                     <q-btn label="Reset" v-else type="reset" color="red" outline class="q-ml-sm" style="width:150px" />
                   </div>
                 </q-form>
