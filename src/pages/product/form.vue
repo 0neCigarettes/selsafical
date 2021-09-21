@@ -61,6 +61,7 @@
                         filled
                         dense
                         lazy-rules
+                        prefix="IDR "
                         v-model="form.hpp_product"
                         label="HPP"
                       >
@@ -73,6 +74,7 @@
                       <q-field
                         filled
                         dense
+                        prefix="IDR "
                         lazy-rules
                         v-model="form.hargajual"
                         label="Harga jual"
@@ -90,6 +92,7 @@
                         filled
                         dense
                         lazy-rules
+                        prefix="IDR "
                         readonly
                         v-model="form.keuntungan"
                         label="Keuntungan per product"
@@ -242,10 +245,8 @@ export default {
       moneyFormatForDirective: {
         decimal: ',',
         thousands: '.',
-        prefix: 'IDR ',
         precision: 0,
-        masked: true,
-        locale: 'id-IDR'
+        masked: false
       },
       defaultOptions: { animationData: animationData.default },
       animationSpeed: 2
@@ -295,7 +296,7 @@ export default {
             kategori: this.form.kategori_product,
             jenis: this.form.jenis_product,
             hpp: this.form.hpp_product,
-            harga_jual: this.form.harga_jual,
+            harga_jual: this.form.hargajual,
             keuntungan_per_product: this.form.keuntungan,
             keterangan: this.form.keterangan_product
           }))
