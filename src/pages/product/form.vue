@@ -5,7 +5,8 @@
         <q-breadcrumbs separator="---" class="text-blue-10" active-color="secondary">
           <q-breadcrumbs-el label="Main Menu" icon="widgets" />
           <q-breadcrumbs-el label="Produk" icon="emoji_events" />
-          <q-breadcrumbs-el label="Tambah Produk" icon="add" />
+          <q-breadcrumbs-el v-if="this.editMode" label="Edit Produk" icon="edit" />
+          <q-breadcrumbs-el v-else label="Tambah Produk" icon="add" />
         </q-breadcrumbs>
       </q-card>
 
@@ -16,8 +17,8 @@
             <q-card-section horizontal>
               <q-card-section class="col q-pa-lg">
                 <div class="col">
-                  <div class="col-2 q-table__title">Tambah Data Produk</div>
-                  <p class="text-caption">Form input data produk salsafical.</p>
+                  <div class="col-2 q-table__title">{{this.title}} Data Produk</div>
+                  <p class="text-caption">Form {{this.title}} data produk salsafical.</p>
                 </div>
                 <q-form @submit="onSubmit" @reset="onReset">
 
@@ -25,7 +26,7 @@
                     <div class="col">
                       <q-input
                         filled
-                        v-model="id_product"
+                        v-model="form.id_product"
                         label="Product ID"
                         lazy-rules
                         dense
@@ -36,7 +37,7 @@
                     <div class="col">
                       <q-input
                         filled
-                        v-model="name_produk"
+                        v-model="form.name_produk"
                         label="Nama produk"
                         lazy-rules
                         dense
@@ -47,10 +48,10 @@
 
                   <div class="row q-gutter-sm">
                     <div class="col">
-                      <q-select outlined v-model="kategori_product" dense lazy-rules filled :options="options_kategori" label="Kategori" />
+                      <q-select outlined v-model="form.kategori_product" dense lazy-rules filled :options="options.options_kategori" label="Kategori" />
                     </div>
                     <div class="col">
-                      <q-select outlined v-model="jenis_product" dense lazy-rules filled :options="options_jenis" label="Jenis barang" />
+                      <q-select outlined v-model="form.jenis_product" dense lazy-rules filled :options="options.options_jenis" label="Jenis barang" />
                     </div>
                   </div>
 
@@ -60,7 +61,7 @@
                         filled
                         dense
                         lazy-rules
-                        v-model="hpp_product"
+                        v-model="form.hpp_product"
                         label="HPP"
                       >
                         <template v-slot:control="{ id, floatingLabel, value, emitValue }">
@@ -73,7 +74,7 @@
                         filled
                         dense
                         lazy-rules
-                        v-model="hargajual"
+                        v-model="form.hargajual"
                         label="Harga jual"
                       >
                         <template v-slot:control="{ id, floatingLabel, value, emitValue }">
@@ -89,18 +90,19 @@
                         filled
                         dense
                         lazy-rules
-                        v-model="hargamodal"
-                        label="Harga modal"
+                        readonly
+                        v-model="form.keuntungan"
+                        label="Keuntungan per product"
                       >
                         <template v-slot:control="{ id, floatingLabel, value, emitValue }">
-                          <input :id="id" class="q-field__input" :model-value="value" @change="e => emitValue(e.target.value)" v-money="moneyFormatForDirective" v-show="floatingLabel">
+                          <input readonly :id="id" class="q-field__input" :model-value="value" @change="e => emitValue(e.target.value)" v-money="moneyFormatForDirective" v-show="floatingLabel">
                         </template>
                       </q-field>
                     </div>
                     <div class="col">
                       <q-input
                         filled
-                        v-model="stok_produk"
+                        v-model="form.stok_produk"
                         label="Stok produk"
                         lazy-rules
                         dense
@@ -111,13 +113,9 @@
 
                   <div class="row q-gutter-sm">
                     <div class="col">
-                      <q-file filled bottom-slots dense v-model="images" label="Foto produk" counter max-files="12">
+                      <q-file filled bottom-slots dense v-model="form.image" label="Foto produk" >
                         <template v-slot:before>
-                          <q-icon name="folder_open" />
-                        </template>
-
-                        <template v-slot:hint>
-                          Field hint
+                          <q-icon name="collections" />
                         </template>
 
                         <template v-slot:append>
@@ -132,7 +130,7 @@
                   <div class="row q-py-sm q-gutter-sm">
                     <div class="col">
                       <q-input
-                        v-model="keterangan_product"
+                        v-model="form.keterangan_product"
                         filled
                         dense
                         label="Keterangan"
@@ -165,7 +163,7 @@
                     <lottie :options="defaultOptions" v-on:animCreated="handleAnimation" style="height: 250px" />
                   </div>
                   <div class="col">
-                    <q-timeline :layout="layout" :side="side" color="secondary">
+                    <q-timeline color="secondary">
 
                       <q-timeline-entry subtitle="Tahap I" side="left">
                         <div>
@@ -221,7 +219,26 @@ export default {
   },
   data () {
     return {
-      hargamodal: null,
+      form: {
+        id_product: 'ID-' + Math.floor(Math.random() * 100000000),
+        name_produk: null,
+        kategori_product: null,
+        jenis_product: null,
+        hpp_product: null,
+        hargajual: null,
+        keuntungan: null,
+        stok_produk: null,
+        image: null,
+        keterangan_product: null
+      },
+      options: {
+        options_kategori: [
+          'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
+        ],
+        options_jenis: [
+          'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
+        ]
+      },
       moneyFormatForDirective: {
         decimal: ',',
         thousands: '.',
@@ -230,26 +247,16 @@ export default {
         masked: true,
         locale: 'id-IDR'
       },
-      hargajual: null,
-      id_product: 'ID-981198',
-      kategori_product: null,
-      jenis_product: null,
-      name_produk: null,
-      hpp_product: null,
-      keterangan_product: null,
-      stok_produk: null,
-      options_kategori: [
-        'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-      ],
-      options_jenis: [
-        'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-      ],
       defaultOptions: { animationData: animationData.default },
-      animationSpeed: 2,
-      images: null
+      animationSpeed: 2
     }
   },
   directives: { money: VMoney },
+  created () {
+    if (this.editMode) {
+      console.log(this.editMode)
+    }
+  },
   methods: {
     handleAnimation: function (anim) {
       this.anim = anim
@@ -267,7 +274,44 @@ export default {
       this.anim.setSpeed(this.animationSpeed)
     },
     onSubmit () {
-
+      try {
+        if (this.editMode) {
+          this.$api.put('type/updatetype/' + this.$route.params.id, {
+            name: this.name_kategori_produk
+          }).then(res => {
+            if (res.data.status !== true) {
+              this.$showNotif(res.data.message, 'negative')
+            } else {
+              this.$showNotif('Kategori produk berhasil diperbarui !', 'positive')
+              this.$router.push({ name: 'product' })
+            }
+          })
+        } else {
+          const formData = new FormData()
+          formData.append('foto', this.form.image)
+          formData.append('data', JSON.stringify({
+            product_id: this.form.id_product,
+            nama_product: this.form.name_produk,
+            kategori: this.form.kategori_product,
+            jenis: this.form.jenis_product,
+            hpp: this.form.hpp_product,
+            harga_jual: this.form.harga_jual,
+            keuntungan_per_product: this.form.keuntungan,
+            keterangan: this.form.keterangan_product
+          }))
+          this.$api.post('product/add', formData).then(res => {
+            if (res.data.status !== true) {
+              this.$showNotif(res.data.message, 'negative')
+            } else {
+              this.$showNotif('Produk berhasil diinput !', 'positive')
+              this.$router.push({ name: 'product' })
+            }
+          })
+        }
+      } catch (e) {
+        console.error(e)
+        this.$showNotif('Terjadi kesalahan !', 'negative')
+      }
     },
     onReset () {
 
