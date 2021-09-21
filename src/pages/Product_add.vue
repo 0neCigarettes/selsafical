@@ -89,11 +89,12 @@
                         filled
                         dense
                         lazy-rules
-                        v-model="hargamodal"
-                        label="Harga modal"
+                        readonly
+                        v-model="Keuntungan"
+                        label="Keuntungan per product"
                       >
                         <template v-slot:control="{ id, floatingLabel, value, emitValue }">
-                          <input :id="id" class="q-field__input" :model-value="value" @change="e => emitValue(e.target.value)" v-money="moneyFormatForDirective" v-show="floatingLabel">
+                          <input readonly :id="id" class="q-field__input" :model-value="value" @change="e => emitValue(e.target.value)" v-money="moneyFormatForDirective" v-show="floatingLabel">
                         </template>
                       </q-field>
                     </div>
@@ -113,7 +114,7 @@
                     <div class="col">
                       <q-file filled bottom-slots dense v-model="images" label="Foto produk" counter max-files="12">
                         <template v-slot:before>
-                          <q-icon name="folder_open" />
+                          <q-icon name="collections" />
                         </template>
 
                         <template v-slot:hint>
@@ -217,7 +218,7 @@ export default {
   },
   data () {
     return {
-      hargamodal: null,
+      Keuntungan: null,
       moneyFormatForDirective: {
         decimal: ',',
         thousands: '.',
