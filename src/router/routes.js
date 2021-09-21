@@ -15,7 +15,8 @@ const routes = [
     children: [
       { path: '', name: 'dashboard', component: () => import('pages/Index.vue') },
       { path: '/product', name: 'product', component: () => import('pages/Product.vue') },
-      { path: '/add', name: 'product_add', component: () => import('pages/Product_add.vue') },
+      { path: '/product/input', name: 'product_add', component: () => import('pages/product/input.vue') },
+      { path: '/product/edit/:id', name: 'product_edit', component: () => import('pages/product/edit.vue') },
       { path: '/kategoriproduk/input', name: 'product_kategori_add', component: () => import('pages/kategori_product/input.vue') },
       { path: '/kategoriproduk/edit/:id', name: 'product_kategori_edit', component: () => import('pages/kategori_product/edit.vue') },
       { path: '/jenisproduk/input', name: 'product_jenis_add', component: () => import('pages/jenis_product/input.vue') },

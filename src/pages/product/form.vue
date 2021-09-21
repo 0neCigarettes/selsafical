@@ -5,8 +5,7 @@
         <q-breadcrumbs separator="---" class="text-blue-10" active-color="secondary">
           <q-breadcrumbs-el label="Main Menu" icon="widgets" />
           <q-breadcrumbs-el label="Produk" icon="emoji_events" />
-          <q-breadcrumbs-el v-if="this.editMode" label="Edit Produk" icon="edit" />
-          <q-breadcrumbs-el v-else label="Tambah Produk" icon="add" />
+          <q-breadcrumbs-el label="Tambah Produk" icon="add" />
         </q-breadcrumbs>
       </q-card>
 
@@ -17,8 +16,8 @@
             <q-card-section horizontal>
               <q-card-section class="col q-pa-lg">
                 <div class="col">
-                  <div class="col-2 q-table__title">{{this.title}} Data Produk</div>
-                  <p class="text-caption">Form {{this.title}} data produk salsafical.</p>
+                  <div class="col-2 q-table__title">Tambah Data Produk</div>
+                  <p class="text-caption">Form input data produk salsafical.</p>
                 </div>
                 <q-form @submit="onSubmit" @reset="onReset">
 
@@ -216,6 +215,10 @@ export default {
   components: {
     lottie: Lottie
   },
+  props: {
+    editMode: Boolean,
+    title: String
+  },
   data () {
     return {
       hargamodal: null,
@@ -247,11 +250,6 @@ export default {
     }
   },
   directives: { money: VMoney },
-  created () {
-    if (this.editMode) {
-      console.log(this.editMode)
-    }
-  },
   methods: {
     handleAnimation: function (anim) {
       this.anim = anim
