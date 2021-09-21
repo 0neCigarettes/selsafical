@@ -198,7 +198,7 @@
                           {{ props.row.name }}
                         </q-td>
                         <q-td key="aksi" :props="props">
-                          <q-btn round outline color="green" size="sm" icon="edit" no-caps />
+                          <q-btn round outline color="green" size="sm" :to="{ name: 'product_kategori_edit', params: { id: props.row._id } }" icon="edit" no-caps />
                           <q-btn round outline color="red" size="sm" icon="delete" @click="this.delete(props.row._id)" no-caps class="q-ml-sm" />
                         </q-td>
                       </q-tr>
