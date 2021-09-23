@@ -114,7 +114,7 @@ export default {
   },
   data () {
     return {
-      id_jenis_product: 'ID-' + Math.floor(Math.random() * 100000000),
+      id_jenis_product: this.$generateId(),
       name_jenis_produk: null,
       defaultOptions: { animationData: animationData.default },
       animationSpeed: 2,

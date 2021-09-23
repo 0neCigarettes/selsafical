@@ -43,9 +43,14 @@ const parseDate = (date) => {
   return respon
 }
 
+const generateId = () => {
+  return 'ID-' + Math.floor(Math.random() * 100000000)
+}
+
 export default boot(({ app }) => {
   app.config.globalProperties.$showNotif = showNotif
   app.config.globalProperties.$dialog = dialog
+  app.config.globalProperties.$generateId = generateId
   app.config.globalProperties.$formatPrice = formatPrice
   app.config.globalProperties.$parseDate = parseDate
 })

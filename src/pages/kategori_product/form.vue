@@ -114,7 +114,7 @@ export default {
   },
   data () {
     return {
-      id_kategori_product: 'ID-' + Math.floor(Math.random() * 100000000),
+      id_kategori_product: this.$generateId(),
       name_kategori_produk: null,
       defaultOptions: { animationData: animationData.default },
       animationSpeed: 2,

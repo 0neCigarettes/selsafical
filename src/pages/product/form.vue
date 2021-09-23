@@ -244,7 +244,7 @@ export default {
   data () {
     return {
       form: {
-        id_product: 'ID-' + Math.floor(Math.random() * 100000000),
+        id_product: this.$generateId(),
         name_produk: null,
         kategori_product: null,
         jenis_product: null,
