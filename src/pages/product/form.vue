@@ -102,7 +102,7 @@
                       <q-input
                         filled
                         v-model="form.hpp_product"
-                        label="Stok produk"
+                        label="HPP"
                         lazy-rules
                         dense
                         :rules="[ val => val && val.length > 0 || 'Lengkapi data stok produk']"
@@ -112,7 +112,7 @@
                       <q-input
                         filled
                         v-model="form.hargajual"
-                        label="Stok produk"
+                        label="Harga jual"
                         lazy-rules
                         dense
                         :rules="[ val => val && val.length > 0 || 'Lengkapi data stok produk']"
@@ -264,7 +264,12 @@ export default {
     this.getKategori()
     this.getJenis()
     if (this.editMode) {
-      console.log(this.editMode)
+      try {
+        this.$api.get('')
+      } catch (e) {
+        console.log(e.message)
+        this.$showNotif('Terjadi ke !', 'negative')
+      }
     }
   },
   methods: {
