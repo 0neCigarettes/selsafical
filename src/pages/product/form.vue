@@ -138,6 +138,11 @@
                         </template>
                       </q-file>
                     </div>
+                  </div>
+
+                  <div class="row q-gutter-sm">
+                    <div class="col">
+                    </div>
                     <div class="col">
                       <q-img v-if="this.editMode && this.oldImg !== null && this.form.image === null" :src="`${$imgUrl}/${oldImg}`"/>
                     </div>

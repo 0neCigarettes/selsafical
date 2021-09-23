@@ -10,9 +10,9 @@
         </q-breadcrumbs>
       </q-card>
 
-      <div class="row q-mt-lg q-gutter-md">
+      <div class="row q-mt-sm q-gutter-md">
 
-        <div class="row col-7">
+        <div class="row col fit">
           <q-card class="my-card col" flat bordered>
             <q-card-section horizontal>
               <q-card-section class="col q-pa-lg">
@@ -39,9 +39,6 @@
                     <div class="col">
                     </div>
                   </div>
-                  <!-- <q-btn @click="setVal(10)">a</q-btn> -->
-                  <!-- <q-input @change="setVal(2)" emit-value v-model="form.products[0].nama_produk"/> -->
-                  <!-- <q-select @click="setVal(10)" :options="['a']" v-model="form.products[0].nama_produk"></q-select> -->
                   <div v-for="(product, i) in form.products" :key="i">
                     <div class="row q-gutter-sm">
                       <div class="col">
@@ -67,57 +64,6 @@
                         </q-select>
                       </div>
                       <div class="col">
-                        <div>Kategori Produk</div>
-                        {{ product.nama_product ? product.nama_product.kategori : '-' }}
-                        <!-- <q-input
-                          filled
-                          v-model="product.nama_product.kategori"
-                          label="Kategori product"
-                          v-if="product.nama_product"
-                          readonly
-                          lazy-rules
-                          dense
-                          :rules="[ val => val && val.length > 0 || 'Please type something']"
-                        />
-                        <q-input
-                          filled
-                          v-else
-                          readonly
-                          v-model="product.kategori_product"
-                          label="Kategori product"
-                          lazy-rules
-                          dense
-                          :rules="[ val => val && val.length > 0 || 'Please type something']"
-                        /> -->
-                      </div>
-                      <div class="col">
-                        <div>Jenis Produk</div>
-                        {{ product.nama_product ? product.nama_product.jenis : '-' }}
-                        <!-- <q-input
-                          filled
-                          v-model="product.jenis_product"
-                          label="Jenis product"
-                          lazy-rules
-                          dense
-                          :rules="[ val => val && val.length > 0 || 'Please type something']"
-                        /> -->
-                      </div>
-                    </div>
-
-                    <div class="row q-gutter-sm">
-                      <div class="col">
-                        <div>Harga Jual</div>
-                        {{ product.nama_product ? product.nama_product.harga_jual : '-' }}
-                        <!-- <q-input
-                          filled
-                          v-model="product.harga_jual"
-                          label="Harga jual"
-                          lazy-rules
-                          dense
-                          :rules="[ val => val && val.length > 0 || 'Lengkapi data harga jual']"
-                        /> -->
-                      </div>
-                      <div class="col">
                         <q-input
                           filled
                           v-model="product.jumlah_penjualan"
@@ -127,24 +73,33 @@
                           :rules="[ val => val && val > 0 || 'Jumlah penjualan tidak boleh 0 / kosong !']"
                         />
                       </div>
+                    </div>
+
+                    <q-separator class="q-mt-xs q-mb-xs"/>
+
+                    <div class="row q-gutter-sm">
                       <div class="col">
-                        <div>Total</div>
-                        {{product.nama_product ? product.nama_product.harga_jual * product.jumlah_penjualan : 0 }}
-                        <!-- <q-input
-                          filled
-                          v-model="product.total_penjualan"
-                          label="Total penjualan"
-                          lazy-rules
-                          dense
-                          :rules="[ val => val && val.length > 0 || 'Lengkapi data harga jual']"
-                        /> -->
+                        <div class="text-caption text-h6 text-grey-6">Kategori Produk</div>
+                          {{ product.nama_product ? product.nama_product.kategori : '--' }}
+                      </div>
+                      <div class="col">
+                        <div class="text-caption text-h6 text-grey-6">Jenis Produk</div>
+                          {{ product.nama_product ? product.nama_product.jenis : '--' }}
+                      </div>
+                      <div class="col">
+                        <div class="text-caption text-h6 text-grey-6">Harga Jual</div>
+                          {{ this.$formatPrice(product.nama_product ? product.nama_product.harga_jual : '0') }}
+                      </div>
+                      <div class="col">
+                        <div class="text-caption text-h6 text-grey-6">Total</div>
+                          {{ this.$formatPrice(product.nama_product ? product.nama_product.harga_jual * product.jumlah_penjualan : 0) }}
                       </div>
                     </div>
 
-                    <div class="row q-gutter-sm q-mb-md">
+                    <div class="row q-gutter-sm q-mb-md q-mt-xs">
                       <div class="col">
-                        <q-btn size="md" label="Tambah" class="q-mr-md" icon="add" type="submit" color="green" @click="add(i)" v-show="i == form.products.length-1" />
-                        <q-btn size="md" label="Hapus" icon="delete_outline" type="submit" color="red" @click="remove(i)" v-show="i || ( !i && form.products.length > 1)" />
+                        <q-btn size="sm" outline class="q-mr-md" icon="add" type="submit" color="green" @click="add(i)" v-show="i == form.products.length-1" />
+                        <q-btn size="sm" outline icon="delete_outline" type="submit" color="red" @click="remove(i)" v-show="i || ( !i && form.products.length > 1)" />
                       </div>
                       <div class="col">
                       </div>
@@ -179,6 +134,11 @@
                       />
                     </div>
                     <div class="col">
+                    </div>
+                  </div>
+
+                  <div class="row q-gutter-sm" v-if="this.form.status_penjualan === 'Hutang'">
+                    <div class="col">
                       <q-input
                         filled
                         v-model="form.alamat_penagihan"
@@ -188,9 +148,6 @@
                         :rules="[ val => val && val.length > 0 || 'Lengkapi data alamat penagihan']"
                       />
                     </div>
-                  </div>
-
-                  <div class="row q-gutter-sm">
                     <div class="col">
                       <q-input filled v-model="form.tanggal_jatuh_tempo" mask="date" :rules="['date']" dense label="Tanggal jatuh tempo">
                         <template v-slot:append>
@@ -206,8 +163,6 @@
                         </template>
                       </q-input>
                     </div>
-                    <div class="col">
-                    </div>
                   </div>
 
                   <div>
@@ -220,7 +175,7 @@
           </q-card>
         </div>
 
-        <div class="row col">
+        <div class="row col fit">
           <q-card class="my-card col" flat bordered>
             <q-card-section horizontal>
               <q-card-section class="col q-pa-lg">
