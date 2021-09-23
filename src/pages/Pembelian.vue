@@ -12,7 +12,7 @@
       <div class="row q-mt-lg">
 
         <div class="row q-gutter-md col-12">
-          <q-card class="my-card col-lg-2 col-md-4 col-sm-7" flat bordered>
+          <q-card class="my-card col-lg-3 col-md-4 col-sm-7" flat bordered>
             <q-card-section horizontal>
               <q-card-section class="q-pt-xs">
                 <div class="text-h6 q-mt-sm" style="font-size: 14px">Data pembelian belum dibayar</div>
@@ -27,7 +27,7 @@
             </q-card-section>
           </q-card>
 
-          <q-card class="my-card col-lg-2 col-md-4 col-sm-7" flat bordered>
+          <q-card class="my-card col-lg-3 col-md-4 col-sm-7" flat bordered>
             <q-card-section horizontal>
               <q-card-section class="q-pt-xs">
                 <div class="text-h6 q-mt-sm" style="font-size: 14px">Data pembelian</div>
@@ -42,20 +42,6 @@
             </q-card-section>
           </q-card>
 
-          <q-card class="my-card col-lg-2 col-md-4 col-sm-7" flat bordered>
-            <q-card-section horizontal>
-              <q-card-section class="q-pt-xs">
-                <div class="text-h6 q-mt-sm" style="font-size: 14px">Pelunasan dalam 30 hari terakhir</div>
-                  <div class="text-caption text-grey" style="font-size:11px">
-                    berisi semua data pelunasan dalam 30 hari.
-                  </div>
-                  <div class="row items-center">
-                    <q-icon name="payments" />
-                    <div class="text-h6 q-ml-sm text-blue-13" style="font-size:12px"><vue3-autocounter ref='counter' :startAmount='0' :endAmount='1231' :duration='3' :autoinit='true' @finished='alert(`Counting finished!`)'/></div>
-                  </div>
-              </q-card-section>
-            </q-card-section>
-          </q-card>
         </div>
 
         <div class="row col-12 q-mt-md">

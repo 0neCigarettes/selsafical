@@ -66,13 +66,19 @@
                       {{ props.row.jenis }}
                     </q-td>
                     <q-td key="hpp" :props="props">
-                      {{ this.$formatPrice(props.row.hpp) }}
+                      <q-badge outline color="primary">
+                        {{ this.$formatPrice(props.row.hpp) }}
+                      </q-badge>
                     </q-td>
                     <q-td key="hargaJual" :props="props">
-                      {{ this.$formatPrice(props.row.harga_jual) }}
+                      <q-badge outline color="negative">
+                        {{ this.$formatPrice(props.row.harga_jual) }}
+                      </q-badge>
                     </q-td>
                     <q-td key="keuntungan" :props="props">
-                      {{ props.row.keuntungan_per_product }}
+                      <q-badge outline color="green">
+                        {{ this.$formatPrice(props.row.keuntungan_per_product) }}
+                      </q-badge>
                     </q-td>
                     <q-td key="stok" :props="props">
                       {{ props.row.stok }}
@@ -80,15 +86,15 @@
                     <q-td key="foto" :props="props">
                       <q-item clickable v-ripple>
                         <q-item-section side>
-                          <q-avatar rounded size="48px">
+                          <q-avatar rounded size="88px">
                             <q-img :src="`${$imgUrl}/${props.row.foto_product}`" />
-                            <q-badge floating color="teal">{{props.row.created_at}}</q-badge>
+                            <q-badge floating color="blue-10">{{ this.$parseDate(props.row.created_at).fullDate }}</q-badge>
                           </q-avatar>
                         </q-item-section>
                       </q-item>
                     </q-td>
                     <q-td key="keterangan" :props="props">
-                      {{ props.row.keterangan }}
+                      {{ this.$subString(props.row.keterangan) }}
                     </q-td>
                     <q-td key="aksi" :props="props">
                       <q-btn round outline color="green" size="sm" icon="edit" :to="{ name:'product_edit', params:{ id: props.row._id } }"  no-caps />

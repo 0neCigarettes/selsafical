@@ -16,7 +16,12 @@ const formatPrice = (value) => {
   return 'Rp. ' + val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ',-'
 }
 
-const listMonth = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'Oktober', 'November', 'Desember']
+const subStringData = (value) => {
+  const vals = (value).substring(0, 25) + '...'
+  return vals
+}
+
+const listMonth = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Des']
 
 const parseDate = (date) => {
   let respon
@@ -35,7 +40,7 @@ const parseDate = (date) => {
     const full = tgl + ' ' + listMonth[month - 1] + ' ' + year
     respon = {
       date: [year, month < 10 ? 0 + '' + (month) : (month), tgl < 10 ? 0 + '' + tgl : tgl].join('/') + '_' + newDate.getHours() + ':' + newDate.getMinutes() + ':' + newDate.getSeconds(),
-      dateLocal: [year, month < 10 ? 0 + '' + (month) : (month), tgl < 10 ? 0 + '' + tgl : tgl].join('/'),
+      dateLocal: [tgl < 10 ? 0 + '' + tgl : tgl, month < 10 ? 0 + '' + (month) : (month)].join(' '),
       fullDate: full,
       timeStap: `${full} ${newDate.getHours()}:${newDate.getMinutes()}:${newDate.getSeconds()}`
     }
@@ -48,4 +53,5 @@ export default boot(({ app }) => {
   app.config.globalProperties.$dialog = dialog
   app.config.globalProperties.$formatPrice = formatPrice
   app.config.globalProperties.$parseDate = parseDate
+  app.config.globalProperties.$subString = subStringData
 })

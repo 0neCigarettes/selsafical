@@ -13,7 +13,7 @@
 
         <div class="row q-gutter-md col-12">
 
-          <q-card class="my-card col-lg-2 col-md-4 col-sm-7" flat bordered>
+          <q-card class="my-card col-lg-3 col-md-4 col-sm-7" flat bordered>
             <q-card-section horizontal>
               <q-card-section class="q-pt-xs">
                 <div class="text-h6 q-mt-sm" style="font-size: 14px">Barang penjualan retur</div>
@@ -28,7 +28,7 @@
             </q-card-section>
           </q-card>
 
-          <q-card class="my-card col-lg-2 col-md-4 col-sm-7" flat bordered>
+          <q-card class="my-card col-lg-3 col-md-4 col-sm-7" flat bordered>
             <q-card-section horizontal>
               <q-card-section class="q-pt-xs">
                 <div class="text-h6 q-mt-sm" style="font-size: 14px">Barang pembelian retur</div>
