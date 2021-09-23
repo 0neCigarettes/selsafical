@@ -97,7 +97,7 @@
                     </div>
                   </div>
 
-                  <div class="row q-mt-md q-gutter-sm">
+                  <div class="row q-gutter-sm">
                     <div class="col">
                       <q-input
                         filled
@@ -105,7 +105,7 @@
                         label="HPP"
                         lazy-rules
                         dense
-                        :rules="[ val => val && val.length > 0 || 'Lengkapi data stok produk']"
+                        :rules="[ val => val && val.length > 0 || 'Lengkapi data hpp']"
                       />
                     </div>
                     <div class="col">
@@ -115,12 +115,12 @@
                         label="Harga jual"
                         lazy-rules
                         dense
-                        :rules="[ val => val && val.length > 0 || 'Lengkapi data stok produk']"
+                        :rules="[ val => val && val.length > 0 || 'Lengkapi data harga jual']"
                       />
                     </div>
                   </div>
 
-                  <div class="row q-mt-md q-gutter-sm">
+                  <div class="row q-gutter-sm">
                     <div class="col">
                       <q-input
                         filled
@@ -131,11 +131,6 @@
                         :rules="[ val => val && val.length > 0 || 'Lengkapi data stok produk']"
                       />
                     </div>
-                    <div class="col">
-                    </div>
-                  </div>
-
-                  <div class="row q-gutter-sm">
                     <div class="col">
                       <q-file filled bottom-slots dense v-model="form.image" label="Foto produk" >
                         <template v-slot:before>
@@ -148,7 +143,7 @@
                     </div>
                   </div>
 
-                  <div class="row q-py-sm q-gutter-sm">
+                  <div class="row q-gutter-sm">
                     <div class="col">
                       <q-input
                         v-model="form.keterangan_product"
