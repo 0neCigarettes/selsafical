@@ -2,7 +2,6 @@ import { route } from 'quasar/wrappers'
 import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router'
 import { LocalStorage } from 'quasar'
 import routes from './routes'
-import { show } from 'boot/plugin'
 // console.log(app)
 /*
  * If not building with SSR mode, you can
@@ -35,7 +34,7 @@ export default route(function (/* { store, ssrContext } */) {
         next({
           name: 'signin'
         })
-        show('Anda belum login!', 'negative')
+        this.$showNotif('Anda belum login!', 'negative')
       } else {
         next()
       }

@@ -66,10 +66,10 @@
                       {{ props.row.jenis }}
                     </q-td>
                     <q-td key="hpp" :props="props">
-                      {{ props.row.hpp }}
+                      {{ this.$formatPrice(props.row.hpp) }}
                     </q-td>
                     <q-td key="hargaJual" :props="props">
-                      {{ props.row.harga_jual }}
+                      {{ this.$formatPrice(props.row.harga_jual) }}
                     </q-td>
                     <q-td key="keuntungan" :props="props">
                       {{ props.row.keuntungan_per_product }}

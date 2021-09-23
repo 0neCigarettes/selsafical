@@ -1,7 +1,7 @@
 import { boot } from 'quasar/wrappers'
 import { Notify, Dialog } from 'quasar'
 
-const show = (message, jenis) => {
+const showNotif = (message, jenis) => {
   Notify.create({
     message: message,
     color: jenis,
@@ -9,14 +9,14 @@ const show = (message, jenis) => {
   })
 }
 
+const formatPrice = (value) => {
+  const val = (value / 1).toFixed(0).replace('.', '.')
+  return 'Rp. ' + val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ',-'
+}
 const dialog = Dialog
 
-const baseImgURL = 'http://localhost:5050/'
-
 export default boot(({ app }) => {
-  app.config.globalProperties.$showNotif = show
+  app.config.globalProperties.$showNotif = showNotif
   app.config.globalProperties.$dialog = dialog
-  app.config.globalProperties.$baseImgURL = baseImgURL
+  app.config.globalProperties.$formatPrice = formatPrice
 })
-
-export { show, baseImgURL, dialog }
