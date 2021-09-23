@@ -49,82 +49,74 @@
                   <div class="row q-gutter-sm">
                     <div class="col">
                       <q-select
-                          filled
-                          v-model="form.kategori_product"
-                          use-input
-                          input-debounce="0"
-                          label="Kategori produk"
-                          :options="options.options_kategori"
-                          @filter="filterKategori"
-                          outlined
-                          dense
-                          lazy-rules
-                          behavior="menu"
-                          :rules="[ val => val && val.length > 0 || 'Pilih Kategori produk']"
-                        >
-                          <template v-slot:no-option>
-                            <q-item>
-                              <q-item-section class="text-grey">
-                                No results
-                              </q-item-section>
-                            </q-item>
-                          </template>
-                        </q-select>
+                        filled
+                        v-model="form.kategori_product"
+                        use-input
+                        input-debounce="0"
+                        label="Kategori produk"
+                        :options="options.options_kategori"
+                        @filter="filterKategori"
+                        outlined
+                        dense
+                        lazy-rules
+                        behavior="menu"
+                        :rules="[ val => val && val.length > 0 || 'Pilih Kategori produk']"
+                      >
+                        <template v-slot:no-option>
+                          <q-item>
+                            <q-item-section class="text-grey">
+                              No results
+                            </q-item-section>
+                          </q-item>
+                        </template>
+                      </q-select>
                     </div>
                     <div class="col">
                       <q-select
-                          filled
-                          v-model="form.jenis_product"
-                          use-input
-                          input-debounce="0"
-                          label="Jenis produk"
-                          :options="options.options_jenis"
-                          @filter="filterJenis"
-                          outlined
-                          dense
-                          lazy-rules
-                          behavior="menu"
-                          :rules="[ val => val && val.length > 0 || 'Pilih jenis produk']"
-                        >
-                          <template v-slot:no-option>
-                            <q-item>
-                              <q-item-section class="text-grey">
-                                No results
-                              </q-item-section>
-                            </q-item>
-                          </template>
-                        </q-select>
+                        filled
+                        v-model="form.jenis_product"
+                        use-input
+                        input-debounce="0"
+                        label="Jenis produk"
+                        :options="options.options_jenis"
+                        @filter="filterJenis"
+                        outlined
+                        dense
+                        lazy-rules
+                        behavior="menu"
+                        :rules="[ val => val && val.length > 0 || 'Pilih jenis produk']"
+                      >
+                        <template v-slot:no-option>
+                          <q-item>
+                            <q-item-section class="text-grey">
+                              No results
+                            </q-item-section>
+                          </q-item>
+                        </template>
+                      </q-select>
                     </div>
                   </div>
 
                   <div class="row q-mt-md q-gutter-sm">
                     <div class="col">
-                      <q-field
+                      <q-input
                         filled
-                        dense
-                        lazy-rules
-                        prefix="IDR "
                         v-model="form.hpp_product"
-                        label="HPP"
-                      >
-                        <template v-slot:control="{ id, floatingLabel, value, emitValue }">
-                          <input :id="id" class="q-field__input" :model-value="value" @change="e => emitValue(e.target.value)" v-money="moneyFormatForDirective" v-show="floatingLabel">
-                        </template>
-                      </q-field>
+                        label="Stok produk"
+                        lazy-rules
+                        dense
+                        :rules="[ val => val && val.length > 0 || 'Lengkapi data stok produk']"
+                      />
                     </div>
                     <div class="col">
-                      <q-field
+                      <q-input
                         filled
-                        dense
-                        prefix="IDR "
-                        lazy-rules
                         v-model="form.hargajual"
-                        label="Harga jual"
-                      >
-                        <template v-slot:control="{ id, floatingLabel, value, emitValue }">
-                          <input :id="id" class="q-field__input" :model-value="value" @change="e => emitValue(e.target.value)" v-money="moneyFormatForDirective" v-show="floatingLabel">
-                        </template>
-                      </q-field>
+                        label="Stok produk"
+                        lazy-rules
+                        dense
+                        :rules="[ val => val && val.length > 0 || 'Lengkapi data stok produk']"
+                      />
                     </div>
                   </div>
 
@@ -234,7 +226,6 @@
 <script>
 import Lottie from 'components/lottie'
 import * as animationData from 'assets/lottie.json'
-import { VMoney } from 'v-money'
 
 let listKategori = []
 let listJenis = []
@@ -265,17 +256,10 @@ export default {
         options_kategori: [],
         options_jenis: []
       },
-      moneyFormatForDirective: {
-        decimal: ',',
-        thousands: ',',
-        precision: 0,
-        masked: false
-      },
       defaultOptions: { animationData: animationData.default },
       animationSpeed: 2
     }
   },
-  directives: { money: VMoney },
   created () {
     this.getKategori()
     this.getJenis()
