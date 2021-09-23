@@ -144,6 +144,7 @@
                       </q-file>
                     </div>
                     <div class="col">
+                      <q-img v-if="this.editMode && this.oldImg !== null && this.form.image === null" :src="`${$imgUrl}/${oldImg}`"/>
                     </div>
                   </div>
 
@@ -161,7 +162,8 @@
 
                   <div class="q-mt-md">
                     <q-btn label="Submit" outline type="submit" color="green" style="width:150px" />
-                    <q-btn label="Reset" type="reset" color="red" outline class="q-ml-sm" style="width:150px" />
+                    <q-btn label="Cancel" v-if="this.editMode" type="reset" color="red" outline class="q-ml-sm" style="width:150px" />
+                    <q-btn label="Reset" v-else type="reset" color="red" outline class="q-ml-sm" style="width:150px" />
                   </div>
                 </q-form>
               </q-card-section>
@@ -252,6 +254,7 @@ export default {
         image: null,
         keterangan_product: null
       },
+      oldImg: null,
       options: {
         options_kategori: [],
         options_jenis: []
@@ -265,7 +268,23 @@ export default {
     this.getJenis()
     if (this.editMode) {
       try {
-        this.$api.get('')
+        this.$api.get('product/getbyid/' + this.$route.params.id)
+          .then(res => {
+            if (res.data.status !== true) {
+              this.$showNotif(res.data.message, 'negative')
+            } else {
+              const data = res.data.result
+              this.form.id_product = data.product_id
+              this.form.name_produk = data.nama_product
+              this.form.kategori_product = data.kategori
+              this.form.jenis_product = data.jenis
+              this.form.hpp_product = data.hpp.toString()
+              this.form.hargajual = data.harga_jual.toString()
+              this.form.stok_produk = data.stok.toString()
+              this.form.keterangan_product = data.keterangan
+              this.oldImg = data.foto_product
+            }
+          })
       } catch (e) {
         console.log(e.message)
         this.$showNotif('Terjadi ke !', 'negative')
@@ -333,13 +352,24 @@ export default {
     onSubmit () {
       try {
         if (this.editMode) {
-          this.$api.put('type/updatetype/' + this.$route.params.id, {
-            name: this.name_kategori_produk
-          }).then(res => {
+          const formData = new FormData()
+          formData.append('foto', this.form.image)
+          formData.append('data', JSON.stringify({
+            product_id: this.form.id_product,
+            nama_product: this.form.name_produk,
+            kategori: this.form.kategori_product,
+            jenis: this.form.jenis_product,
+            hpp: this.form.hpp_product,
+            harga_jual: this.form.hargajual,
+            stok: this.form.stok_produk,
+            keuntungan_per_product: Number(this.form.hargajual) - Number(this.form.hpp_product),
+            keterangan: this.form.keterangan_product
+          }))
+          this.$api.put('product/update/' + this.$route.params.id, formData).then(res => {
             if (res.data.status !== true) {
               this.$showNotif(res.data.message, 'negative')
             } else {
-              this.$showNotif('Kategori produk berhasil diperbarui !', 'positive')
+              this.$showNotif('Data produk berhasil diperbarui !', 'positive')
               this.$router.push({ name: 'product' })
             }
           })
@@ -351,10 +381,10 @@ export default {
             nama_product: this.form.name_produk,
             kategori: this.form.kategori_product,
             jenis: this.form.jenis_product,
-            hpp: this.parseComma(this.form.hpp_product),
-            harga_jual: this.parseComma(this.form.hargajual),
+            hpp: this.form.hpp_product,
+            harga_jual: this.form.hargajual,
             stok: Number(this.form.stok_produk),
-            keuntungan_per_product: this.parseComma(this.form.hargajual) - this.parseComma(this.form.hpp_product),
+            keuntungan_per_product: Number(this.form.hargajual) - Number(this.form.hpp_product),
             keterangan: this.form.keterangan_product
           }))
           this.$api.post('product/add', formData).then(res => {
@@ -372,15 +402,19 @@ export default {
       }
     },
     onReset () {
-    },
-    parseComma (val) {
-      let ret
-      if (val === null) {
-        ret = 0
+      if (this.editMode) {
+        this.$router.go(-1)
       } else {
-        ret = parseFloat(val.replace(/,/g, ''))
+        this.form.id_product = null
+        this.form.name_produk = null
+        this.form.kategori_product = null
+        this.form.jenis_product = null
+        this.form.hpp_product = null
+        this.form.hargajual = null
+        this.form.stok_produk = null
+        this.form.keterangan_product = null
+        this.form.image = null
       }
-      return ret
     }
   }
 }

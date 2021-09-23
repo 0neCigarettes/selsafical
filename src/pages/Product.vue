@@ -78,7 +78,7 @@
                       {{ props.row.stok }}
                     </q-td>
                     <q-td key="foto" :props="props">
-                      <q-img :src="`${$imgUrl}/${props.row.foto_product}`"></q-img>
+                      <q-img :src="`${$imgUrl}/${props.row.foto_product}`"/>
                     </q-td>
                     <q-td key="keterangan" :props="props">
                       {{ props.row.keterangan }}

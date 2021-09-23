@@ -1,6 +1,8 @@
 import { boot } from 'quasar/wrappers'
 import { Notify, Dialog } from 'quasar'
 
+const dialog = Dialog
+
 const showNotif = (message, jenis) => {
   Notify.create({
     message: message,
@@ -40,8 +42,6 @@ const parseDate = (date) => {
   }
   return respon
 }
-
-const dialog = Dialog
 
 export default boot(({ app }) => {
   app.config.globalProperties.$showNotif = showNotif
