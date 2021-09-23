@@ -53,43 +53,39 @@
 
                 <template v-slot:body="props">
                   <q-tr :props="props">
-                    <q-td key="name" :props="props">
-                      {{ props.row.name }}
+                    <q-td key="product_id" :props="props">
+                      {{ props.row.product_id }}
                     </q-td>
-                    <q-td key="calories" :props="props">
-                      <q-badge color="green">
-                        {{ props.row.calories }}
-                      </q-badge>
+                    <q-td key="namaProduk" :props="props">
+                      {{ props.row.nama_product }}
                     </q-td>
-                    <q-td key="fat" :props="props">
-                      <q-badge color="purple">
-                        {{ props.row.fat }}
-                      </q-badge>
+                    <q-td key="kategori" :props="props">
+                      {{ props.row.kategori }}
                     </q-td>
-                    <q-td key="carbs" :props="props">
-                      <q-badge color="orange">
-                        {{ props.row.carbs }}
-                      </q-badge>
+                    <q-td key="jenis" :props="props">
+                      {{ props.row.jenis }}
                     </q-td>
-                    <q-td key="protein" :props="props">
-                      <q-badge color="primary">
-                        {{ props.row.protein }}
-                      </q-badge>
+                    <q-td key="hpp" :props="props">
+                      {{ props.row.hpp }}
                     </q-td>
-                    <q-td key="sodium" :props="props">
-                      <q-badge color="teal">
-                        {{ props.row.sodium }}
-                      </q-badge>
+                    <q-td key="hargaJual" :props="props">
+                      {{ props.row.harga_jual }}
                     </q-td>
-                    <q-td key="calcium" :props="props">
-                      <q-badge color="accent">
-                        {{ props.row.calcium }}
-                      </q-badge>
+                    <q-td key="keuntungan" :props="props">
+                      {{ props.row.keuntungan_per_product }}
                     </q-td>
-                    <q-td key="iron" :props="props">
-                      <q-badge color="amber">
-                        {{ props.row.iron }}
-                      </q-badge>
+                    <q-td key="stok" :props="props">
+                      {{ props.row.stok }}
+                    </q-td>
+                    <q-td key="foto" :props="props">
+                      <q-img :src="`${$imgUrl}/${props.row.foto_product}`"></q-img>
+                    </q-td>
+                    <q-td key="keterangan" :props="props">
+                      {{ props.row.keterangan }}
+                    </q-td>
+                    <q-td key="aksi" :props="props">
+                      <q-btn round outline color="green" size="sm" icon="edit" :to="{ name:'product_edit', params:{ id: props.row._id } }"  no-caps />
+                      <q-btn round outline color="red" size="sm" icon="delete" @click="this.deleteProduct(props.row._id)" no-caps class="q-ml-sm" />
                     </q-td>
                   </q-tr>
                 </template>
@@ -229,13 +225,13 @@ export default {
       filter: null,
       product: {
         columns: [
-          { name: 'produt_id', required: true, label: 'ID_Produk', align: 'left', field: 'produt_id', sortable: true },
+          { name: 'product_id', required: true, label: 'ID_Produk', align: 'left', field: 'produt_id', sortable: true },
           { name: 'namaProduk', required: true, label: 'Nama Produk', align: 'left', field: 'namaProduk', sortable: true },
           { name: 'kategori', required: true, label: 'Kategori', align: 'left', field: 'kategori', sortable: true },
           { name: 'jenis', required: true, label: 'Jenis', align: 'left', field: 'jenis', sortable: true },
           { name: 'hpp', required: true, label: 'HPP', align: 'left', field: 'hpp', sortable: true },
-          { name: 'hargaModal', required: true, label: 'Harga Modal', align: 'left', field: 'hargaModal', sortable: true },
           { name: 'hargaJual', required: true, label: 'Harga Jual', align: 'left', field: 'hargaJual', sortable: true },
+          { name: 'keuntungan', required: true, label: 'Keuntungan', align: 'left', field: 'keuntungan', sortable: true },
           { name: 'stok', required: true, label: 'Stok', align: 'left', field: 'stok', sortable: true },
           { name: 'foto', required: true, label: 'Foto Produk', align: 'left', field: 'foto', sortable: true },
           { name: 'keterangan', required: true, label: 'Keterangan', align: 'left', field: 'keterangan', sortable: true },
@@ -264,8 +260,23 @@ export default {
   created () {
     this.getJenis()
     this.getKategori()
+    this.getProduct()
   },
   methods: {
+    getProduct () {
+      try {
+        this.$api.get('product/get').then(res => {
+          if (res.data.status !== true) {
+            this.$showNotif(res.data.message, 'negative')
+          } else {
+            this.product.rows = res.data.result
+          }
+        })
+      } catch (e) {
+        console.log(e)
+        this.$showNotif('Terjadi kesalahan !', 'negative')
+      }
+    },
     getJenis () {
       try {
         this.$api.get('type/gettype/' + 'Jenis').then(res => {
@@ -295,20 +306,49 @@ export default {
       }
     },
     delete (id) {
-      try {
-        this.$api.delete('type/deletetype/' + id).then(res => {
-          if (res.data.status !== true) {
-            this.$showNotif(res.data.message, 'negative')
-          } else {
-            this.getJenis()
-            this.getKategori()
-            this.$showNotif(res.data.message, 'positive')
-          }
-        })
-      } catch (e) {
-        console.log(e)
-        this.$showNotif('Terjadi kesalahan !', 'negative')
-      }
+      this.$dialog.create({
+        title: 'Peringatan',
+        message: 'Apakah Anda Yakin ?',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        try {
+          this.$api.delete('type/deletetype/' + id).then(res => {
+            if (res.data.status !== true) {
+              this.$showNotif(res.data.message, 'negative')
+            } else {
+              this.getJenis()
+              this.getKategori()
+              this.$showNotif(res.data.message, 'positive')
+            }
+          })
+        } catch (e) {
+          console.log(e)
+          this.$showNotif('Terjadi kesalahan !', 'negative')
+        }
+      })
+    },
+    deleteProduct (id) {
+      this.$dialog.create({
+        title: 'Peringatan',
+        message: 'Apakah Anda Yakin ?',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        try {
+          this.$api.delete('product/delete/' + id).then(res => {
+            if (res.data.status !== true) {
+              this.$showNotif(res.data.message, 'negative')
+            } else {
+              this.getProduct()
+              this.$showNotif(res.data.message, 'positive')
+            }
+          })
+        } catch (e) {
+          console.log(e)
+          this.$showNotif('Terjadi kesalahan !', 'negative')
+        }
+      })
     },
     exportTable () {
       // naive encoding to csv format

@@ -216,7 +216,7 @@
                     <lottie :options="defaultOptions" v-on:animCreated="handleAnimation" style="height: 250px" />
                   </div>
                   <div class="col">
-                    <q-timeline :layout="layout" :side="side" color="secondary">
+                    <q-timeline color="secondary">
 
                       <q-timeline-entry subtitle="Tahap I" side="left">
                         <div>
@@ -261,16 +261,12 @@
 import Lottie from 'components/lottie'
 import * as animationData from 'assets/lottie.json'
 
-const stringOptionsNamaProduct = [
-  'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-]
-
 export default {
   components: {
     lottie: Lottie
   },
   data () {
-    const options = stringOptionsNamaProduct
+    const options = ['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']
     return {
       inputs: [
         {
@@ -289,27 +285,21 @@ export default {
       nomor_telepon: null,
       pelanggan: null,
       keterangan_product: null,
-      options_kategori: [
-        'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-      ],
       status_penjualan: null,
       options_status: [
         'Lunas', 'Hutang'
       ],
-      options_jenis: [
-        'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-      ],
       filterFn (val, update) {
         if (val === '') {
           update(() => {
-            options.value = stringOptionsNamaProduct
+            options.value = options
           })
           return
         }
 
         update(() => {
           const needle = val.toLowerCase()
-          options.value = stringOptionsNamaProduct.filter(v => v.toLowerCase().indexOf(needle) > -1)
+          options.value = options.filter(v => v.toLowerCase().indexOf(needle) > -1)
         })
       },
       defaultOptions: { animationData: animationData.default },

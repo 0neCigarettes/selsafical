@@ -48,10 +48,52 @@
 
                   <div class="row q-gutter-sm">
                     <div class="col">
-                      <q-select outlined v-model="form.kategori_product" dense lazy-rules filled :options="options.options_kategori" label="Kategori" />
+                      <q-select
+                          filled
+                          v-model="form.kategori_product"
+                          use-input
+                          input-debounce="0"
+                          label="Kategori produk"
+                          :options="options.options_kategori"
+                          @filter="filterKategori"
+                          outlined
+                          dense
+                          lazy-rules
+                          behavior="menu"
+                          :rules="[ val => val && val.length > 0 || 'Pilih Kategori produk']"
+                        >
+                          <template v-slot:no-option>
+                            <q-item>
+                              <q-item-section class="text-grey">
+                                No results
+                              </q-item-section>
+                            </q-item>
+                          </template>
+                        </q-select>
                     </div>
                     <div class="col">
-                      <q-select outlined v-model="form.jenis_product" dense lazy-rules filled :options="options.options_jenis" label="Jenis barang" />
+                      <q-select
+                          filled
+                          v-model="form.jenis_product"
+                          use-input
+                          input-debounce="0"
+                          label="Jenis produk"
+                          :options="options.options_jenis"
+                          @filter="filterJenis"
+                          outlined
+                          dense
+                          lazy-rules
+                          behavior="menu"
+                          :rules="[ val => val && val.length > 0 || 'Pilih jenis produk']"
+                        >
+                          <template v-slot:no-option>
+                            <q-item>
+                              <q-item-section class="text-grey">
+                                No results
+                              </q-item-section>
+                            </q-item>
+                          </template>
+                        </q-select>
                     </div>
                   </div>
 
@@ -88,21 +130,6 @@
 
                   <div class="row q-mt-md q-gutter-sm">
                     <div class="col">
-                      <q-field
-                        filled
-                        dense
-                        lazy-rules
-                        prefix="IDR "
-                        readonly
-                        v-model="form.keuntungan"
-                        label="Keuntungan per product"
-                      >
-                        <template v-slot:control="{ id, floatingLabel, value, emitValue }">
-                          <input readonly :id="id" class="q-field__input" :model-value="value" @change="e => emitValue(e.target.value)" v-money="moneyFormatForDirective" v-show="floatingLabel">
-                        </template>
-                      </q-field>
-                    </div>
-                    <div class="col">
                       <q-input
                         filled
                         v-model="form.stok_produk"
@@ -112,6 +139,8 @@
                         :rules="[ val => val && val.length > 0 || 'Lengkapi data stok produk']"
                       />
                     </div>
+                    <div class="col">
+                    </div>
                   </div>
 
                   <div class="row q-gutter-sm">
@@ -119,10 +148,6 @@
                       <q-file filled bottom-slots dense v-model="form.image" label="Foto produk" >
                         <template v-slot:before>
                           <q-icon name="collections" />
-                        </template>
-
-                        <template v-slot:append>
-                          <q-btn round dense flat icon="add" @click.stop />
                         </template>
                       </q-file>
                     </div>
@@ -211,6 +236,9 @@ import Lottie from 'components/lottie'
 import * as animationData from 'assets/lottie.json'
 import { VMoney } from 'v-money'
 
+let listKategori = []
+let listJenis = []
+
 export default {
   name: 'PageIndex',
   components: {
@@ -229,22 +257,17 @@ export default {
         jenis_product: null,
         hpp_product: null,
         hargajual: null,
-        keuntungan: null,
         stok_produk: null,
         image: null,
         keterangan_product: null
       },
       options: {
-        options_kategori: [
-          'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-        ],
-        options_jenis: [
-          'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-        ]
+        options_kategori: [],
+        options_jenis: []
       },
       moneyFormatForDirective: {
         decimal: ',',
-        thousands: '.',
+        thousands: ',',
         precision: 0,
         masked: false
       },
@@ -254,6 +277,8 @@ export default {
   },
   directives: { money: VMoney },
   created () {
+    this.getKategori()
+    this.getJenis()
     if (this.editMode) {
       console.log(this.editMode)
     }
@@ -273,6 +298,48 @@ export default {
     },
     onSpeedChange: function () {
       this.anim.setSpeed(this.animationSpeed)
+    },
+    getKategori () {
+      this.$api.get('type/gettype/Kategori')
+        .then(res => {
+          const list = res.data.result
+          listKategori = list.map(kategori => {
+            return kategori.name
+          })
+        })
+    },
+    filterKategori (val, update) {
+      if (val === '') {
+        update(() => {
+          this.options.options_kategori = listKategori
+        })
+        return
+      }
+      update(() => {
+        const needle = val.toLowerCase()
+        this.options.options_kategori = listKategori.filter(v => v.toLowerCase().indexOf(needle) > -1)
+      })
+    },
+    getJenis () {
+      this.$api.get('type/gettype/Jenis')
+        .then(res => {
+          const list = res.data.result
+          listJenis = list.map(jenis => {
+            return jenis.name
+          })
+        })
+    },
+    filterJenis (val, update) {
+      if (val === '') {
+        update(() => {
+          this.options.options_jenis = listJenis
+        })
+        return
+      }
+      update(() => {
+        const needle = val.toLowerCase()
+        this.options.options_jenis = listJenis.filter(v => v.toLowerCase().indexOf(needle) > -1)
+      })
     },
     onSubmit () {
       try {
@@ -295,9 +362,10 @@ export default {
             nama_product: this.form.name_produk,
             kategori: this.form.kategori_product,
             jenis: this.form.jenis_product,
-            hpp: this.form.hpp_product,
-            harga_jual: this.form.hargajual,
-            keuntungan_per_product: this.form.keuntungan,
+            hpp: this.parseComma(this.form.hpp_product),
+            harga_jual: this.parseComma(this.form.hargajual),
+            stok: Number(this.form.stok_produk),
+            keuntungan_per_product: this.parseComma(this.form.hargajual) - this.parseComma(this.form.hpp_product),
             keterangan: this.form.keterangan_product
           }))
           this.$api.post('product/add', formData).then(res => {
@@ -315,7 +383,15 @@ export default {
       }
     },
     onReset () {
-
+    },
+    parseComma (val) {
+      let ret
+      if (val === null) {
+        ret = 0
+      } else {
+        ret = parseFloat(val.replace(/,/g, ''))
+      }
+      return ret
     }
   }
 }
