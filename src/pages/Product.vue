@@ -78,7 +78,14 @@
                       {{ props.row.stok }}
                     </q-td>
                     <q-td key="foto" :props="props">
-                      <q-img :src="`${$imgUrl}/${props.row.foto_product}`"/>
+                      <q-item clickable v-ripple>
+                        <q-item-section side>
+                          <q-avatar rounded size="48px">
+                            <q-img :src="`${$imgUrl}/${props.row.foto_product}`" />
+                            <q-badge floating color="teal">{{props.row.created_at}}</q-badge>
+                          </q-avatar>
+                        </q-item-section>
+                      </q-item>
                     </q-td>
                     <q-td key="keterangan" :props="props">
                       {{ props.row.keterangan }}
