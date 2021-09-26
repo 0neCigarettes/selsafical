@@ -20,7 +20,7 @@
                   </div>
                   <div class="row items-center">
                     <q-icon name="payment" />
-                    <div class="text-h6 q-ml-sm text-blue-13" style="font-size:12px"><vue3-autocounter ref='counter' :startAmount='0' :endAmount='1231' :duration='3' :autoinit='true' @finished='alert(`Counting finished!`)'/></div>
+                    <div class="text-h6 q-ml-sm text-blue-13" style="font-size:12px"><vue3-autocounter ref='counter' :startAmount='0' :endAmount='`${totalHutang}`' :duration='3' :autoinit='true' @finished='alert(`Counting finished!`)'/></div>
                   </div>
               </q-card-section>
             </q-card-section>
@@ -35,7 +35,7 @@
                   </div>
                   <div class="row items-center">
                     <q-icon name="credit_score" />
-                    <div class="text-h6 q-ml-sm text-blue-13" style="font-size:12px"><vue3-autocounter ref='counter' :startAmount='0' :endAmount='1231' :duration='3' :autoinit='true' @finished='alert(`Counting finished!`)'/></div>
+                    <div class="text-h6 q-ml-sm text-blue-13" style="font-size:12px"><vue3-autocounter ref='counter' :startAmount='0' :endAmount='`${totalLunas}`' :duration='3' :autoinit='true' @finished='alert(`Counting finished!`)'/></div>
                   </div>
               </q-card-section>
             </q-card-section>
@@ -69,7 +69,7 @@
                     <q-btn flat round color="primary" icon="search" @click="visibles = !visibles" size="md" class="q-mr-sm" />
                     <q-slide-transition>
                       <div v-show="visibles">
-                        <q-input outlined debounce="300" placeholder="Placeholder" style="width:300px" color="primary" v-model="filter" dense />
+                        <q-input outlined debounce="300" placeholder="Placeholder" style="width:300px" color="primary" v-model="filterData" dense />
                       </div>
                     </q-slide-transition>
                     <q-btn
@@ -83,36 +83,23 @@
                       outline
                     />
                   </template>
-
-                  <template v-slot:header="props">
-                    <q-tr :props="props">
-                      <q-th auto-width />
-                      <q-th
-                        v-for="col in props.cols"
-                        :key="col.name"
-                        :props="props"
-                      >
-                        {{ col.label }}
-                      </q-th>
-                    </q-tr>
-                  </template>
-
                   <template v-slot:body="props">
                     <q-tr :props="props">
-                      <q-td auto-width>
-                        <q-btn size="sm" color="accent" round dense @click="props.expand = !props.expand" :icon="props.expand ? 'remove' : 'add'" />
+                      <q-td key="id_penjualan" :props="props">{{props.row.id_penjualan}}</q-td>
+                      <q-td key="produk" :props="props">
+                        <q-btn @click="showDetail(props.row.pelanggan, props.row.products)" round outline color="red" size="sm" icon="delete" no-caps class="q-ml-sm" />
                       </q-td>
-                      <q-td
-                        v-for="col in props.cols"
-                        :key="col.name"
-                        :props="props"
-                      >
-                        {{ col.value }}
+                      <q-td key="grandTotal" :props="props">{{this.$formatPrice(props.row.grandTotal)}}</q-td>
+                      <q-td key="pelanggan" :props="props">{{props.row.pelanggan}}</q-td>
+                      <q-td key="nomor_telepon" :props="props">{{props.row.nomor_telepon}}</q-td>
+                      <q-td key="status_penjualan" :props="props">{{props.row.status_penjualan}}</q-td>
+                      <q-td key="tanggal_jatuh_tempo" :props="props">{{this.$parseDate(props.row.tanggal_jatuh_tempo).fullDate}}</q-td>
+                      <q-td key="alamat_penagihan" :props="props">
+                        <label v-if="props.row.status_penjualan === 'Hutang'">{{props.row.alamat_penagihan}}</label>
+                        <label v-else>{{'-'}}</label>
                       </q-td>
-                    </q-tr>
-                    <q-tr v-show="props.expand" :props="props">
-                      <q-td colspan="100%">
-                        <div class="text-left">This is expand slot for row above: {{ props.row.name }}.</div>
+                      <q-td key="aksi" :props="props">
+                        <q-btn round outline color="red" size="sm" icon="delete" no-caps class="q-ml-sm" />
                       </q-td>
                     </q-tr>
                   </template>
@@ -122,6 +109,31 @@
             </q-card-section>
           </q-card>
         </div>
+
+        <q-dialog v-model="detail.visible">
+          <q-card>
+            <q-card-section>
+              <div class="text-h6">Data Pembelian {{detail.pelanggan}}</div>
+            </q-card-section>
+
+            <q-separator />
+
+            <q-card-section style="max-height: 50vh" class="scroll">
+              <q-table
+                :rows="detail.rows"
+                flat
+                :columns="detail.columns"
+                row-key="name"
+              />
+            </q-card-section>
+
+            <q-separator />
+
+            <q-card-actions align="right">
+              <q-btn flat label="Ok" color="primary" v-close-popup />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
 
       </div>
     </div>
@@ -141,135 +153,67 @@ export default {
     return {
       visibles: false,
       filterData: null,
-      columns,
-      rows
+      totalHutang: 0,
+      totalLunas: 0,
+      columns: [
+        { name: 'id_penjualan', required: true, label: 'ID_Penjualan', align: 'left', field: 'id_penjualan', sortable: true },
+        { name: 'produk', required: true, label: 'Produk', align: 'left', field: 'produk', sortable: true },
+        { name: 'grandTotal', required: true, label: 'Grand Total', align: 'left', field: 'grandTotal', sortable: true },
+        { name: 'pelanggan', required: true, label: 'Nama pelanggan', align: 'left', field: 'pelanggan', sortable: true },
+        { name: 'nomor_telepon', required: true, label: 'Nomor telepon', align: 'left', field: 'nomor_telepon', sortable: true },
+        { name: 'status_penjualan', required: true, label: 'Status penjualan', align: 'left', field: 'status_penjualan', sortable: true },
+        { name: 'tanggal_jatuh_tempo', required: true, label: 'Tanggal jatuh tempo', align: 'left', field: 'tanggal_jatuh_tempo', sortable: true },
+        { name: 'alamat_penagihan', required: true, label: 'Alamat penagihan', align: 'left', field: 'alamat_penagihan', sortable: true },
+        { name: 'aksi', label: 'Actions', field: 'aksi', align: 'center' }
+      ],
+      rows: [],
+      detail: {
+        visible: false,
+        pelanggan: null,
+        columns: [
+          { name: 'nama_product', required: true, label: 'Nama Produk', align: 'left', field: 'nama_product', sortable: true },
+          { name: 'harga_jual', required: true, label: 'Harga Jual', align: 'left', field: 'harga_jual', sortable: true },
+          { name: 'jumlah_penjualan', required: true, label: 'Jumlah Penjualan', align: 'left', field: 'jumlah_penjualan', sortable: true },
+          { name: 'total', required: true, label: 'Subtotal', align: 'left', field: 'total', sortable: true }
+        ],
+        rows: []
+      }
+    }
+  },
+  created () {
+    this.getPenjualan()
+  },
+  methods: {
+    getPenjualan () {
+      try {
+        this.$api.get('penjualan/get')
+          .then(res => {
+            if (res.data.status !== true) {
+              this.$showNotif(res.data.message, 'negative')
+            } else {
+              const data = res.data.result
+              this.rows = data
+              for (let i = 0; i < data.length; i++) {
+                if (data[i].status_penjualan === 'Lunas') {
+                  this.totalLunas += data[i].grandTotal
+                }
+                if (data[i].status_penjualan === 'Hutang') {
+                  this.totalHutang += data[i].grandTotal
+                }
+              }
+            }
+          })
+      } catch (e) {
+        this.$showNotif('Terjadi kesalahan !', 'negative')
+      }
+    },
+    showDetail (pelanggan, data) {
+      this.detail.pelanggan = pelanggan
+      this.detail.visible = true
+      this.detail.rows = data
     }
   }
 }
-
-const columns = [
-  {
-    name: 'name',
-    required: true,
-    label: 'Dessert (100g serving)',
-    align: 'left',
-    field: row => row.name,
-    format: val => `${val}`,
-    sortable: true
-  },
-  { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-  { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
-  { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
-  { name: 'protein', label: 'Protein (g)', field: 'protein' },
-  { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-  { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-  { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
-]
-
-const rows = [
-  {
-    name: 'Frozen Yogurt',
-    calories: 159,
-    fat: 6.0,
-    carbs: 24,
-    protein: 4.0,
-    sodium: 87,
-    calcium: '14%',
-    iron: '1%'
-  },
-  {
-    name: 'Ice cream sandwich',
-    calories: 237,
-    fat: 9.0,
-    carbs: 37,
-    protein: 4.3,
-    sodium: 129,
-    calcium: '8%',
-    iron: '1%'
-  },
-  {
-    name: 'Eclair',
-    calories: 262,
-    fat: 16.0,
-    carbs: 23,
-    protein: 6.0,
-    sodium: 337,
-    calcium: '6%',
-    iron: '7%'
-  },
-  {
-    name: 'Cupcake',
-    calories: 305,
-    fat: 3.7,
-    carbs: 67,
-    protein: 4.3,
-    sodium: 413,
-    calcium: '3%',
-    iron: '8%'
-  },
-  {
-    name: 'Gingerbread',
-    calories: 356,
-    fat: 16.0,
-    carbs: 49,
-    protein: 3.9,
-    sodium: 327,
-    calcium: '7%',
-    iron: '16%'
-  },
-  {
-    name: 'Jelly bean',
-    calories: 375,
-    fat: 0.0,
-    carbs: 94,
-    protein: 0.0,
-    sodium: 50,
-    calcium: '0%',
-    iron: '0%'
-  },
-  {
-    name: 'Lollipop',
-    calories: 392,
-    fat: 0.2,
-    carbs: 98,
-    protein: 0,
-    sodium: 38,
-    calcium: '0%',
-    iron: '2%'
-  },
-  {
-    name: 'Honeycomb',
-    calories: 408,
-    fat: 3.2,
-    carbs: 87,
-    protein: 6.5,
-    sodium: 562,
-    calcium: '0%',
-    iron: '45%'
-  },
-  {
-    name: 'Donut',
-    calories: 452,
-    fat: 25.0,
-    carbs: 51,
-    protein: 4.9,
-    sodium: 326,
-    calcium: '2%',
-    iron: '22%'
-  },
-  {
-    name: 'KitKat',
-    calories: 518,
-    fat: 26.0,
-    carbs: 65,
-    protein: 7,
-    sodium: 54,
-    calcium: '12%',
-    iron: '6%'
-  }
-]
 </script>
-
 <style scoped>
-
 </style>

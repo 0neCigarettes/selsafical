@@ -44,7 +44,7 @@
                       <div class="col">
                         <q-select
                           filled
-                          v-model="product.nama_product"
+                          v-model="product.product"
                           label="Nama Product"
                           option-value="_id"
                           option-label="nama_product"
@@ -57,7 +57,7 @@
                           <template v-slot:no-option>
                             <q-item>
                               <q-item-section class="text-grey">
-                                No results
+                                Produk tidak ditemukan
                               </q-item-section>
                             </q-item>
                           </template>
@@ -80,19 +80,19 @@
                     <div class="row q-gutter-sm">
                       <div class="col">
                         <div class="text-caption text-h6 text-grey-6">Kategori Produk</div>
-                          {{ product.nama_product ? product.nama_product.kategori : '--' }}
+                          {{ product.product ? product.product.kategori : '--' }}
                       </div>
                       <div class="col">
                         <div class="text-caption text-h6 text-grey-6">Jenis Produk</div>
-                          {{ product.nama_product ? product.nama_product.jenis : '--' }}
+                          {{ product.product ? product.product.jenis : '--' }}
                       </div>
                       <div class="col">
                         <div class="text-caption text-h6 text-grey-6">Harga Jual</div>
-                          {{ this.$formatPrice(product.nama_product ? product.nama_product.harga_jual : '0') }}
+                          {{ this.$formatPrice(product.product ? product.product.harga_jual : 0) }}
                       </div>
                       <div class="col">
                         <div class="text-caption text-h6 text-grey-6">Total</div>
-                          {{ this.$formatPrice(product.nama_product ? product.nama_product.harga_jual * product.jumlah_penjualan : 0) }}
+                          {{ this.$formatPrice(product.product ? product.product.harga_jual * product.jumlah_penjualan : 0) }}
                       </div>
                     </div>
 
@@ -117,7 +117,7 @@
                         label="Pelanggan"
                         lazy-rules
                         dense
-                        :rules="[ val => val && val.length > 0 || 'Lengkapi data pelanggan']"
+                        :rules="[ val => val && val !== null || 'Lengkapi data pelanggan']"
                       />
                     </div>
                   </div>
@@ -149,13 +149,19 @@
                       />
                     </div>
                     <div class="col">
-                      <q-input filled v-model="form.tanggal_jatuh_tempo" mask="date" :rules="['date']" dense label="Tanggal jatuh tempo">
+                      <q-input
+                        v-model="form.tanggal_jatuh_tempo"
+                        filled
+                        label="Tanggal jatuh tempo"
+                        dense
+                        :rules="['YYYY-MM-DD']"
+                      >
                         <template v-slot:append>
                           <q-icon name="event" class="cursor-pointer">
-                            <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                              <q-date v-model="form.tanggal_jatuh_tempo">
+                            <q-popup-proxy ref="form.tanggal_jatuh_tempo" :breakpoint="600">
+                              <q-date v-model="form.tanggal_jatuh_tempo" mask="YYYY-MM-DD" filled ref="date">
                                 <div class="row items-center justify-end">
-                                  <q-btn v-close-popup label="Close" color="primary" flat />
+                                  <q-btn v-close-popup label="Ok" color="primary" flat />
                                 </div>
                               </q-date>
                             </q-popup-proxy>
@@ -250,12 +256,8 @@ export default {
         id_penjualan: this.$generateId(),
         products: [
           {
-            nama_product: null,
-            kategori_product: null,
-            jenis_product: null,
-            harga_jual: null,
-            jumlah_penjualan: null,
-            total_penjualan: null
+            product: null,
+            jumlah_penjualan: null
           }
         ],
         tanggal_jatuh_tempo: null,
@@ -294,14 +296,9 @@ export default {
     onSpeedChange: function () {
       this.anim.setSpeed(this.animationSpeed)
     },
-    setVal (value) {
-      console.log(value)
-      // this.form.products[i].kategori_product = 'aa'
-    },
     getProduct () {
       this.$api.get('product/get')
         .then(res => {
-          console.log(res.data)
           listProduk = res.data.result
           // listProduk = list.map(product => {
           //   return product.nama_product
@@ -318,24 +315,70 @@ export default {
 
       update(() => {
         const needle = val.toLowerCase()
-        this.options.products = listProduk.filter(v => v.toLowerCase().indexOf(needle) > -1)
+        this.options.products = listProduk.filter(v => v.nama_product.toLowerCase().indexOf(needle) > -1)
       })
     },
     onSubmit () {
-      const data = JSON.stringify(this.form)
-      console.log(JSON.parse(data))
+      const products = []
+      let grandTotal = 0
+
+      for (const i in this.form.products) {
+        products.push({
+          object_id: this.form.products[i].product._id,
+          nama_product: this.form.products[i].product.nama_product,
+          harga_jual: this.form.products[i].product.harga_jual,
+          jumlah_penjualan: this.form.products[i].jumlah_penjualan,
+          total: this.form.products[i].product.harga_jual * this.form.products[i].jumlah_penjualan,
+          stokBaru: this.form.products[i].product.stok - this.form.products[i].jumlah_penjualan
+        })
+      }
+      products.forEach(product => {
+        grandTotal += product.total
+      })
+
+      const sendData = {
+        id_penjualan: this.form.id_penjualan,
+        products: products,
+        grandTotal: grandTotal,
+        tanggal_jatuh_tempo: this.form.tanggal_jatuh_tempo,
+        alamat_penagihan: this.form.alamat_penagihan,
+        nomor_telepon: this.form.nomor_telepon,
+        pelanggan: this.form.pelanggan,
+        status_penjualan: this.form.status_penjualan
+      }
+
+      try {
+        this.$api.post('penjualan/add', sendData)
+          .then(res => {
+            if (res.data.status !== true) {
+              this.$showNotif(res.data.message, 'negative')
+            } else {
+              this.$router.go(-1)
+              this.$showNotif('Data penjualan berhasil di input !', 'positive')
+            }
+          })
+      } catch (e) {
+        this.$showNotif('Terjadi kesalahan !', 'negative')
+      }
     },
     onReset () {
-
+      for (const i in this.form.products) {
+        this.form.products[i].product = null
+        this.form.products[i].jumlah_penjualan = null
+        if (i > 0) {
+          this.form.products.splice(i, 1)
+        }
+      }
+      this.form.tanggal_jatuh_tempo = null
+      this.form.alamat_penagihan = null
+      this.form.nomor_telepon = null
+      this.form.pelanggan = null
+      this.form.status_penjualan = null
     },
     add (index) {
       this.form.products.push({
-        nama_product: null,
-        kategori_product: null,
-        jenis_product: null,
-        harga_jual: null,
-        jumlah_penjualan: null,
-        total_penjualan: null
+        product: null,
+        jumlah_penjualan: null
       })
     },
     remove (index) {
