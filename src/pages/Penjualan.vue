@@ -86,10 +86,6 @@
                   <template v-slot:body="props">
                     <q-tr :props="props">
                       <q-td key="id_penjualan" :props="props">{{props.row.id_penjualan}}</q-td>
-                      <q-td key="produk" :props="props">
-                        <q-btn @click="showDetail(props.row.pelanggan, props.row.products, props.row.grandTotal)" round outline color="red" size="sm" icon="delete" no-caps class="q-ml-sm" />
-                      </q-td>
-                      <q-td key="grandTotal" :props="props">{{this.$formatPrice(props.row.grandTotal)}}</q-td>
                       <q-td key="pelanggan" :props="props">{{props.row.pelanggan}}</q-td>
                       <q-td key="nomor_telepon" :props="props">{{props.row.nomor_telepon}}</q-td>
                       <q-td key="status_penjualan" :props="props">{{props.row.status_penjualan}}</q-td>
@@ -97,6 +93,10 @@
                       <q-td key="alamat_penagihan" :props="props">
                         <label v-if="props.row.status_penjualan === 'Hutang'">{{props.row.alamat_penagihan}}</label>
                         <label v-else>{{'-'}}</label>
+                      </q-td>
+                      <q-td key="grandTotal" :props="props">{{this.$formatPrice(props.row.grandTotal)}}</q-td>
+                      <q-td key="produk" :props="props">
+                        <q-btn @click="showDetail(props.row.pelanggan, props.row.products, props.row.grandTotal)" outline color="primary" label="detail" size="sm" class="q-ml-sm" />
                       </q-td>
                       <q-td key="aksi" :props="props">
                         <q-btn round outline color="red" @click="this.delete(props.row._id)" size="sm" icon="delete" no-caps class="q-ml-sm" />
@@ -161,14 +161,14 @@ export default {
       totalHutang: 0,
       totalLunas: 0,
       columns: [
-        { name: 'id_penjualan', required: true, label: 'ID_Penjualan', align: 'left', field: 'id_penjualan', sortable: true },
-        { name: 'produk', required: true, label: 'Produk', align: 'left', field: 'produk', sortable: true },
-        { name: 'grandTotal', required: true, label: 'Grand Total', align: 'left', field: 'grandTotal', sortable: true },
+        { name: 'id_penjualan', required: true, label: 'ID Penjualan', align: 'left', field: 'id_penjualan', sortable: true },
         { name: 'pelanggan', required: true, label: 'Nama pelanggan', align: 'left', field: 'pelanggan', sortable: true },
         { name: 'nomor_telepon', required: true, label: 'Nomor telepon', align: 'left', field: 'nomor_telepon', sortable: true },
         { name: 'status_penjualan', required: true, label: 'Status penjualan', align: 'left', field: 'status_penjualan', sortable: true },
         { name: 'tanggal_jatuh_tempo', required: true, label: 'Tanggal jatuh tempo', align: 'left', field: 'tanggal_jatuh_tempo', sortable: true },
         { name: 'alamat_penagihan', required: true, label: 'Alamat penagihan', align: 'left', field: 'alamat_penagihan', sortable: true },
+        { name: 'grandTotal', required: true, label: 'Grand Total', align: 'left', field: 'grandTotal', sortable: true },
+        { name: 'produk', required: true, label: 'Detail produk', align: 'left', field: 'produk', sortable: true },
         { name: 'aksi', label: 'Actions', field: 'aksi', align: 'center' }
       ],
       rows: [],
