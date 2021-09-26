@@ -87,7 +87,7 @@
                     <q-tr :props="props">
                       <q-td key="id_penjualan" :props="props">{{props.row.id_penjualan}}</q-td>
                       <q-td key="produk" :props="props">
-                        <q-btn @click="showDetail(props.row.pelanggan, props.row.products)" round outline color="red" size="sm" icon="delete" no-caps class="q-ml-sm" />
+                        <q-btn @click="showDetail(props.row.pelanggan, props.row.products, props.row.grandTotal)" round outline color="red" size="sm" icon="delete" no-caps class="q-ml-sm" />
                       </q-td>
                       <q-td key="grandTotal" :props="props">{{this.$formatPrice(props.row.grandTotal)}}</q-td>
                       <q-td key="pelanggan" :props="props">{{props.row.pelanggan}}</q-td>
@@ -121,13 +121,18 @@
             <q-card-section style="max-height: 50vh" class="scroll">
               <q-table
                 :rows="detail.rows"
+                row-key="name"
                 flat
                 :columns="detail.columns"
-                row-key="name"
+                :hide-pagination="true"
               />
             </q-card-section>
 
             <q-separator />
+
+            <q-card-section>
+              <div class="text-h8">Grand Total <b>{{this.$formatPrice(detail.grandTotal)}}</b></div>
+            </q-card-section>
 
             <q-card-actions align="right">
               <q-btn flat label="Ok" color="primary" v-close-popup />
@@ -170,6 +175,7 @@ export default {
       detail: {
         visible: false,
         pelanggan: null,
+        grandTotal: null,
         columns: [
           { name: 'nama_product', required: true, label: 'Nama Produk', align: 'left', field: 'nama_product', sortable: true },
           { name: 'harga_jual', required: true, label: 'Harga Jual', align: 'left', field: 'harga_jual', sortable: true },
@@ -229,10 +235,20 @@ export default {
         }
       })
     },
-    showDetail (pelanggan, data) {
+    showDetail (pelanggan, data, grandTotal) {
+      const newData = []
+      for (const i in data) {
+        newData.push({
+          nama_product: data[i].nama_product,
+          harga_jual: this.$formatPrice(data[i].harga_jual),
+          jumlah_penjualan: data[i].jumlah_penjualan,
+          total: this.$formatPrice(data[i].total)
+        })
+      }
       this.detail.pelanggan = pelanggan
       this.detail.visible = true
-      this.detail.rows = data
+      this.detail.rows = newData
+      this.detail.grandTotal = grandTotal
     }
   }
 }
