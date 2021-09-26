@@ -20,7 +20,9 @@
                   </div>
                   <div class="row items-center">
                     <q-icon name="payment" />
-                    <div class="text-h6 q-ml-sm text-blue-13" style="font-size:12px"><vue3-autocounter ref='counter' :startAmount='0' :endAmount='`${totalHutang}`' :duration='3' :autoinit='true' @finished='alert(`Counting finished!`)'/></div>
+                    <div class="text-h6 q-ml-sm text-blue-13" style="font-size:12px">
+                      <vue3-autocounter ref='counter' :startAmount='0' :endAmount='Number(totalHutang)' :duration='1' prefix='IDR ' separator='.' decimalSeparator='.' :decimals='0' :autoinit='true' @finished='alert(`Counting finished!`)'/>
+                    </div>
                   </div>
               </q-card-section>
             </q-card-section>
@@ -35,7 +37,9 @@
                   </div>
                   <div class="row items-center">
                     <q-icon name="credit_score" />
-                    <div class="text-h6 q-ml-sm text-blue-13" style="font-size:12px"><vue3-autocounter ref='counter' :startAmount='0' :endAmount='`${totalLunas}`' :duration='3' :autoinit='true' @finished='alert(`Counting finished!`)'/></div>
+                    <div class="text-h6 q-ml-sm text-blue-13" style="font-size:12px">
+                      <vue3-autocounter ref='counter' :startAmount='0' :endAmount='Number(totalLunas)' :duration='1' prefix='IDR ' separator='.' decimalSeparator='.' :decimals='0' :autoinit='true' @finished='alert(`Counting finished!`)'/>
+                    </div>
                   </div>
               </q-card-section>
             </q-card-section>
