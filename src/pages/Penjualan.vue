@@ -236,15 +236,23 @@ export default {
       })
     },
     showDetail (pelanggan, data, grandTotal) {
-      const newData = []
-      for (const i in data) {
-        newData.push({
-          nama_product: data[i].nama_product,
-          harga_jual: this.$formatPrice(data[i].harga_jual),
-          jumlah_penjualan: data[i].jumlah_penjualan,
-          total: this.$formatPrice(data[i].total)
-        })
-      }
+      // const newData = []
+      const newData = data.map(r => {
+        return {
+          nama_product: r.nama_product,
+          harga_jual: this.$formatPrice(r.harga_jual),
+          jumlah_penjualan: r.jumlah_penjualan,
+          total: this.$formatPrice(r.total)
+        }
+      })
+      // for (const i in data) {
+      //   newData.push({
+      //     nama_product: data[i].nama_product,
+      //     harga_jual: this.$formatPrice(data[i].harga_jual),
+      //     jumlah_penjualan: data[i].jumlah_penjualan,
+      //     total: this.$formatPrice(data[i].total)
+      //   })
+      // }
       this.detail.pelanggan = pelanggan
       this.detail.visible = true
       this.detail.rows = newData
