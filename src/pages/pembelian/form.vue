@@ -84,7 +84,7 @@
                           :rules="[ val => val && val > 0 || 'Pajak tidak boleh 0 / kosong !']"
                         >
                           <template v-slot:append>
-                            <q-label class="text-h6 text-subtitle2">%</q-label>
+                            <label class="text-h6 text-subtitle2">%</label>
                           </template>
                         </q-input>
                       </div>

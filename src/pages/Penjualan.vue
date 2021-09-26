@@ -117,7 +117,7 @@
         <q-dialog v-model="detail.visible">
           <q-card>
             <q-card-section>
-              <div class="text-h6">Data Pembelian {{detail.pelanggan}}</div>
+              <div class="text-h6"><small>Data Pembelian</small> ({{detail.pelanggan}})</div>
             </q-card-section>
 
             <q-separator />
@@ -229,7 +229,9 @@ export default {
             if (res.data.status !== true) {
               this.$showNotif(res.data.message, 'negative')
             } else {
-              this.$router.go(0)
+              this.totalLunas = 0
+              this.totalHutang = 0
+              this.getPenjualan()
               this.$showNotif(res.data.message, 'positive')
             }
           })

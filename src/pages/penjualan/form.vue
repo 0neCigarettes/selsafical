@@ -53,6 +53,7 @@
                           @filter="filterProduct"
                           outlined
                           dense
+                          :rules="[ val => val || 'Nama produk tidak boleh kosong !']"
                         >
                           <template v-slot:no-option>
                             <q-item>
@@ -299,10 +300,10 @@ export default {
     getProduct () {
       this.$api.get('product/get')
         .then(res => {
-          listProduk = res.data.result
-          // listProduk = list.map(product => {
-          //   return product.nama_product
-          // })
+          // listProduk = res.data.result
+          listProduk = res.data.result.filter(r => {
+            return r.stok > 0
+          })
         })
     },
     filterProduct (val, update) {
@@ -319,21 +320,19 @@ export default {
       })
     },
     onSubmit () {
-      const products = []
       let grandTotal = 0
-
-      for (const i in this.form.products) {
-        products.push({
-          object_id: this.form.products[i].product._id,
-          nama_product: this.form.products[i].product.nama_product,
-          harga_jual: this.form.products[i].product.harga_jual,
-          jumlah_penjualan: this.form.products[i].jumlah_penjualan,
-          total: this.form.products[i].product.harga_jual * this.form.products[i].jumlah_penjualan,
-          stokBaru: this.form.products[i].product.stok - this.form.products[i].jumlah_penjualan
-        })
-      }
-      products.forEach(product => {
-        grandTotal += product.total
+      const products = this.form.products.map(r => {
+        return {
+          object_id: r.product._id,
+          nama_product: r.product.nama_product,
+          harga_jual: r.product.harga_jual,
+          jumlah_penjualan: r.jumlah_penjualan,
+          total: r.product.harga_jual * r.jumlah_penjualan,
+          stokBaru: r.product.stok - r.jumlah_penjualan
+        }
+      })
+      products.forEach(r => {
+        grandTotal += r.total
       })
 
       const sendData = {
