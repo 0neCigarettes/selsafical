@@ -24,6 +24,7 @@ const routes = [
       { path: '/penjualan', name: 'penjualan', component: () => import('pages/Penjualan.vue') },
       { path: '/penjualan/input', name: 'penjualan_add', component: () => import('pages/penjualan/input.vue') },
       { path: '/pembelian', name: 'pembelian', component: () => import('pages/Pembelian.vue') },
+      { path: '/pembelian/input', name: 'pembelian_add', component: () => import('pages/pembelian/input.vue') },
       { path: '/pengeluaran', name: 'pengeluaran', component: () => import('pages/Pengeluaran.vue') },
       { path: '/retur', name: 'retur', component: () => import('pages/Retur.vue') },
       { path: '/modal', name: 'modal', component: () => import('pages/Modal.vue') },

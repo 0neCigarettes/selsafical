@@ -80,6 +80,7 @@
                       class="q-ml-md q-pr-md"
                       color="blue-13"
                       label="Tambah Pembelian"
+                      :to="{ name: 'pembelian_add' }"
                       size="md"
                       outline
                     />
