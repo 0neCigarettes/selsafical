@@ -21,7 +21,7 @@
                   <div class="row items-center">
                     <q-icon name="payment" />
                     <div class="text-h6 q-ml-sm text-blue-13" style="font-size:12px">
-                      <vue3-autocounter ref='counter' :startAmount='0' :endAmount='Number(totalHutang)' :duration='1' prefix='IDR ' separator='.' decimalSeparator='.' :decimals='0' :autoinit='true' @finished='alert(`Counting finished!`)'/>
+                      <vue3-autocounter ref='counter' :startAmount='0' :endAmount='Number(totalHutang)' :duration='1' prefix='IDR ' separator='.' decimalSeparator='.' :decimals='0' :autoinit='true' />
                     </div>
                   </div>
               </q-card-section>
@@ -38,7 +38,7 @@
                   <div class="row items-center">
                     <q-icon name="credit_score" />
                     <div class="text-h6 q-ml-sm text-blue-13" style="font-size:12px">
-                      <vue3-autocounter ref='counter' :startAmount='0' :endAmount='Number(totalLunas)' :duration='1' prefix='IDR ' separator='.' decimalSeparator='.' :decimals='0' :autoinit='true' @finished='alert(`Counting finished!`)'/>
+                      <vue3-autocounter ref='counter' :startAmount='0' :endAmount='Number(totalLunas)' :duration='1' prefix='IDR ' separator='.' decimalSeparator='.' :decimals='0' :autoinit='true' />
                     </div>
                   </div>
               </q-card-section>
@@ -229,7 +229,7 @@ export default {
             if (res.data.status !== true) {
               this.$showNotif(res.data.message, 'negative')
             } else {
-              this.getPenjualan()
+              this.$router.go(0)
               this.$showNotif(res.data.message, 'positive')
             }
           })
@@ -240,7 +240,6 @@ export default {
       })
     },
     showDetail (pelanggan, data, grandTotal) {
-      // const newData = []
       const newData = data.map(r => {
         return {
           nama_product: r.nama_product,
@@ -249,14 +248,6 @@ export default {
           total: this.$formatPrice(r.total)
         }
       })
-      // for (const i in data) {
-      //   newData.push({
-      //     nama_product: data[i].nama_product,
-      //     harga_jual: this.$formatPrice(data[i].harga_jual),
-      //     jumlah_penjualan: data[i].jumlah_penjualan,
-      //     total: this.$formatPrice(data[i].total)
-      //   })
-      // }
       this.detail.pelanggan = pelanggan
       this.detail.visible = true
       this.detail.rows = newData
