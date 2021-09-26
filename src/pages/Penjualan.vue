@@ -99,7 +99,7 @@
                         <label v-else>{{'-'}}</label>
                       </q-td>
                       <q-td key="aksi" :props="props">
-                        <q-btn round outline color="red" size="sm" icon="delete" no-caps class="q-ml-sm" />
+                        <q-btn round outline color="red" @click="this.delete(props.row._id)" size="sm" icon="delete" no-caps class="q-ml-sm" />
                       </q-td>
                     </q-tr>
                   </template>
@@ -206,6 +206,28 @@ export default {
       } catch (e) {
         this.$showNotif('Terjadi kesalahan !', 'negative')
       }
+    },
+    delete (id) {
+      this.$dialog.create({
+        title: 'Peringatan',
+        message: 'Apakah Anda Yakin ?',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        try {
+          this.$api.delete('/penjualan/delete/' + id).then(res => {
+            if (res.data.status !== true) {
+              this.$showNotif(res.data.message, 'negative')
+            } else {
+              this.getPenjualan()
+              this.$showNotif(res.data.message, 'positive')
+            }
+          })
+        } catch (e) {
+          console.log(e)
+          this.$showNotif('Terjadi kesalahan !', 'negative')
+        }
+      })
     },
     showDetail (pelanggan, data) {
       this.detail.pelanggan = pelanggan
