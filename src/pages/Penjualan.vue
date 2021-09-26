@@ -117,7 +117,7 @@
         <q-dialog v-model="detail.visible">
           <q-card>
             <q-card-section>
-              <div class="text-h6"><small>Data Pembelian</small> ({{detail.pelanggan}})</div>
+              <div class="text-h6">#Data Pembelian - {{detail.pelanggan}}</div>
             </q-card-section>
 
             <q-separator />
@@ -135,7 +135,7 @@
             <q-separator />
 
             <q-card-section>
-              <div class="text-h8">Grand Total <b>{{this.$formatPrice(detail.grandTotal)}}</b></div>
+              <div class="text-h8"><b>Grand Total - </b>{{this.$formatPrice(detail.grandTotal)}}</div>
             </q-card-section>
 
             <q-card-actions align="right">

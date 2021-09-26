@@ -80,6 +80,7 @@
                       class="q-ml-md q-pr-md"
                       color="blue-13"
                       label="Tambah Pengeluaran"
+                      :to="{ name: 'pengeluaran_add' }"
                       size="md"
                       outline
                     />

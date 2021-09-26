@@ -58,14 +58,15 @@
         </div>
 
         <div class="row col">
-          <q-card class="my-card col" flat bordered>
-            <q-card-section horizontal>
-              <q-card-section class="col q-pa-lg">
-                <div class="col">
-                  <div class="col-2 q-table__title">Petunjuk penggunaan</div>
-                  <p class="text-caption">Cara pengisian form jenis produk.</p>
-                </div>
+          <q-card class="my-card q-pa-md col bg-blue-10">
+            <q-breadcrumbs separator="---" class="text-white" active-color="secondary">
+              <q-breadcrumbs-el label="Petunjuk penggunaan" icon="lightbulb" />
+            </q-breadcrumbs>
+          </q-card>
 
+          <q-card class="my-card row q-mt-md" flat bordered>
+            <q-card-section horizontal>
+              <q-card-section class="col">
                 <div class="row q-gutter-sm items-center">
                   <div class="col">
                     <lottie :options="defaultOptions" v-on:animCreated="handleAnimation" style="height: 250px" />
@@ -102,7 +103,7 @@
 
 <script>
 import Lottie from 'components/lottie'
-import * as animationData from 'assets/lottie.json'
+import * as animationData from 'assets/add.json'
 
 export default {
   components: {

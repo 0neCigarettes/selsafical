@@ -12,7 +12,7 @@
 
       <div class="row q-mt-lg q-gutter-md">
 
-        <div class="row col">
+        <div class="row col fit">
           <q-card class="my-card col" flat bordered>
             <q-card-section horizontal>
               <q-card-section class="col q-pa-lg">
@@ -172,14 +172,15 @@
         </div>
 
         <div class="row col fit">
-          <q-card class="my-card col" flat bordered>
-            <q-card-section horizontal>
-              <q-card-section class="col q-pa-lg">
-                <div class="col">
-                  <div class="col-2 q-table__title">Petunjuk penggunaan</div>
-                  <p class="text-caption">Cara pengisian form produk.</p>
-                </div>
+          <q-card class="my-card q-pa-md col bg-blue-10">
+            <q-breadcrumbs separator="---" class="text-white" active-color="secondary">
+              <q-breadcrumbs-el label="Petunjuk penggunaan" icon="lightbulb" />
+            </q-breadcrumbs>
+          </q-card>
 
+          <q-card class="my-card row q-mt-md" flat bordered>
+            <q-card-section horizontal>
+              <q-card-section class="col">
                 <div class="row q-gutter-sm items-center">
                   <div class="col">
                     <lottie :options="defaultOptions" v-on:animCreated="handleAnimation" style="height: 250px" />
@@ -189,25 +190,31 @@
 
                       <q-timeline-entry subtitle="Tahap I" side="left">
                         <div>
-                          Lakukan terlebih dahulu inputan untuk data kategori produk di dalam menu tambah kategori.
+                          Terlebih dahulu masukan data kategori dan jenis produk melalui form di halaman depan.
                         </div>
                       </q-timeline-entry>
 
                       <q-timeline-entry subtitle="Tahap 2" side="right">
                         <div>
-                          Lakukan terlebih dahulu inputan untuk data jenis produk di dalam menu tambah jenis produk.
+                          Selanjutnya isikan nama produk yang akan di daftarkan ke dalam list produk.
                         </div>
                       </q-timeline-entry>
 
                       <q-timeline-entry subtitle="Tahap 3" side="right">
                         <div>
-                          Inputkan data produk sesuai dengan produk yang akan di daftarkan.
+                          Lalu isikan kategori produk dan jenis produk berdasarkan pilihan yang sudah di daftarkan.
                         </div>
                       </q-timeline-entry>
 
                       <q-timeline-entry subtitle="Tahap 4" side="right">
                         <div>
-                          Pastikan data inputan sesuai dengan data yang ingin di daftarkan.
+                          Masukan HPP merupakan harga pokok penjualan yang merupakan harga dasar barang, harga barang, stok barang beserta foto barang.
+                        </div>
+                      </q-timeline-entry>
+
+                      <q-timeline-entry subtitle="Tahap 5" side="right">
+                        <div>
+                          Berikan keterangan detail barang lalu tekan tombol submit untuk mendaftarkan produk.
                         </div>
                       </q-timeline-entry>
 
@@ -227,7 +234,7 @@
 
 <script>
 import Lottie from 'components/lottie'
-import * as animationData from 'assets/lottie.json'
+import * as animationData from 'assets/add_product.json'
 
 let listKategori = []
 let listJenis = []

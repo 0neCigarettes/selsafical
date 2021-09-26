@@ -28,7 +28,7 @@
               </q-card-section>
 
               <q-card-section class="col-4 flex flex-center">
-                <q-icon name="emoji_events" class="text-green-13" style="font-size: 5.4em;" />
+                <q-icon name="emoji_events" class="text-blue-10" style="font-size: 5.4em;" />
               </q-card-section>
             </q-card-section>
           </q-card>
@@ -44,7 +44,7 @@
               </q-card-section>
 
               <q-card-section class="col-4 flex flex-center">
-                <q-icon name="storefront" class="text-green-13" style="font-size: 5.4em;" />
+                <q-icon name="storefront" class="text-blue-10" style="font-size: 5.4em;" />
               </q-card-section>
             </q-card-section>
           </q-card>
@@ -60,7 +60,7 @@
               </q-card-section>
 
               <q-card-section class="col-4 flex flex-center">
-                <q-icon name="shopping_bag" class="text-green-13" style="font-size: 5.4em;" />
+                <q-icon name="shopping_bag" class="text-blue-10" style="font-size: 5.4em;" />
               </q-card-section>
             </q-card-section>
           </q-card>
@@ -76,7 +76,7 @@
               </q-card-section>
 
               <q-card-section class="col-4 flex flex-center">
-                <q-icon name="outbox" class="text-green-13" style="font-size: 5.4em;" />
+                <q-icon name="outbox" class="text-blue-10" style="font-size: 5.4em;" />
               </q-card-section>
             </q-card-section>
           </q-card>
@@ -92,7 +92,7 @@
               </q-card-section>
 
               <q-card-section class="col-4 flex flex-center">
-                <q-icon name="cached" class="text-green-13" style="font-size: 5.4em;" />
+                <q-icon name="cached" class="text-blue-10" style="font-size: 5.4em;" />
               </q-card-section>
             </q-card-section>
           </q-card>

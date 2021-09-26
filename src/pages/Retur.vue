@@ -80,6 +80,7 @@
                       class="q-ml-md q-pr-md"
                       color="blue-13"
                       label="Daftar Retur Barang"
+                      :to="{ name: 'retur_add' }"
                       outline
                       size="md"
                     />
