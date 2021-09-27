@@ -44,28 +44,6 @@
                         <q-select
                           filled
                           v-model="product.product"
-                          label="Supplier / Vendor"
-                          option-value="_id"
-                          option-label="nama_product"
-                          :options="options.products"
-                          use-input
-                          @filter="filterProduct"
-                          outlined
-                          dense
-                        >
-                          <template v-slot:no-option>
-                            <q-item>
-                              <q-item-section class="text-grey">
-                                Produk tidak ditemukan
-                              </q-item-section>
-                            </q-item>
-                          </template>
-                        </q-select>
-                      </div>
-                      <div class="col">
-                        <q-select
-                          filled
-                          v-model="product.product"
                           label="Nama barang"
                           option-value="_id"
                           option-label="nama_product"
@@ -84,9 +62,6 @@
                           </template>
                         </q-select>
                       </div>
-                    </div>
-
-                    <div class="row q-gutter-sm">
                       <div class="col">
                         <q-input
                           filled
@@ -96,8 +71,6 @@
                           dense
                           :rules="[ val => val && val > 0 || 'Jumlah penjualan tidak boleh 0 / kosong !']"
                         />
-                      </div>
-                      <div class="col">
                       </div>
                     </div>
 
@@ -330,11 +303,7 @@ export default {
         this.form.products[i].product = null
         this.form.products[i].jumlah_penjualan = null
         if (i > 0) {
-<<<<<<< HEAD
           this.form.products.splice(i)
-=======
-          this.form.products.splice(i, 1)
->>>>>>> 3e38128 (kumity)
         }
       }
       this.form.tanggal_jatuh_tempo = null
