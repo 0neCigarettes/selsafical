@@ -62,12 +62,6 @@
                           </template>
                         </q-select>
                       </div>
-<<<<<<< HEAD
-=======
-                    </div>
-
-                    <div class="row q-mt-sm q-gutter-sm">
->>>>>>> eec91246310a8f0a89ddae6d59bef2931e029f7d
                       <div class="col">
                         <q-input
                           filled
