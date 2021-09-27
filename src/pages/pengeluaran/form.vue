@@ -86,10 +86,7 @@
                       </div>
                     </div>
 
-                    <div class="row q-gutter-sm">
-                      <div class="col">
-
-                      </div>
+                    <div class="row q-mt-sm q-gutter-sm">
                       <div class="col">
                         <q-input
                           filled
@@ -99,6 +96,8 @@
                           dense
                           :rules="[ val => val && val > 0 || 'Jumlah penjualan tidak boleh 0 / kosong !']"
                         />
+                      </div>
+                      <div class="col">
                       </div>
                     </div>
 
