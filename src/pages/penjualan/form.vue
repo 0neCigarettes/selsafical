@@ -53,6 +53,15 @@
                           dense
                           :rules="[ val => val || 'Nama produk tidak boleh kosong !']"
                         >
+
+                          <template v-slot:option="scope">
+                            <q-item v-bind="scope.itemProps">
+                              <q-item-section>
+                                <q-item-label>{{ scope.opt.nama_product }}</q-item-label>
+                                <q-item-label caption>stok - {{ scope.opt.stok }}</q-item-label>
+                              </q-item-section>
+                            </q-item>
+                          </template>
                           <template v-slot:no-option>
                             <q-item>
                               <q-item-section class="text-grey">
@@ -303,6 +312,7 @@ export default {
           listProduk = res.data.result.filter(r => {
             return r.stok > 0
           })
+          console.log(listProduk)
         })
     },
     filterProduct (val, update) {
