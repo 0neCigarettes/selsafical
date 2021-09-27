@@ -21,7 +21,7 @@
                   </div>
                   <div class="row items-center">
                     <q-icon name="payment" />
-                    <div class="text-h6 q-ml-sm text-blue-13" style="font-size:12px"><vue3-autocounter ref='counter' :startAmount='0' :endAmount='1231' :duration='3' :autoinit='true' @finished='alert(`Counting finished!`)'/></div>
+                    <div class="text-h6 q-ml-sm text-blue-13" style="font-size:12px"><vue3-autocounter ref='counter' :startAmount='0' :endAmount='Number(totalHutang)' :duration='3' :autoinit='true' /></div>
                   </div>
               </q-card-section>
             </q-card-section>
@@ -36,7 +36,7 @@
                   </div>
                   <div class="row items-center">
                     <q-icon name="credit_score" />
-                    <div class="text-h6 q-ml-sm text-blue-13" style="font-size:12px"><vue3-autocounter ref='counter' :startAmount='0' :endAmount='1231' :duration='3' :autoinit='true' @finished='alert(`Counting finished!`)'/></div>
+                    <div class="text-h6 q-ml-sm text-blue-13" style="font-size:12px"><vue3-autocounter ref='counter' :startAmount='0' :endAmount='Number(totalLunas)' :duration='3' :autoinit='true' /></div>
                   </div>
               </q-card-section>
             </q-card-section>
@@ -57,7 +57,6 @@
                     :columns="columns"
                     row-key="name"
                     :filter="filter"
-                    :visible-columns="visibleColumns"
                   >
 
                   <template v-slot:top>
@@ -86,35 +85,23 @@
                     />
                   </template>
 
-                  <template v-slot:header="props">
-                    <q-tr :props="props">
-                      <q-th auto-width />
-                      <q-th
-                        v-for="col in props.cols"
-                        :key="col.name"
-                        :props="props"
-                      >
-                        {{ col.label }}
-                      </q-th>
-                    </q-tr>
-                  </template>
-
                   <template v-slot:body="props">
                     <q-tr :props="props">
-                      <q-td auto-width>
-                        <q-btn size="sm" color="accent" round dense @click="props.expand = !props.expand" :icon="props.expand ? 'remove' : 'add'" />
+                      <q-td key="id_pembelian" :props="props">{{props.row.id_pembelian}}</q-td>
+                      <q-td key="supplier" :props="props">{{props.row.supplier}}</q-td>
+                      <q-td key="nomorTelepon" :props="props">{{props.row.nomorTelepon}}</q-td>
+                      <q-td key="statusPembelian" :props="props">{{props.row.statusPembelian}}</q-td>
+                      <q-td key="tanggalJatuhTempo" :props="props">{{this.$parseDate(props.row.tanggalJatuhTempo).fullDate}}</q-td>
+                      <q-td key="alamatSupplier" :props="props">
+                        <label v-if="props.row.statusPembelian === 'Hutang'">{{props.row.alamatSupplier}}</label>
+                        <label v-else>{{'-'}}</label>
                       </q-td>
-                      <q-td
-                        v-for="col in props.cols"
-                        :key="col.name"
-                        :props="props"
-                      >
-                        {{ col.value }}
+                      <q-td key="grandTotal" :props="props">{{this.$formatPrice(props.row.grandTotal)}}</q-td>
+                      <q-td key="barang" :props="props">
+                        <q-btn @click="showDetail(props.row.supplier, props.row.barangs, props.row.grandTotal)" outline color="primary" label="detail" size="sm" class="q-ml-sm" />
                       </q-td>
-                    </q-tr>
-                    <q-tr v-show="props.expand" :props="props">
-                      <q-td colspan="100%">
-                        <div class="text-left">This is expand slot for row above: {{ props.row.name }}.</div>
+                      <q-td key="aksi" :props="props">
+                        <q-btn round outline color="red" @click="this.delete(props.row._id)" size="sm" icon="delete" no-caps class="q-ml-sm" />
                       </q-td>
                     </q-tr>
                   </template>
@@ -124,6 +111,36 @@
             </q-card-section>
           </q-card>
         </div>
+
+        <q-dialog v-model="detail.visible">
+          <q-card>
+            <q-card-section>
+              <div class="text-h6">#Data Pembelian - {{detail.supplier}}</div>
+            </q-card-section>
+
+            <q-separator />
+
+            <q-card-section style="max-height: 50vh" class="scroll">
+              <q-table
+                :rows="detail.rows"
+                row-key="name"
+                flat
+                :columns="detail.columns"
+                :hide-pagination="true"
+              />
+            </q-card-section>
+
+            <q-separator />
+
+            <q-card-section>
+              <div class="text-h8"><b>Grand Total - </b>{{this.$formatPrice(detail.grandTotal)}}</div>
+            </q-card-section>
+
+            <q-card-actions align="right">
+              <q-btn flat label="Ok" color="primary" v-close-popup />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
 
       </div>
     </div>
@@ -143,133 +160,107 @@ export default {
     return {
       visibles: false,
       filter: null,
-      columns,
-      rows
+      totalHutang: 0,
+      totalLunas: 0,
+      columns: [
+        { name: 'id_pembelian', required: true, label: 'ID Pembelian', align: 'left', field: 'id_pembelian', sortable: true },
+        { name: 'supplier', required: true, label: 'Nama Supplier', align: 'left', field: 'supplier', sortable: true },
+        { name: 'nomorTelepon', required: true, label: 'Nomor Telepon', align: 'left', field: 'nomorTelepon', sortable: true },
+        { name: 'statusPembelian', required: true, label: 'Status Pembelian', align: 'left', field: 'statusPembelian', sortable: true },
+        { name: 'tanggalJatuhTempo', required: true, label: 'Tanggal jatuh tempo', align: 'left', field: 'tanggalJatuhTempo', sortable: true },
+        { name: 'alamatSupplier', required: true, label: 'Alamat supplier', align: 'left', field: 'alamatSupplier', sortable: true },
+        { name: 'grandTotal', required: true, label: 'Grand Total', align: 'left', field: 'grandTotal', sortable: true },
+        { name: 'barang', required: true, label: 'Detail Barang', align: 'left', field: 'barang', sortable: true },
+        { name: 'aksi', label: 'Actions', field: 'aksi', align: 'center' }
+      ],
+      rows: [],
+      detail: {
+        visible: false,
+        supplier: null,
+        grandTotal: null,
+        columns: [
+          { name: 'namaBarang', required: true, label: 'Nama Barang', align: 'left', field: 'namaBarang', sortable: true },
+          { name: 'hargaSatuan', required: true, label: 'Harga Satuan', align: 'left', field: 'hargaSatuan', sortable: true },
+          { name: 'jumlahPembelian', required: true, label: 'Jumlah Pembelian', align: 'left', field: 'jumlahPembelian', sortable: true },
+          { name: 'pajak', required: true, label: 'Pajak', align: 'left', field: 'pajak', sortable: true },
+          { name: 'total', required: true, label: 'Subtotal', align: 'left', field: 'total', sortable: true },
+          { name: 'stok', required: true, label: 'Stok', align: 'left', field: 'stok', sortable: true },
+          { name: 'deskripsi', required: true, label: 'Deskripsi', align: 'left', field: 'deskripsi', sortable: true }
+        ],
+        rows: []
+      }
+    }
+  },
+  created () {
+    this.getPembelian()
+  },
+  methods: {
+    getPembelian () {
+      try {
+        this.$api.get('pembelian/get')
+          .then(res => {
+            if (res.data.status !== true) {
+              this.$showNotif(res.data.message, 'negative')
+            } else {
+              const data = res.data.result
+              this.rows = data
+              for (let i = 0; i < data.length; i++) {
+                if (data[i].statusPembelian === 'Lunas') {
+                  this.totalLunas += data[i].grandTotal
+                }
+                if (data[i].statusPembelian === 'Hutang') {
+                  this.totalHutang += data[i].grandTotal
+                }
+              }
+            }
+          })
+      } catch (e) {
+        this.$showNotif('Terjadi kesalahan !', 'negative')
+      }
+    },
+    delete (id) {
+      this.$dialog.create({
+        title: 'Peringatan',
+        message: 'Apakah Anda Yakin ?',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        try {
+          this.$api.delete('/pembelian/delete/' + id).then(res => {
+            if (res.data.status !== true) {
+              this.$showNotif(res.data.message, 'negative')
+            } else {
+              this.totalLunas = 0
+              this.totalHutang = 0
+              this.getPembelian()
+              this.$showNotif(res.data.message, 'positive')
+            }
+          })
+        } catch (e) {
+          console.log(e)
+          this.$showNotif('Terjadi kesalahan !', 'negative')
+        }
+      })
+    },
+    showDetail (supplier, data, grandTotal) {
+      const newData = data.map(r => {
+        return {
+          namaBarang: r.namaBarang,
+          hargaSatuan: this.$formatPrice(r.hargaSatuan),
+          jumlahPembelian: r.jumlahPembelian,
+          pajak: r.pajak + '%',
+          total: this.$formatPrice(r.total),
+          stok: r.stok,
+          deskripsi: r.deskripsi
+        }
+      })
+      this.detail.supplier = supplier
+      this.detail.visible = true
+      this.detail.rows = newData
+      this.detail.grandTotal = grandTotal
     }
   }
 }
-
-const columns = [
-  {
-    name: 'name',
-    required: true,
-    label: 'Dessert (100g serving)',
-    align: 'left',
-    field: row => row.name,
-    format: val => `${val}`,
-    sortable: true
-  },
-  { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-  { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
-  { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
-  { name: 'protein', label: 'Protein (g)', field: 'protein' },
-  { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-  { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-  { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
-]
-
-const rows = [
-  {
-    name: 'Frozen Yogurt',
-    calories: 159,
-    fat: 6.0,
-    carbs: 24,
-    protein: 4.0,
-    sodium: 87,
-    calcium: '14%',
-    iron: '1%'
-  },
-  {
-    name: 'Ice cream sandwich',
-    calories: 237,
-    fat: 9.0,
-    carbs: 37,
-    protein: 4.3,
-    sodium: 129,
-    calcium: '8%',
-    iron: '1%'
-  },
-  {
-    name: 'Eclair',
-    calories: 262,
-    fat: 16.0,
-    carbs: 23,
-    protein: 6.0,
-    sodium: 337,
-    calcium: '6%',
-    iron: '7%'
-  },
-  {
-    name: 'Cupcake',
-    calories: 305,
-    fat: 3.7,
-    carbs: 67,
-    protein: 4.3,
-    sodium: 413,
-    calcium: '3%',
-    iron: '8%'
-  },
-  {
-    name: 'Gingerbread',
-    calories: 356,
-    fat: 16.0,
-    carbs: 49,
-    protein: 3.9,
-    sodium: 327,
-    calcium: '7%',
-    iron: '16%'
-  },
-  {
-    name: 'Jelly bean',
-    calories: 375,
-    fat: 0.0,
-    carbs: 94,
-    protein: 0.0,
-    sodium: 50,
-    calcium: '0%',
-    iron: '0%'
-  },
-  {
-    name: 'Lollipop',
-    calories: 392,
-    fat: 0.2,
-    carbs: 98,
-    protein: 0,
-    sodium: 38,
-    calcium: '0%',
-    iron: '2%'
-  },
-  {
-    name: 'Honeycomb',
-    calories: 408,
-    fat: 3.2,
-    carbs: 87,
-    protein: 6.5,
-    sodium: 562,
-    calcium: '0%',
-    iron: '45%'
-  },
-  {
-    name: 'Donut',
-    calories: 452,
-    fat: 25.0,
-    carbs: 51,
-    protein: 4.9,
-    sodium: 326,
-    calcium: '2%',
-    iron: '22%'
-  },
-  {
-    name: 'KitKat',
-    calories: 518,
-    fat: 26.0,
-    carbs: 65,
-    protein: 7,
-    sodium: 54,
-    calcium: '12%',
-    iron: '6%'
-  }
-]
 </script>
 
 <style scoped>

@@ -303,7 +303,7 @@ export default {
         this.form.products[i].product = null
         this.form.products[i].jumlah_penjualan = null
         if (i > 0) {
-          this.form.products.splice(i, 1)
+          this.form.products.splice(i)
         }
       }
       this.form.tanggal_jatuh_tempo = null
