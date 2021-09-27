@@ -44,6 +44,28 @@
                         <q-select
                           filled
                           v-model="product.product"
+                          label="Supplier / Vendor"
+                          option-value="_id"
+                          option-label="nama_product"
+                          :options="options.products"
+                          use-input
+                          @filter="filterProduct"
+                          outlined
+                          dense
+                        >
+                          <template v-slot:no-option>
+                            <q-item>
+                              <q-item-section class="text-grey">
+                                Produk tidak ditemukan
+                              </q-item-section>
+                            </q-item>
+                          </template>
+                        </q-select>
+                      </div>
+                      <div class="col">
+                        <q-select
+                          filled
+                          v-model="product.product"
                           label="Nama barang"
                           option-value="_id"
                           option-label="nama_product"
@@ -61,6 +83,12 @@
                             </q-item>
                           </template>
                         </q-select>
+                      </div>
+                    </div>
+
+                    <div class="row q-gutter-sm">
+                      <div class="col">
+
                       </div>
                       <div class="col">
                         <q-input
