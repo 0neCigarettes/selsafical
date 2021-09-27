@@ -86,7 +86,7 @@
                       </div>
                     </div>
 
-                    <div class="row q-gutter-sm">
+                    <div class="row q-mt-sm q-gutter-sm">
                       <div class="col">
                         <q-input
                           filled
@@ -330,11 +330,7 @@ export default {
         this.form.products[i].product = null
         this.form.products[i].jumlah_penjualan = null
         if (i > 0) {
-<<<<<<< HEAD
-          this.form.products.splice(i)
-=======
           this.form.products.splice(i, 1)
->>>>>>> 3e38128 (kumity)
         }
       }
       this.form.tanggal_jatuh_tempo = null
