@@ -78,6 +78,7 @@
                       class="q-ml-md q-pr-md"
                       color="blue-13"
                       label="Tambah Modal"
+                      :to="{ name: 'modal_add' }"
                       size="md"
                       outline
                     />

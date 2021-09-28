@@ -30,6 +30,7 @@ const routes = [
       { path: '/retur', name: 'retur', component: () => import('pages/Retur.vue') },
       { path: '/retur/input', name: 'retur_add', component: () => import('pages/retur/input.vue') },
       { path: '/modal', name: 'modal', component: () => import('pages/Modal.vue') },
+      { path: '/modal/input', name: 'modal_add', component: () => import('pages/modal/input.vue') },
       { path: '/laporan', name: 'laporan', component: () => import('pages/Laporan.vue') },
       { path: '/profile', name: 'profile', component: () => import('pages/Profile.vue') },
       { path: '/invoice', name: 'invoice', component: () => import('pages/Invoice.vue') }
