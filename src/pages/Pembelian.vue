@@ -98,7 +98,7 @@
                       </q-td>
                       <q-td key="grandTotal" :props="props">{{this.$formatPrice(props.row.grandTotal)}}</q-td>
                       <q-td key="barang" :props="props">
-                        <q-btn @click="showDetail(props.row.supplier, props.row.barangs, props.row.grandTotal)" outline color="primary" label="detail" size="sm" class="q-ml-sm" />
+                        <q-btn @click="showDetail(props.row._id, props.row.supplier, props.row.grandTotal)" outline color="primary" label="detail" size="sm" class="q-ml-sm" />
                       </q-td>
                       <q-td key="aksi" :props="props">
                         <q-btn round outline color="red" @click="this.delete(props.row._id)" size="sm" icon="delete" no-caps class="q-ml-sm" />
@@ -115,7 +115,8 @@
         <q-dialog v-model="detail.visible">
           <q-card>
             <q-card-section>
-              <div class="text-h6">#Data Pembelian - {{detail.supplier}}</div>
+              <div class="text-h6">#Detail Pembelian Barang</div>
+              <p class="text-caption q-ml-md">supplier: <b>{{detail.supplier}}</b></p>
             </q-card-section>
 
             <q-separator />
@@ -133,7 +134,7 @@
             <q-separator />
 
             <q-card-section>
-              <div class="text-h8"><b>Grand Total - </b>{{this.$formatPrice(detail.grandTotal)}}</div>
+              <div class="text-h8 q-ml-md"><b>Grand Total - </b>{{this.$formatPrice(detail.grandTotal)}}</div>
             </q-card-section>
 
             <q-card-actions align="right">
@@ -176,9 +177,10 @@ export default {
       rows: [],
       detail: {
         visible: false,
-        supplier: null,
         grandTotal: null,
+        supplier: null,
         columns: [
+          { name: 'idPembelian', required: true, label: 'ID Pembelian', align: 'left', field: 'idPembelian', sortable: true },
           { name: 'namaBarang', required: true, label: 'Nama Barang', align: 'left', field: 'namaBarang', sortable: true },
           { name: 'hargaSatuan', required: true, label: 'Harga Satuan', align: 'left', field: 'hargaSatuan', sortable: true },
           { name: 'jumlahPembelian', required: true, label: 'Jumlah Pembelian', align: 'left', field: 'jumlahPembelian', sortable: true },
@@ -218,6 +220,38 @@ export default {
         this.$showNotif('Terjadi kesalahan !', 'negative')
       }
     },
+    showDetail (id, supplier, grandTotal) {
+      try {
+        this.$api.get('pembelian/detail/' + id)
+          .then(res => {
+            if (res.data.status !== true) {
+              this.$showNotif(res.data.message, 'negative')
+            } else {
+              this.detail.rows = res.data.result.map(r => {
+                return {
+                  _id: r._id,
+                  objectIdPembelian: r.objectIdPembelian,
+                  idPembelian: r.idPembelian,
+                  namaBarang: r.namaBarang,
+                  hargaSatuan: this.$formatPrice(r.hargaSatuan),
+                  jumlahPembelian: r.jumlahPembelian,
+                  pajak: r.pajak + '%',
+                  stok: r.stok,
+                  deskripsi: r.deskripsi,
+                  total: this.$formatPrice(r.total)
+                }
+              })
+              this.detail.supplier = supplier
+              this.detail.grandTotal = grandTotal
+              this.detail.visible = true
+            }
+          })
+      } catch (e) {
+        console.log(e)
+        this.$showNotif('Terjadi kesalahan !', 'negative')
+      }
+      this.detail.visible = true
+    },
     delete (id) {
       this.$dialog.create({
         title: 'Peringatan',
@@ -241,23 +275,6 @@ export default {
           this.$showNotif('Terjadi kesalahan !', 'negative')
         }
       })
-    },
-    showDetail (supplier, data, grandTotal) {
-      const newData = data.map(r => {
-        return {
-          namaBarang: r.namaBarang,
-          hargaSatuan: this.$formatPrice(r.hargaSatuan),
-          jumlahPembelian: r.jumlahPembelian,
-          pajak: r.pajak + '%',
-          total: this.$formatPrice(r.total),
-          stok: r.stok,
-          deskripsi: r.deskripsi
-        }
-      })
-      this.detail.supplier = supplier
-      this.detail.visible = true
-      this.detail.rows = newData
-      this.detail.grandTotal = grandTotal
     }
   }
 }
