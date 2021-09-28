@@ -655,7 +655,12 @@ export default {
   },
   data () {
     return {
+      VueChartkick: null,
       visibles: false,
+      data: [
+        { name: 'Workout', data: { '2021-01-01': 3, '2021-01-02': 4 } },
+        { name: 'Call parents', data: { '2021-01-01': 5, '2021-01-02': 3 } }
+      ],
       filter: null,
       columns,
       rows,

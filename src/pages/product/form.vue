@@ -142,6 +142,25 @@
 
                   <div class="row q-gutter-sm">
                     <div class="col">
+                      <q-input
+                        v-model="form.tanggal_jatuh_tempo"
+                        filled
+                        label="Tanggal expired"
+                        dense
+                        :rules="['YYYY-MM-DD']"
+                      >
+                        <template v-slot:append>
+                          <q-icon name="event" class="cursor-pointer">
+                            <q-popup-proxy ref="form.tanggal_jatuh_tempo" :breakpoint="600">
+                              <q-date v-model="form.tanggal_jatuh_tempo" mask="YYYY-MM-DD" filled ref="date">
+                                <div class="row items-center justify-end">
+                                  <q-btn v-close-popup label="Ok" color="primary" flat />
+                                </div>
+                              </q-date>
+                            </q-popup-proxy>
+                          </q-icon>
+                        </template>
+                      </q-input>
                     </div>
                     <div class="col">
                       <q-img v-if="this.editMode && this.oldImg !== null && this.form.image === null" :src="`${$imgUrl}/${oldImg}`"/>

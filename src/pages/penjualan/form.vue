@@ -83,6 +83,25 @@
                       </div>
                     </div>
 
+                    <div class="row q-gutter-sm">
+                      <div class="col">
+                        <q-input
+                          filled
+                          v-model="pajak"
+                          label="Pajak"
+                          lazy-rules
+                          dense
+                          :rules="[ val => val && val > 0 || 'Pajak tidak boleh 0 / kosong !']"
+                        >
+                          <template v-slot:append>
+                            <label class="text-h6 text-subtitle2">%</label>
+                          </template>
+                        </q-input>
+                      </div>
+                      <div class="col">
+                      </div>
+                    </div>
+
                     <q-separator class="q-mt-xs q-mb-xs"/>
 
                     <div class="row q-gutter-sm">
@@ -135,13 +154,21 @@
                       <q-input
                         filled
                         v-model="form.nomor_telepon"
-                        label="Nomor Telepon"
+                        label="Jumlah pembayaran"
                         lazy-rules
                         dense
                         :rules="[ val => val && val.length > 0 || 'Lengkapi data nomor telepon']"
                       />
                     </div>
                     <div class="col">
+                      <q-input
+                        filled
+                        v-model="form.nomor_telepon"
+                        label="Nomor Telepon"
+                        lazy-rules
+                        dense
+                        :rules="[ val => val && val.length > 0 || 'Lengkapi data nomor telepon']"
+                      />
                     </div>
                   </div>
 
