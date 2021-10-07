@@ -246,11 +246,11 @@ export default {
               this.detail.visible = true
             }
           })
+        this.detail.visible = true
       } catch (e) {
         console.log(e)
         this.$showNotif('Terjadi kesalahan !', 'negative')
       }
-      this.detail.visible = true
     },
     delete (id) {
       this.$dialog.create({
